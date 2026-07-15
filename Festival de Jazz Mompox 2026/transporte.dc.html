@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#12123a; }
+    ::selection { background:#F4C542; color:#191B63; }
+    @media (max-width:1200px) {
+      .desktop-nav { display:none !important; }
+      .mobile-toggle { display:block !important; }
+    }
+    @media (max-width:640px) {
+      .footer-grid { grid-template-columns:1fr !important; }
+      .trans-grid { grid-template-columns:1fr !important; }
+    }
+  </style>
+</helmet>
+
+<div style="font-family:'Poppins',sans-serif; background:#12123a; color:#F5F3FF; overflow-x:hidden; position:relative; min-height:100vh;">
+
+  <header data-screen-label="Header" style="position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:14px 5%; transition:background .35s ease, backdrop-filter .35s ease; background:{{ headerBg }}; backdrop-filter:{{ headerBlur }};">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a href="https://www.mincultura.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
+        <img src="uploads/cultura-white.png" alt="Ministerio de las Culturas, las Artes y los Saberes de Colombia" style="height:70px; width:88px; object-fit:contain; display:block;"/>
+      </a>
+      <div style="width:1px; height:28px; background:rgba(244,197,66,.4);"></div>
+      <a href="https://www.bolivar.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
+        <img src="uploads/gob-transparent.png" alt="Gobernación de Bolívar" style="height:73px; width:70px; object-fit:contain; display:block;"/>
+      </a>
+      <div style="width:1px; height:28px; background:rgba(244,197,66,.4);"></div>
+      <a href="https://icultur.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
+        <img src="uploads/icultur-white.png" alt="Icultur — Instituto de Cultura y Turismo de Bolívar" style="height:88px; width:101px; object-fit:contain; display:block;"/>
+      </a>
+    </div>
+
+    <nav style="display:flex; align-items:center; gap:28px;" class="desktop-nav">
+      <a href="Festival de Jazz Mompox 2026.dc.html#inicio" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Inicio</a>
+      <a href="Festival de Jazz Mompox 2026.dc.html#programacion" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Programación</a>
+      <a href="Festival de Jazz Mompox 2026.dc.html#artistas" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Artistas</a>
+      <a href="Festival de Jazz Mompox 2026.dc.html#noticias" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Noticias</a>
+      <a href="Festival de Jazz Mompox 2026.dc.html#galeria" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Galería</a>
+      <a href="Festival de Jazz Mompox 2026.dc.html#informacion" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Información</a>
+      <a href="Festival de Jazz Mompox 2026.dc.html#contacto" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Contacto</a>
+      <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">Cómo llegar</a>
+    </nav>
+
+    <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">☰</button>
+  </header>
+
+  <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:200; background:rgba(15,14,45,.6); backdrop-filter:blur(4px);" onClick="{{ closeMenu }}">
+      <div onClick="{{ stopProp }}" style="position:absolute; top:0; right:0; bottom:0; width:78%; max-width:320px; background:linear-gradient(180deg,#191B63,#2B216D); padding:28px 26px; display:flex; flex-direction:column; gap:26px; box-shadow:-8px 0 40px rgba(0,0,0,.4);">
+        <button onClick="{{ closeMenu }}" style="align-self:flex-end; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">✕</button>
+        <a href="Festival de Jazz Mompox 2026.dc.html#inicio" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Inicio</a>
+        <a href="Festival de Jazz Mompox 2026.dc.html#programacion" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Programación</a>
+        <a href="Festival de Jazz Mompox 2026.dc.html#artistas" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Artistas</a>
+        <a href="Festival de Jazz Mompox 2026.dc.html#noticias" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Noticias</a>
+        <a href="Festival de Jazz Mompox 2026.dc.html#galeria" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Galería</a>
+        <a href="Festival de Jazz Mompox 2026.dc.html#informacion" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Información</a>
+        <a href="Festival de Jazz Mompox 2026.dc.html#contacto" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Contacto</a>
+        <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:12px 20px; border-radius:30px; font-weight:600; font-size:14px; text-decoration:none; text-align:center;">Cómo llegar</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <section data-screen-label="Transporte — Encabezado" style="padding:150px 5% 60px; background:radial-gradient(ellipse at 30% 0%, #2B216D 0%, #191B63 50%, #0f0e33 100%);">
+    <a href="Festival de Jazz Mompox 2026.dc.html" style="display:inline-flex; align-items:center; gap:8px; color:#F4C542; text-decoration:none; font-size:13px; font-weight:600; margin-bottom:26px;">← Volver al inicio</a>
+    <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Información práctica</p>
+    <h1 style="font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,52px); font-weight:700; margin:0 0 16px; color:#FFFFFF;">Transporte durante el festival</h1>
+    <p style="font-size:16px; line-height:1.8; color:#D9D5F5; max-width:640px; margin:0;">Rutas especiales y embarcaciones facilitan el desplazamiento entre los escenarios durante los tres días del Festival de Jazz de Mompox.</p>
+  </section>
+
+  <section data-screen-label="Transporte — Opciones" style="padding:20px 5% 100px; background:#191B63;">
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1100px; margin:0 auto;" class="trans-grid">
+      <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px;">
+        <div style="font-size:28px; margin-bottom:14px;">🚌</div>
+        <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px;">Rutas especiales</div>
+        <p style="font-size:14px; color:#D9D5F5; line-height:1.7; margin:0;">Buses habilitados por la organización conectan el centro histórico con los escenarios y zonas de parqueo durante las noches del festival.</p>
+      </div>
+      <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px;">
+        <div style="font-size:28px; margin-bottom:14px;">🚤</div>
+        <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px;">Chalupas por el Magdalena</div>
+        <p style="font-size:14px; color:#D9D5F5; line-height:1.7; margin:0;">Servicio fluvial entre el malecón y puntos cercanos, ideal para disfrutar la vista nocturna del río durante el trayecto.</p>
+      </div>
+      <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px;">
+        <div style="font-size:28px; margin-bottom:14px;">🚶</div>
+        <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px;">A pie por el centro</div>
+        <p style="font-size:14px; color:#D9D5F5; line-height:1.7; margin:0;">El centro histórico es pequeño y caminable — la mayoría de escenarios están a menos de 15 minutos a pie entre sí.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contacto" data-screen-label="Footer" style="background:#0f0e33; padding:70px 5% 30px; border-top:1px solid rgba(244,197,66,.15);">
+    <div style="display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:44px; max-width:1280px; margin:0 auto 40px;" class="footer-grid">
+      <div>
+        <div style="font-family:'Dancing Script',cursive; font-size:28px; color:#FFD447; margin-bottom:12px;">Festival de Jazz de Mompox</div>
+        <p style="font-size:13.5px; color:#B9B3E8; line-height:1.7;">Un evento gratuito de Icultur, la Gobernación de Bolívar y el Ministerio de las Culturas de Colombia.</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Contacto</div>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">info@icultur.gov.co<br/>+57 (5) 660 0000<br/>Mompox, Bolívar, Colombia</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Redes sociales</div>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">Instagram<br/>Facebook<br/>YouTube</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Ubicación</div>
+        <a href="mapa.dc.html" style="display:block; aspect-ratio:4/3; border-radius:12px; background:repeating-linear-gradient(115deg,#2B216D 0 14px,#1c1652 14px 28px); display:flex; align-items:center; justify-content:center; text-decoration:none;">
+          <span style="font-family:monospace; font-size:10.5px; color:#F4C542;">[ ver mapa ]</span>
+        </a>
+      </div>
+    </div>
+    <div style="text-align:center; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); font-size:12.5px; color:#8983c2;">© 2026 Icultur — Instituto de Cultura y Turismo de Bolívar. Todos los derechos reservados.</div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { scrolled: false, mobileMenuOpen: false };
+  componentDidMount() {
+    this._onScroll = () => {
+      const scrolled = window.scrollY > 60;
+      if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+    };
+    window.addEventListener('scroll', this._onScroll);
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); }
+  toggleMenu = () => this.setState(s => ({ mobileMenuOpen: !s.mobileMenuOpen }));
+  closeMenu = () => this.setState({ mobileMenuOpen: false });
+  stopProp = (e) => e.stopPropagation();
+  renderVals() {
+    return {
+      headerBg: this.state.scrolled ? 'rgba(25,27,99,.85)' : 'transparent',
+      headerBlur: this.state.scrolled ? 'blur(12px)' : 'none',
+      mobileMenuOpen: this.state.mobileMenuOpen,
+      toggleMenu: this.toggleMenu,
+      closeMenu: this.closeMenu,
+      stopProp: this.stopProp,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

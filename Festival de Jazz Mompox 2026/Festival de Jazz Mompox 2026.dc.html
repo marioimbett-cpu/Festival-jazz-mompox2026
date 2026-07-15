@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&amp;family=Dancing+Script:wght@600;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    @keyframes flicker { 0%,100%{opacity:1;} 50%{opacity:.82;} }
+    @keyframes floatUp { 0%{transform:translateY(0);} 50%{transform:translateY(-14px);} 100%{transform:translateY(0);} }
+    @keyframes glowPulse { 0%,100%{box-shadow:0 0 40px 6px rgba(244,197,66,.25);} 50%{box-shadow:0 0 60px 14px rgba(244,197,66,.45);} }
+    @keyframes drift { 0%{transform:translateY(0) translateX(0);opacity:.7;} 100%{transform:translateY(-140px) translateX(20px);opacity:0;} }
+    @keyframes revealUp { from{opacity:0; transform:translateY(28px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes filigreeDriftA { 0%{transform:translate(0,0) rotate(-1deg) scale(0.99);} 50%{transform:translate(10px,-8px) rotate(1deg) scale(1.01);} 100%{transform:translate(-8px,6px) rotate(-1.5deg) scale(1.02);} }
+    @keyframes filigreeDriftB { 0%{transform:translate(0,0) rotate(0.8deg) scale(1);} 50%{transform:translate(-12px,10px) rotate(-1.2deg) scale(0.985);} 100%{transform:translate(8px,-6px) rotate(1.6deg) scale(1.015);} }
+    @keyframes filigreeDriftC { 0%{transform:translate(0,0) rotate(-0.6deg) scale(1);} 50%{transform:translate(4px,-14px) rotate(1deg) scale(0.98);} 100%{transform:translate(-6px,10px) rotate(-1.4deg) scale(1.02);} }
+    @keyframes dustFade { 0%,100%{opacity:0; transform:translate(0,0);} 15%{opacity:.9;} 50%{opacity:.4; transform:translate(6px,-16px);} 85%{opacity:.8;} }
+    @keyframes heroGlowPulse { 0%,100%{opacity:.35; transform:scale(1);} 50%{opacity:.6; transform:scale(1.08);} }
+    body { margin:0; background:#12123a; }
+    ::selection { background:#F4C542; color:#191B63; }
+    @media (max-width:1200px) {
+      .desktop-nav { display:none !important; }
+      .mobile-toggle { display:block !important; }
+    }
+    @media (max-width:640px) {
+      .hero-grid { grid-template-columns:1fr !important; }
+      .two-col { grid-template-columns:1fr !important; }
+      .artist-grid { grid-template-columns:repeat(2,1fr) !important; }
+      .news-grid { grid-template-columns:1fr !important; }
+      .info-grid { grid-template-columns:1fr !important; }
+      .icon-grid { grid-template-columns:repeat(2,1fr) !important; }
+      .masonry { columns:2 !important; }
+      .footer-grid { grid-template-columns:1fr !important; }
+      .prog-card { grid-template-columns:1fr !important; text-align:left; }
+    }
+  </style>
+</helmet>
+
+<div style="font-family:'Poppins',sans-serif; background:#12123a; color:#F5F3FF; overflow-x:hidden; position:relative;">
+
+  <!-- ORNAMENTAL FILIGREE BACKGROUND -->
+  <div style="position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;">
+    <svg width="0" height="0" style="position:absolute;">
+      <defs>
+        <path id="filigreeMotif" d="M100,20
+          C120,20 130,40 118,55
+          C140,50 158,66 150,86
+          C168,84 180,102 168,118
+          C185,122 190,142 174,152
+          C178,168 164,182 148,176
+          C146,192 128,198 116,186
+          C104,196 86,192 84,176
+          C68,182 54,168 58,152
+          C42,142 47,122 64,118
+          C52,102 64,84 82,86
+          C74,66 92,50 114,55
+          C102,40 112,20 100,20 Z
+          M100,70 C108,70 114,78 108,86 C116,90 116,102 106,104
+          C110,114 102,122 92,118 C88,126 76,124 74,114
+          C64,116 58,106 64,98 C56,92 60,80 72,80
+          C68,70 78,62 88,68 C90,60 100,60 100,70 Z" fill="currentColor"/>
+      </defs>
+    </svg>
+
+    <!-- Layer 1: large motifs, slow drift, soft blur -->
+    <div style="position:absolute; inset:-6%; animation:filigreeDriftA 34s ease-in-out infinite alternate; transform:{{ bgLayer1Transform }};">
+      <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#3a2d80; opacity:.07; filter:blur(1.5px);">
+        <use href="#filigreeMotif" x="-40" y="-30" width="420" height="420"/>
+        <use href="#filigreeMotif" x="1180" y="120" width="480" height="480"/>
+        <use href="#filigreeMotif" x="520" y="560" width="380" height="380"/>
+        <use href="#filigreeMotif" x="1000" y="700" width="340" height="340"/>
+      </svg>
+    </div>
+
+    <!-- Layer 2: medium motifs, diagonal drift -->
+    <div style="position:absolute; inset:-6%; animation:filigreeDriftB 26s ease-in-out infinite alternate; transform:{{ bgLayer2Transform }};">
+      <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#2B216D; opacity:.08;">
+        <use href="#filigreeMotif" x="260" y="80" width="200" height="200"/>
+        <use href="#filigreeMotif" x="880" y="30" width="220" height="220"/>
+        <use href="#filigreeMotif" x="60" y="640" width="180" height="180"/>
+        <use href="#filigreeMotif" x="1360" y="480" width="210" height="210"/>
+        <use href="#filigreeMotif" x="700" y="820" width="190" height="190"/>
+      </svg>
+    </div>
+
+    <!-- Layer 3: small motifs, vertical drift -->
+    <div style="position:absolute; inset:-6%; animation:filigreeDriftC 20s ease-in-out infinite alternate; transform:{{ bgLayer3Transform }};">
+      <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#191B63; opacity:.06;">
+        <use href="#filigreeMotif" x="160" y="300" width="100" height="100"/>
+        <use href="#filigreeMotif" x="1020" y="220" width="110" height="110"/>
+        <use href="#filigreeMotif" x="460" y="440" width="90" height="90"/>
+        <use href="#filigreeMotif" x="1300" y="720" width="100" height="100"/>
+        <use href="#filigreeMotif" x="820" y="120" width="95" height="95"/>
+        <use href="#filigreeMotif" x="140" y="880" width="105" height="105"/>
+      </svg>
+    </div>
+
+    <!-- Layer 4: gold dust particles -->
+    <div style="position:absolute; inset:0; transform:{{ bgLayer4Transform }};">
+      <div style="position:absolute; top:8%; left:12%; width:3px; height:3px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 22s ease-in-out infinite;"></div>
+      <div style="position:absolute; top:18%; left:78%; width:2px; height:2px; border-radius:50%; background:#F4C542; box-shadow:0 0 6px 2px rgba(244,197,66,.5); animation:dustFade 26s ease-in-out infinite 3s;"></div>
+      <div style="position:absolute; top:32%; left:34%; width:3px; height:3px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 19s ease-in-out infinite 1.5s;"></div>
+      <div style="position:absolute; top:46%; left:60%; width:2px; height:2px; border-radius:50%; background:#F4C542; box-shadow:0 0 6px 2px rgba(244,197,66,.5); animation:dustFade 30s ease-in-out infinite 6s;"></div>
+      <div style="position:absolute; top:58%; left:8%; width:3px; height:3px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 24s ease-in-out infinite 2s;"></div>
+      <div style="position:absolute; top:66%; left:90%; width:2px; height:2px; border-radius:50%; background:#F4C542; box-shadow:0 0 6px 2px rgba(244,197,66,.5); animation:dustFade 28s ease-in-out infinite 4.5s;"></div>
+      <div style="position:absolute; top:74%; left:44%; width:3px; height:3px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 21s ease-in-out infinite 7s;"></div>
+      <div style="position:absolute; top:88%; left:66%; width:2px; height:2px; border-radius:50%; background:#F4C542; box-shadow:0 0 6px 2px rgba(244,197,66,.5); animation:dustFade 25s ease-in-out infinite 5s;"></div>
+      <div style="position:absolute; top:12%; left:52%; width:2px; height:2px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 27s ease-in-out infinite 8.5s;"></div>
+      <div style="position:absolute; top:40%; left:92%; width:3px; height:3px; border-radius:50%; background:#F4C542; box-shadow:0 0 6px 2px rgba(244,197,66,.5); animation:dustFade 23s ease-in-out infinite 1s;"></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header data-screen-label="Header" style="position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:14px 5%; transition:background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease; background:{{ headerBg }}; backdrop-filter:{{ headerBlur }};">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a href="https://www.mincultura.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
+        <img src="uploads/cultura-white.png" alt="Ministerio de las Culturas, las Artes y los Saberes de Colombia" style="height: 70px; width: 88px; object-fit: contain; display: block">
+      </a>
+      <div style="width:1px; height:28px; background:rgba(244,197,66,.4);"></div>
+      <a href="https://www.bolivar.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
+        <img src="uploads/gob-transparent.png" alt="Gobernación de Bolívar" style="height: 73px; width: 70px; object-fit: contain; display: block">
+      </a>
+      <div style="width:1px; height:28px; background:rgba(244,197,66,.4);"></div>
+      <img src="uploads/icultur-white.png" alt="Icultur — Instituto de Cultura y Turismo de Bolívar" style="height: 88px; width: 101px; object-fit: contain; display: block"><a href="https://icultur.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
+        
+      </a>
+    </div>
+
+    <nav style="display:flex; align-items:center; gap:28px;" class="desktop-nav">
+      <a href="#inicio" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Inicio</a>
+      <a href="#programacion" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Programación</a>
+      <a href="#artistas" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Artistas</a>
+      <a href="#noticias" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Noticias</a>
+      <a href="#galeria" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Galería</a>
+      <a href="#informacion" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Información</a>
+      <a href="#contacto" style="color:#F5F3FF; text-decoration:none; font-size:14px; font-weight:500; opacity:.9;">Contacto</a>
+      <a href="#informacion" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">Cómo llegar</a>
+    </nav>
+
+    <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">☰</button>
+  </header>
+
+  <!-- MOBILE DRAWER -->
+  <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:200; background:rgba(15,14,45,.6); backdrop-filter:blur(4px);" onClick="{{ closeMenu }}">
+      <div onClick="{{ stopProp }}" style="position:absolute; top:0; right:0; bottom:0; width:78%; max-width:320px; background:linear-gradient(180deg,#191B63,#2B216D); padding:28px 26px; display:flex; flex-direction:column; gap:26px; box-shadow:-8px 0 40px rgba(0,0,0,.4);">
+        <button onClick="{{ closeMenu }}" style="align-self:flex-end; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">✕</button>
+        <a href="#inicio" onClick="{{ closeMenu }}" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Inicio</a>
+        <a href="#programacion" onClick="{{ closeMenu }}" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Programación</a>
+        <a href="#artistas" onClick="{{ closeMenu }}" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Artistas</a>
+        <a href="#noticias" onClick="{{ closeMenu }}" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Noticias</a>
+        <a href="#galeria" onClick="{{ closeMenu }}" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Galería</a>
+        <a href="#informacion" onClick="{{ closeMenu }}" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Información</a>
+        <a href="#contacto" onClick="{{ closeMenu }}" style="color:#F5F3FF; text-decoration:none; font-size:18px; font-weight:500;">Contacto</a>
+        <a href="#informacion" onClick="{{ closeMenu }}" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:12px 20px; border-radius:30px; font-weight:600; font-size:14px; text-decoration:none; text-align:center;">Cómo llegar</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- HERO -->
+  <section id="inicio" data-screen-label="Hero" style="position:relative; min-height:100vh; display:flex; align-items:center; padding:140px 5% 80px; background:radial-gradient(ellipse at 30% 20%, #2B216D 0%, #191B63 45%, #0f0e33 100%); overflow:hidden;">
+    <div style="position:absolute; top:20%; left:50%; width:900px; height:900px; margin-left:-450px; border-radius:50%; background:radial-gradient(circle, rgba(244,197,66,.30) 0%, transparent 65%); filter:blur(40px); animation:heroGlowPulse 12s ease-in-out infinite; pointer-events:none;"></div>
+    <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 15% 25%, rgba(244,197,66,.10) 0, transparent 45%), radial-gradient(circle at 85% 70%, rgba(255,212,71,.08) 0, transparent 40%); pointer-events:none;"></div>
+    <div style="position:absolute; top:12%; left:6%; width:5px; height:5px; border-radius:50%; background:#FFD447; animation:drift 6s linear infinite; box-shadow:0 0 8px 2px rgba(255,212,71,.6);"></div>
+    <div style="position:absolute; top:40%; left:22%; width:3px; height:3px; border-radius:50%; background:#F4C542; animation:drift 8s linear infinite 1.2s; box-shadow:0 0 8px 2px rgba(244,197,66,.6);"></div>
+    <div style="position:absolute; top:65%; left:12%; width:4px; height:4px; border-radius:50%; background:#FFD447; animation:drift 7s linear infinite 2.4s; box-shadow:0 0 8px 2px rgba(255,212,71,.6);"></div>
+    <div style="position:absolute; top:25%; right:20%; width:4px; height:4px; border-radius:50%; background:#F4C542; animation:drift 9s linear infinite .6s; box-shadow:0 0 8px 2px rgba(244,197,66,.6);"></div>
+
+    <div style="position:absolute; left:2%; bottom:0; width:120px; opacity:.9; animation:floatUp 5s ease-in-out infinite; display:flex; flex-direction:column; align-items:center;" class="lamp-deco">
+      <div style="width:46px; height:34px; border-radius:14px 14px 4px 4px; background:radial-gradient(circle,#FFD447,#F4C542 70%); box-shadow:0 0 50px 18px rgba(244,197,66,.35); animation:flicker 3s ease-in-out infinite;"></div>
+      <div style="width:4px; height:120px; background:#3a3560;"></div>
+    </div>
+    <div style="position:absolute; right:2%; bottom:0; width:120px; opacity:.9; animation:floatUp 5s ease-in-out infinite 1s; display:flex; flex-direction:column; align-items:center;" class="lamp-deco">
+      <div style="width:46px; height:34px; border-radius:14px 14px 4px 4px; background:radial-gradient(circle,#FFD447,#F4C542 70%); box-shadow:0 0 50px 18px rgba(244,197,66,.35); animation:flicker 3s ease-in-out infinite 1.5s;"></div>
+      <div style="width:4px; height:120px; background:#3a3560;"></div>
+    </div>
+
+    <div style="position:relative; z-index:2; display:grid; grid-template-columns:1.15fr .85fr; gap:50px; align-items:center; width:100%; max-width:1280px; margin:0 auto;" class="hero-grid">
+      <div>
+        <div style="display:inline-block; padding:7px 18px; border:1px solid rgba(244,197,66,.5); border-radius:30px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#F4C542; margin-bottom:22px;">XII Edición · Patrimonio Cultural</div>
+        <h1 style="font-family:'Dancing Script',cursive; font-weight:700; font-size:clamp(52px,7vw,92px); line-height:1.02; margin:0 0 6px; color:#FFD447; text-shadow:0 0 30px rgba(255,212,71,.35);">Festival de Jazz</h1>
+        <h1 style="font-family:'Dancing Script',cursive; font-weight:700; font-size:clamp(52px,7vw,92px); line-height:1.02; margin:0 0 22px; color:#FFFFFF;">de Mompox <span style="color:#F4C542;">2026</span></h1>
+        <p style="font-family:'Playfair Display',serif; font-style:italic; font-size:22px; color:#EDEAFF; margin:0 0 18px;">03 al 05 de septiembre de 2026 · Mompox, Bolívar</p>
+        <p style="font-size:15.5px; line-height:1.75; color:#D9D5F5; max-width:520px; margin:0 0 34px;">Tres noches de jazz bajo los faroles coloniales de Mompox. Música, río, arquitectura patrimonio de la humanidad y la calidez del Caribe colombiano se encuentran en una experiencia cultural irrepetible.</p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <a href="#programacion" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:15px 30px; border-radius:30px; font-weight:600; font-size:15px; text-decoration:none; box-shadow:0 8px 30px rgba(244,197,66,.35);">Conoce la programación</a>
+          <a href="#artistas" style="border:1.5px solid rgba(255,255,255,.4); color:#F5F3FF; padding:15px 30px; border-radius:30px; font-weight:500; font-size:15px; text-decoration:none;">Ver artistas</a>
+        </div>
+      </div>
+      <div style="position:relative; display:flex; justify-content:center;">
+        <div style="position:absolute; inset:-30px; border-radius:24px; background:radial-gradient(circle,rgba(244,197,66,.18),transparent 70%); filter:blur(10px);"></div>
+        <img src="uploads/festijazz2026.jpg" alt="Afiche oficial Festival de Jazz de Mompox 2026" style="position:relative; width:100%; max-width:380px; border-radius:18px; box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(244,197,66,.25); animation:glowPulse 5s ease-in-out infinite;">
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section data-screen-label="Cuenta regresiva" style="position:relative; padding:70px 5%; background:linear-gradient(180deg,#0f0e33,#191B63); text-align:center;">
+    <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 10px;">Faltan para el gran encuentro</p>
+    <sc-if value="{{ countdown.started }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family:'Playfair Display',serif; font-size:34px; color:#FFD447; padding:20px 0;">¡El Festival ha comenzado!</div>
+    </sc-if>
+    <sc-if value="{{ countdown.notStarted }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; justify-content:center; gap:22px; flex-wrap:wrap; margin-top:10px;">
+        <div style="background:linear-gradient(160deg,#2B216D,#191B63); border:1px solid rgba(244,197,66,.3); border-radius:16px; padding:22px 26px; min-width:96px; box-shadow:0 12px 30px rgba(0,0,0,.35);">
+          <div style="font-family:'Playfair Display',serif; font-size:44px; font-weight:700; color:#FFFFFF;">{{ countdown.days }}</div>
+          <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#F4C542; margin-top:6px;">Días</div>
+        </div>
+        <div style="background:linear-gradient(160deg,#2B216D,#191B63); border:1px solid rgba(244,197,66,.3); border-radius:16px; padding:22px 26px; min-width:96px; box-shadow:0 12px 30px rgba(0,0,0,.35);">
+          <div style="font-family:'Playfair Display',serif; font-size:44px; font-weight:700; color:#FFFFFF;">{{ countdown.hours }}</div>
+          <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#F4C542; margin-top:6px;">Horas</div>
+        </div>
+        <div style="background:linear-gradient(160deg,#2B216D,#191B63); border:1px solid rgba(244,197,66,.3); border-radius:16px; padding:22px 26px; min-width:96px; box-shadow:0 12px 30px rgba(0,0,0,.35);">
+          <div style="font-family:'Playfair Display',serif; font-size:44px; font-weight:700; color:#FFFFFF;">{{ countdown.minutes }}</div>
+          <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#F4C542; margin-top:6px;">Minutos</div>
+        </div>
+        <div style="background:linear-gradient(160deg,#2B216D,#191B63); border:1px solid rgba(244,197,66,.3); border-radius:16px; padding:22px 26px; min-width:96px; box-shadow:0 12px 30px rgba(0,0,0,.35);">
+          <div style="font-family:'Playfair Display',serif; font-size:44px; font-weight:700; color:#FFFFFF;">{{ countdown.seconds }}</div>
+          <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#F4C542; margin-top:6px;">Segundos</div>
+        </div>
+      </div>
+    </sc-if>
+  </section>
+
+  <!-- FESTIVAL INTRO -->
+  <section data-screen-label="Sobre el festival" style="padding:100px 5%; background:#191B63; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;" class="two-col">
+    <div>
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 14px;">El Festival</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:38px; font-weight:700; margin:0 0 20px; color:#FFFFFF;">Jazz entre callejones coloniales</h2>
+      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0 0 16px;">Desde hace más de una década, Mompox —Patrimonio de la Humanidad UNESCO— abre sus plazas, iglesias y orillas del río Magdalena para recibir a músicos nacionales e internacionales en un festival gratuito que celebra la improvisación, la memoria caribeña y el mestizaje sonoro.</p>
+      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0;">Cada septiembre, los faroles se encienden, los abanicos se agitan y el jazz se mezcla con porro, gaita y son para crear una experiencia que solo Mompox puede ofrecer.</p>
+    </div>
+    <div onMouseEnter="{{ mompoxEnter }}" onMouseMove="{{ mompoxMove }}" onMouseLeave="{{ mompoxLeave }}" style="position:relative; border-radius:20px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; border:1.5px solid rgba(244,197,66,.15); box-shadow:{{ mompoxShadow }}; transition:box-shadow .6s ease, border-color .6s ease;">
+      <img src="uploads/mompox.jpeg" alt="Iglesia de Santa Bárbara iluminada de noche, Mompox" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ mompoxTransform }}; filter:{{ mompoxFilter }}; transition:transform .65s cubic-bezier(.22,.8,.36,1), filter .65s ease;">
+      <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,14,51,0) 40%, rgba(15,14,51,.75) 100%); pointer-events:none;"></div>
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(15,14,51,.35); opacity:{{ mompoxOverlayOpacity }}; transform:{{ mompoxOverlayTransform }}; transition:opacity .45s ease, transform .45s ease; pointer-events:none;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+          <div style="width:60px; height:60px; border-radius:50%; background:rgba(244,197,66,.18); border:1.5px solid #F4C542; display:flex; align-items:center; justify-content:center; font-size:20px; color:#F4C542;">▶</div>
+          <span style="font-family:'Playfair Display',serif; font-style:italic; font-size:22px; color:#FFFFFF; letter-spacing:.02em;">Descubrir Mompox</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMACIÓN -->
+  <section id="programacion" data-screen-label="Programación" style="padding:100px 5%; background:linear-gradient(180deg,#191B63,#221a5e);">
+    <div style="text-align:center; margin-bottom:44px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Agenda</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:38px; font-weight:700; margin:0; color:#FFFFFF;">Programación</h2>
+    </div>
+    <div style="display:flex; justify-content:center; gap:14px; margin-bottom:44px; flex-wrap:wrap;">
+      <sc-for list="{{ days }}" as="day" hint-placeholder-count="3">
+        <button onClick="{{ day.select }}" style="border:1.5px solid {{ day.borderColor }}; background:{{ day.bg }}; color:{{ day.textColor }}; padding:13px 26px; border-radius:30px; font-weight:600; font-size:14px; cursor:pointer; font-family:'Poppins',sans-serif;">{{ day.label }}</button>
+      </sc-for>
+    </div>
+    <div style="max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
+      <sc-for list="{{ activeDay.events }}" as="ev" hint-placeholder-count="3">
+        <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.2); border-radius:18px; padding:26px 30px; display:grid; grid-template-columns:120px 1fr auto; gap:24px; align-items:center;" class="prog-card">
+          <div>
+            <div style="font-family:'Playfair Display',serif; font-size:22px; color:#F4C542; font-weight:700;">{{ ev.time }}</div>
+            <div style="font-size:12px; color:#B9B3E8; margin-top:4px;">{{ ev.place }}</div>
+          </div>
+          <div>
+            <div style="font-size:18px; font-weight:600; color:#FFFFFF; margin-bottom:6px;">{{ ev.artist }}</div>
+            <div style="font-size:14px; color:#D9D5F5; line-height:1.6;">{{ ev.desc }}</div>
+          </div>
+          <a href="#artistas" style="border:1.5px solid #F4C542; color:#F4C542; padding:10px 20px; border-radius:24px; font-size:13px; font-weight:600; text-decoration:none; white-space:nowrap;">Ver más</a>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ARTISTAS -->
+  <section id="artistas" data-screen-label="Artistas" style="padding:100px 5%; background:#221a5e;">
+    <div style="text-align:center; margin-bottom:50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Line-up</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:38px; font-weight:700; margin:0; color:#FFFFFF;">Artistas</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:26px; max-width:1280px; margin:0 auto;" class="artist-grid">
+      <sc-for list="{{ artists }}" as="artist" hint-placeholder-count="8">
+        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; transition:transform .3s ease, box-shadow .3s ease;" class="artist-card" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
+          <sc-if value="{{ artist.hasSlot }}" hint-placeholder-val="{{ true }}">
+            <div style="aspect-ratio:1;">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="artist-{{ $index }}" shape="rect" fit="cover" placeholder="Foto de {{ artist.name }}" hint-size="100%,100%"></x-import>
+            </div>
+          </sc-if>
+          <sc-if value="{{ artist.noSlot }}" hint-placeholder-val="{{ false }}">
+            <div style="aspect-ratio:1; background:linear-gradient(135deg,{{ artist.c1 }},{{ artist.c2 }}); display:flex; align-items:center; justify-content:center;">
+              <span style="font-family:'Playfair Display',serif; font-size:34px; font-weight:700; color:rgba(255,255,255,.85);">{{ artist.initial }}</span>
+            </div>
+          </sc-if>
+          <div style="padding:18px;">
+            <div style="font-size:16px; font-weight:600; color:#FFFFFF; margin-bottom:4px;">{{ artist.name }}</div>
+            <div style="font-size:12.5px; color:#B9B3E8; margin-bottom:14px;">{{ artist.country }} · {{ artist.genre }}</div>
+            <a href="#" style="font-size:12.5px; color:#F4C542; text-decoration:none; font-weight:600;">Más información →</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  <section id="noticias" data-screen-label="Noticias" style="padding:100px 5%; background:#191B63;">
+    <div style="text-align:center; margin-bottom:50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Actualidad</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:38px; font-weight:700; margin:0; color:#FFFFFF;">Noticias</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:28px; max-width:1200px; margin:0 auto;" class="news-grid">
+      <sc-for list="{{ news }}" as="n" hint-placeholder-count="3">
+        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden;">
+          <div style="aspect-ratio:16/10; background:linear-gradient(135deg,{{ n.c1 }},{{ n.c2 }}); display:flex; align-items:center; justify-content:center;">
+            <span style="font-family:monospace; font-size:11px; color:rgba(255,255,255,.65);">[ imagen ]</span>
+          </div>
+          <div style="padding:22px;">
+            <div style="font-size:12px; color:#F4C542; letter-spacing:.06em; margin-bottom:8px;">{{ n.date }}</div>
+            <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px; line-height:1.4;">{{ n.title }}</div>
+            <div style="font-size:14px; color:#D9D5F5; line-height:1.6; margin-bottom:14px;">{{ n.summary }}</div>
+            <a href="#" style="font-size:13px; color:#F4C542; text-decoration:none; font-weight:600;">Leer más →</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section></section>
+
+  <!-- MOMPOX TURISMO -->
+  <section data-screen-label="Mompox" style="padding:100px 5%; background:#191B63;">
+    <div style="border-radius: 24px; overflow: hidden; margin-bottom: 50px; animation: revealUp .9s cubic-bezier(.22,.8,.36,1) both">
+      <div onMouseEnter="{{ panoEnter }}" onMouseMove="{{ panoMove }}" onMouseLeave="{{ panoLeave }}" style="position:relative; aspect-ratio:21/7; cursor:pointer; border:1.5px solid rgba(244,197,66,.15); box-shadow:{{ panoShadow }}; transition:box-shadow .6s ease, border-color .6s ease;">
+        <img src="uploads/panoramica-enhanced.jpg" alt="Vista panorámica de Santa Cruz de Mompox al atardecer sobre el río Magdalena" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ panoTransform }}; filter:{{ panoFilter }}; transition:transform .6s cubic-bezier(.22,.8,.36,1), filter .6s ease;">
+        <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,14,51,.35) 0%, rgba(15,14,51,0) 20%, rgba(15,14,51,0) 70%, rgba(15,14,51,.55) 100%); pointer-events:none;"></div>
+      </div>
+    </div>
+    <div style="text-align:center; max-width:720px; margin:0 auto 50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Destino</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:36px; font-weight:700; margin:0 0 18px; color:#FFFFFF;">Santa Cruz de Mompox</h2>
+      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0;">Un pueblo ribereño detenido en el tiempo, con calles empedradas, orfebrería en filigrana y el Magdalena como testigo eterno de su historia.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:26px; max-width:1200px; margin:0 auto;" class="icon-grid">
+      <sc-for list="{{ mompoxIcons }}" as="mi" hint-placeholder-count="4">
+        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden;">
+          <div onMouseEnter="{{ mi.enter }}" onMouseLeave="{{ mi.leave }}" style="position:relative; aspect-ratio:4/3; overflow:hidden; cursor:pointer; box-shadow:{{ mi.shadow }}; transition:box-shadow .5s ease;">
+            <sc-if value="{{ mi.hasImg }}" hint-placeholder-val="{{ true }}">
+              <img src="{{ mi.src }}" alt="{{ mi.label }}" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ mi.transform }}; transition:transform .5s ease;">
+            </sc-if>
+            <sc-if value="{{ mi.needsSlot }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%; height:100%;">
+                <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ mi.slotId }}" shape="rect" fit="cover" placeholder="{{ mi.label }}" hint-size="100%,100%"></x-import>
+              </div>
+            </sc-if>
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,14,51,0) 35%, rgba(15,14,51,.85) 100%); pointer-events:none;"></div>
+            <div style="position:absolute; left:0; right:0; bottom:0; padding:16px 18px; font-family:'Playfair Display',serif; font-size:19px; font-weight:700; color:#FFFFFF; pointer-events:none;">{{ mi.label }}</div>
+          </div>
+          <div style="padding:18px;">
+            <p style="font-size:13.5px; color:#D9D5F5; line-height:1.6; margin:0 0 14px;">{{ mi.desc }}</p>
+            <button onClick="{{ mi.toggle }}" style="border:1.5px solid #F4C542; color:#F4C542; background:none; padding:9px 18px; border-radius:24px; font-size:12.5px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif;">{{ mi.buttonLabel }}</button>
+            <div style="max-height:{{ mi.panelMaxHeight }}; overflow:hidden; transition:max-height .45s ease;">
+              <p style="font-size:13px; color:#B9B3E8; line-height:1.7; margin:14px 0 0;">{{ mi.more }}</p>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="galeria" data-screen-label="Galería" style="padding:100px 5%; background:#221a5e;">
+    <div style="text-align:center; margin-bottom:50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Momentos</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:38px; font-weight:700; margin:0; color:#FFFFFF;">Galería</h2>
+    </div>
+    <div style="columns:4; column-gap:18px; max-width:1280px; margin:0 auto;" class="masonry">
+      <sc-for list="{{ galleryImages }}" as="gi" hint-placeholder-count="9">
+        <div style="break-inside:avoid; margin-bottom:18px; border-radius:14px; overflow:hidden; height:{{ gi.h }}px; background:linear-gradient(150deg,{{ gi.c1 }},{{ gi.c2 }}); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(0,0,0,.3);">
+          <span style="font-family:monospace; font-size:11px; color:rgba(255,255,255,.65);">[ foto {{ gi.n }} ]</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- NOTICIAS -->
+  
+
+  <!-- INFORMACIÓN -->
+  <section id="informacion" data-screen-label="Información" style="padding:100px 5%; background:#221a5e;">
+    <div style="text-align:center; margin-bottom:50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Práctica</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:38px; font-weight:700; margin:0; color:#FFFFFF;">Información</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1200px; margin:0 auto;" class="info-grid">
+      <sc-for list="{{ infoCards }}" as="ic" hint-placeholder-count="6">
+        <a href="{{ ic.href }}" style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:26px; text-decoration:none; display:block; transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;" class="info-card" style-hover="transform:translateY(-6px); box-shadow:0 16px 34px rgba(0,0,0,.35); border-color:rgba(244,197,66,.5);">
+          <div style="font-size:26px; margin-bottom:12px;">{{ ic.emoji }}</div>
+          <div style="font-size:16px; font-weight:600; color:#FFFFFF; margin-bottom:8px;">{{ ic.title }}</div>
+          <div style="font-size:13.5px; color:#D9D5F5; line-height:1.6;">{{ ic.desc }}</div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- PATROCINADORES -->
+  <section data-screen-label="Patrocinadores" style="padding:90px 5%; background:#191B63;">
+    <div style="text-align:center; margin-bottom:44px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Aliados</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:38px; font-weight:700; margin:0; color:#FFFFFF;">Patrocinadores</h2>
+    </div>
+    <div onMouseEnter="{{ sponsorsPause }}" onMouseLeave="{{ sponsorsResume }}" style="position:relative; max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:16px;">
+      <button onClick="{{ sponsorsPrev }}" aria-label="Anterior" style="flex:none; width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(244,197,66,.4); background:rgba(255,255,255,.03); color:#F4C542; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">‹</button>
+
+      <div style="flex:1; overflow:hidden; border-radius:20px;">
+        <div style="display:flex; width:{{ sponsorsTrackWidth }}; transform:{{ sponsorsTrackTransform }}; transition:transform .6s cubic-bezier(.22,.8,.36,1);">
+          <sc-for list="{{ sponsorPages }}" as="page" hint-placeholder-count="2">
+            <div style="flex:none; width:{{ page.width }}; display:grid; grid-template-columns:repeat({{ itemsPerPage }},1fr); gap:20px; padding:4px;">
+              <sc-for list="{{ page.items }}" as="sp" hint-placeholder-count="4">
+                <div style="background:#FBF9F5; border-radius:16px; box-shadow:0 10px 26px rgba(0,0,0,.25); padding:22px 18px; display:flex; align-items:center; justify-content:center; height:110px; transition:transform .35s ease, box-shadow .35s ease, filter .35s ease;" class="sponsor-tile" style-hover="transform:scale(1.08); box-shadow:0 16px 36px rgba(0,0,0,.35); filter:brightness(1.06);">
+                  <sc-if value="{{ sp.hasImg }}" hint-placeholder-val="{{ true }}">
+                    <img src="{{ sp.src }}" alt="{{ sp.name }}" style="max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain;">
+                  </sc-if>
+                  <sc-if value="{{ sp.needsSlot }}" hint-placeholder-val="{{ false }}">
+                    <div style="width:100%; height:100%;">
+                      <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ sp.slotId }}" shape="rect" fit="contain" placeholder="{{ sp.name }}" hint-size="100%,100%"></x-import>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <button onClick="{{ sponsorsNext }}" aria-label="Siguiente" style="flex:none; width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(244,197,66,.4); background:rgba(255,255,255,.03); color:#F4C542; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">›</button>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:10px; margin-top:30px;">
+      <sc-for list="{{ sponsorDots }}" as="dot" hint-placeholder-count="2">
+        <button onClick="{{ dot.select }}" aria-label="Ir a página {{ dot.n }}" style="width:{{ dot.size }}; height:9px; border-radius:5px; border:none; background:{{ dot.color }}; cursor:pointer; transition:all .3s ease; padding:0;"></button>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contacto" data-screen-label="Footer" style="background:#0f0e33; padding:70px 5% 30px; border-top:1px solid rgba(244,197,66,.15);">
+    <div style="display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:44px; max-width:1280px; margin:0 auto 40px;" class="footer-grid">
+      <div>
+        <div style="font-family:'Dancing Script',cursive; font-size:28px; color:#FFD447; margin-bottom:12px;">Festival de Jazz de Mompox</div>
+        <p style="font-size:13.5px; color:#B9B3E8; line-height:1.7;">Un evento gratuito de Icultur, la Gobernación de Bolívar y el Ministerio de las Culturas de Colombia.</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Contacto</div>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">info@icultur.gov.co<br>+57 (5) 660 0000<br>Mompox, Bolívar, Colombia</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Redes sociales</div>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">Instagram<br>Facebook<br>YouTube</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Ubicación</div>
+        <a href="mapa.dc.html" style="display:flex; aspect-ratio:4/3; border-radius:12px; background:repeating-linear-gradient(115deg,#2B216D 0 14px,#1c1652 14px 28px); align-items:center; justify-content:center; text-decoration:none;">
+          <span style="font-family:monospace; font-size:10.5px; color:#F4C542;">[ ver mapa ]</span>
+        </a>
+      </div>
+    </div>
+    <div style="text-align:center; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); font-size:12.5px; color:#8983c2;">© 2026 Icultur — Instituto de Cultura y Turismo de Bolívar. Todos los derechos reservados.</div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    scrolled: false,
+    mobileMenuOpen: false,
+    activeDayIndex: 0,
+    now: Date.now(),
+    mompoxHover: false,
+    mompoxX: 0,
+    mompoxY: 0,
+    panoHover: false,
+    panoX: 0,
+    panoY: 0,
+    itemsPerPage: 4,
+    sponsorPage: 0,
+    sponsorsPaused: false,
+  };
+
+  componentDidMount() {
+    this._tick = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    this._onScroll = () => {
+      const scrolled = window.scrollY > 60;
+      if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+    };
+    window.addEventListener('scroll', this._onScroll);
+
+    this._setItemsPerPage = () => {
+      const w = window.innerWidth;
+      const n = w < 640 ? 2 : w < 1000 ? 3 : 4;
+      if (n !== this.state.itemsPerPage) this.setState({ itemsPerPage: n, sponsorPage: 0 });
+    };
+    this._setItemsPerPage();
+    window.addEventListener('resize', this._setItemsPerPage);
+    this._startSponsorAutoplay();
+
+    this._bgMouse = { x: 0, y: 0 };
+    this._onMouseMoveBg = (e) => {
+      this._bgMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      this._bgMouse.y = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    window.addEventListener('mousemove', this._onMouseMoveBg);
+    this._bgTick = () => {
+      const sy = Math.max(-40, Math.min(40, window.scrollY * 0.015));
+      this.setState({
+        bg1: { x: this._bgMouse.x * 6, y: this._bgMouse.y * 6 + sy * 0.4 },
+        bg2: { x: this._bgMouse.x * 9, y: this._bgMouse.y * 9 + sy * 0.7 },
+        bg3: { x: this._bgMouse.x * 5, y: this._bgMouse.y * 5 + sy },
+        bg4: { x: this._bgMouse.x * 3, y: this._bgMouse.y * 3 + sy * 1.2 },
+      });
+      this._bgRaf = requestAnimationFrame(this._bgTick);
+    };
+    this._bgRaf = requestAnimationFrame(this._bgTick);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._tick);
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._setItemsPerPage);
+    clearInterval(this._sponsorTimer);
+    window.removeEventListener('mousemove', this._onMouseMoveBg);
+    cancelAnimationFrame(this._bgRaf);
+  }
+
+  _startSponsorAutoplay() {
+    clearInterval(this._sponsorTimer);
+    this._sponsorTimer = setInterval(() => {
+      if (this.state.sponsorsPaused) return;
+      this.sponsorsNext();
+    }, 3500);
+  }
+
+  _sponsorPageCount() {
+    const total = this._sponsorList().length;
+    return Math.max(1, Math.ceil(total / this.state.itemsPerPage));
+  }
+
+  sponsorsNext = () => {
+    const count = this._sponsorPageCount();
+    this.setState(s => ({ sponsorPage: (s.sponsorPage + 1) % count }));
+  };
+  sponsorsPrev = () => {
+    const count = this._sponsorPageCount();
+    this.setState(s => ({ sponsorPage: (s.sponsorPage - 1 + count) % count }));
+  };
+  sponsorsPause = () => this.setState({ sponsorsPaused: true });
+  sponsorsResume = () => this.setState({ sponsorsPaused: false });
+
+  _sponsorList() {
+    return [
+      { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/cultura-transparent.png' },
+      { name: 'Gobernación de Bolívar', src: 'uploads/gob-transparent.png' },
+      { name: 'Icultur', src: 'uploads/icultur-transparent.png' },
+      { name: 'Alcaldía Distrital de Santa Cruz de Mompox', src: 'uploads/alcaldiamompox.png' },
+      { name: 'Patrocinador oficial', slotId: 'sponsor-extra' },
+    ];
+  }
+
+  toggleMenu = () => this.setState(s => ({ mobileMenuOpen: !s.mobileMenuOpen }));
+  closeMenu = () => this.setState({ mobileMenuOpen: false });
+  stopProp = (e) => e.stopPropagation();
+
+  mompoxEnter = () => this.setState({ mompoxHover: true });
+  mompoxLeave = () => this.setState({ mompoxHover: false, mompoxX: 0, mompoxY: 0 });
+  mompoxMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    const y = ((e.clientY - r.top) / r.height) * 2 - 1;
+    this.setState({ mompoxX: x, mompoxY: y });
+  };
+
+  panoEnter = () => this.setState({ panoHover: true });
+  panoLeave = () => this.setState({ panoHover: false, panoX: 0, panoY: 0 });
+  panoMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    const y = ((e.clientY - r.top) / r.height) * 2 - 1;
+    this.setState({ panoX: x, panoY: y });
+  };
+
+  renderVals() {
+    const target = new Date('2026-09-03T00:00:00-05:00').getTime();
+    const diff = target - this.state.now;
+    const started = diff <= 0;
+    const pad = n => String(n).padStart(2, '0');
+    let countdown;
+    if (started) {
+      countdown = { started: true, notStarted: false, days: '00', hours: '00', minutes: '00', seconds: '00' };
+    } else {
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      countdown = { started: false, notStarted: true, days: pad(days), hours: pad(hours), minutes: pad(minutes), seconds: pad(seconds) };
+    }
+
+    const dayDefs = [
+      { label: '03 Septiembre', events: [
+        { time: '6:00 PM', place: 'Plaza de la Concepción', artist: 'Orquesta del Río Magdalena', desc: 'Apertura oficial con jazz afrocaribeño y homenaje a la tradición ribereña.' },
+        { time: '8:30 PM', place: 'Claustro San Agustín', artist: 'Trío Farol de Bronce', desc: 'Jazz contemporáneo con influencias de porro y bullerengue.' },
+      ]},
+      { label: '04 Septiembre', events: [
+        { time: '6:00 PM', place: 'Malecón del Magdalena', artist: 'Ensamble Mompox Big Band', desc: 'Big band con repertorio latino y estándares reinterpretados.' },
+        { time: '8:30 PM', place: 'Plaza Santa Bárbara', artist: 'Elena Vidales Quartet', desc: 'Voz y jazz vocal con raíces caribeñas.' },
+        { time: '10:00 PM', place: 'Casa de la Cultura', artist: 'Jam Session Abierta', desc: 'Espacio de improvisación libre para músicos invitados y locales.' },
+      ]},
+      { label: '05 Septiembre', events: [
+        { time: '6:00 PM', place: 'Plaza de la Concepción', artist: 'Sexteto Filigrana', desc: 'Fusión de jazz con orfebrería sonora momposina.' },
+        { time: '9:00 PM', place: 'Malecón del Magdalena', artist: 'Concierto de Clausura', desc: 'Gran cierre con todos los artistas invitados sobre el río.' },
+      ]},
+    ];
+
+    const days = dayDefs.map((d, i) => ({
+      label: d.label,
+      select: () => this.setState({ activeDayIndex: i }),
+      borderColor: i === this.state.activeDayIndex ? '#F4C542' : 'rgba(244,197,66,.25)',
+      bg: i === this.state.activeDayIndex ? 'linear-gradient(135deg,#F4C542,#FFD447)' : 'transparent',
+      textColor: i === this.state.activeDayIndex ? '#191B63' : '#F5F3FF',
+    }));
+
+    const activeDay = dayDefs[this.state.activeDayIndex];
+
+    const artistDefs = [
+      { name: 'Orquesta del Río Magdalena', country: 'Colombia', genre: 'Jazz afrocaribeño', c1: '#2B216D', c2: '#191B63' },
+      { name: 'Trío Farol de Bronce', country: 'Colombia', genre: 'Jazz contemporáneo', c1: '#191B63', c2: '#2B216D' },
+      { name: 'Elena Vidales', country: 'Cuba', genre: 'Jazz vocal', c1: '#3a2d80', c2: '#221a5e' },
+      { name: 'Ensamble Mompox Big Band', country: 'Colombia', genre: 'Big band', c1: '#241d5c', c2: '#39306e' },
+      { name: 'Sexteto Filigrana', country: 'Colombia', genre: 'Jazz fusión', c1: '#2B216D', c2: '#191B63' },
+      { name: 'Marco Ferreira Trio', country: 'Brasil', genre: 'Bossa jazz', c1: '#191B63', c2: '#2B216D' },
+      { name: 'Amanda Reyes', country: 'Panamá', genre: 'Jazz vocal', c1: '#3a2d80', c2: '#221a5e' },
+      { name: 'Cuarteto del Caribe', country: 'Colombia', genre: 'Jazz caribeño', c1: '#241d5c', c2: '#39306e' },
+    ];
+    // Only the first few cards use a live fillable photo slot — keeping the
+    // total number of concurrently-mounted image slots on the page small
+    // avoids a rendering stall (many simultaneous drag-drop slots + the
+    // header logo slots is too much at once). The rest show a monogram
+    // card in the same visual language.
+    const MAX_ARTIST_SLOTS = 3;
+    const artists = artistDefs.map((a, i) => ({
+      ...a,
+      hasSlot: i < MAX_ARTIST_SLOTS,
+      noSlot: i >= MAX_ARTIST_SLOTS,
+      initial: a.name.charAt(0),
+    }));
+
+    const news = [
+      { date: '10 JUL 2026', title: 'Anunciado el line-up completo del Festival 2026', summary: 'Doce agrupaciones nacionales e internacionales confirmadas para tres noches de jazz.', c1: '#2B216D', c2: '#191B63' },
+      { date: '02 JUL 2026', title: 'Mompox se prepara para recibir a miles de visitantes', summary: 'Hospedaje, transporte fluvial y gastronomía listos para la temporada del festival.', c1: '#241d5c', c2: '#39306e' },
+      { date: '20 JUN 2026', title: 'Convocatoria abierta para la Jam Session', summary: 'Músicos locales pueden inscribirse para el espacio de improvisación libre.', c1: '#191B63', c2: '#2B216D' },
+    ];
+
+    const infoCards = [
+      { emoji: '🧭', title: 'Cómo llegar', desc: 'Vía terrestre desde Cartagena (4h) o vuelo a Corozal + trayecto fluvial.', href: 'como-llegar.dc.html' },
+      { emoji: '🏨', title: 'Hospedaje', desc: 'Casonas coloniales y hoteles boutique en el centro histórico.', href: 'hospedaje.dc.html' },
+      { emoji: '🚌', title: 'Transporte', desc: 'Rutas especiales y chalupas durante los días del festival.', href: 'transporte.dc.html' },
+      { emoji: '❓', title: 'Preguntas frecuentes', desc: 'Entrada libre, aforo por zonas y recomendaciones de asistencia.', href: 'faq.dc.html' },
+      { emoji: '🗺️', title: 'Mapa', desc: 'Ubicación de escenarios, plazas y puntos de información.', href: 'mapa.dc.html' },
+      { emoji: '☀️', title: 'Clima', desc: 'Cálido y húmedo; se recomienda ropa ligera y protección solar.', href: 'clima.dc.html' },
+    ];
+
+    const mompoxIconDefs = [
+      { label: 'Arquitectura Colonial', src: 'uploads/mompox.jpeg',
+        desc: 'Iglesias, balcones de madera y calles empedradas definen el paisaje momposino.',
+        more: 'Templos como Santa Bárbara, con su torre octogonal única en Colombia, y las fachadas encaladas del centro histórico reflejan tres siglos de historia colonial junto al Magdalena.' },
+      { label: 'Gastronomía', slotId: 'mompox-gastronomia',
+        desc: 'Pescado de río, dulces de leche y platos ribereños con siglos de tradición.',
+        more: 'La cocina momposina gira en torno al bocachico y otros pescados del Magdalena, acompañados de dulces artesanales como el queso de capa y las bolas de tamarindo.' },
+      { label: 'Artesanías', slotId: 'mompox-artesanias',
+        desc: 'La filigrana en oro y plata es un oficio momposino transmitido por generaciones.',
+        more: 'Los orfebres de Mompox trabajan finos hilos de oro y plata para crear joyería de filigrana, un oficio patrimonial que ha distinguido al pueblo desde la época colonial.' },
+      { label: 'Río Magdalena', src: 'uploads/panoramica-enhanced.jpg',
+        desc: 'El gran río que da vida, sustento e identidad a Santa Cruz de Mompox.',
+        more: 'El Magdalena ha sido la vía de comercio, transporte y encuentro cultural de Mompox desde su fundación — sus atardeceres sobre el malecón son parte esencial de la experiencia del festival.' },
+    ];
+    const mompoxIcons = mompoxIconDefs.map((m, i) => {
+      const hover = !!this.state['mompoxCardHover' + i];
+      const expanded = !!this.state['mompoxCardOpen' + i];
+      return {
+        ...m,
+        hasImg: !!m.src,
+        needsSlot: !m.src,
+        enter: () => this.setState({ ['mompoxCardHover' + i]: true }),
+        leave: () => this.setState({ ['mompoxCardHover' + i]: false }),
+        toggle: () => this.setState({ ['mompoxCardOpen' + i]: !expanded }),
+        transform: hover ? 'scale(1.08)' : 'scale(1)',
+        shadow: hover ? '0 18px 40px rgba(0,0,0,.4)' : '0 0 0 rgba(0,0,0,0)',
+        buttonLabel: expanded ? 'Ver menos' : 'Ver más',
+        panelMaxHeight: expanded ? '200px' : '0px',
+      };
+    });
+
+    const galleryPairs = [
+      ['#2B216D','#191B63',260],['#241d5c','#39306e',180],['#191B63','#2B216D',220],
+      ['#3a2d80','#221a5e',300],['#2B216D','#191B63',190],['#241d5c','#39306e',250],
+      ['#191B63','#2B216D',210],['#3a2d80','#221a5e',270],['#2B216D','#191B63',200],
+    ];
+    const galleryImages = galleryPairs.map((g, i) => ({
+      n: i + 1, c1: g[0], c2: g[1], h: g[2],
+    }));
+
+    const mompoxHover = this.state.mompoxHover;
+    const scale = mompoxHover ? 1.1 : 1;
+    const panX = mompoxHover ? this.state.mompoxX * -8 : 0;
+    const panY = mompoxHover ? this.state.mompoxY * -8 : 0;
+    const mompoxTransform = `translate(${panX.toFixed(1)}px, ${panY.toFixed(1)}px) scale(${scale})`;
+    const mompoxFilter = mompoxHover ? 'brightness(1.08) saturate(1.15)' : 'brightness(1) saturate(1)';
+    const mompoxShadow = mompoxHover
+      ? '0 26px 70px rgba(0,0,0,.5), 0 0 0 2px #F4C542, 0 0 32px 4px rgba(244,197,66,.45)'
+      : '0 20px 60px rgba(0,0,0,.4)';
+    const mompoxOverlayOpacity = mompoxHover ? 1 : 0;
+    const mompoxOverlayTransform = mompoxHover ? 'translateY(0)' : 'translateY(14px)';
+
+    const panoHover = this.state.panoHover;
+    const panoScale = panoHover ? 1.1 : 1;
+    const panoPanX = panoHover ? this.state.panoX * -10 : 0;
+    const panoPanY = panoHover ? this.state.panoY * -6 : 0;
+    const panoTransform = `translate(${panoPanX.toFixed(1)}px, ${panoPanY.toFixed(1)}px) scale(${panoScale})`;
+    const panoFilter = panoHover ? 'brightness(1.07) saturate(1.12)' : 'brightness(1) saturate(1)';
+    const panoShadow = panoHover
+      ? '0 24px 60px rgba(0,0,0,.45), 0 0 0 2px rgba(244,197,66,.6), 0 0 26px 3px rgba(244,197,66,.3)'
+      : '0 20px 60px rgba(0,0,0,.4)';
+
+    const itemsPerPage = this.state.itemsPerPage;
+    const rawSponsors = this._sponsorList();
+    const sponsors = rawSponsors.map((s, i) => ({
+      ...s,
+      hasImg: !!s.src,
+      needsSlot: !s.src,
+      slotId: s.slotId || '',
+    }));
+    const pageCount = Math.max(1, Math.ceil(sponsors.length / itemsPerPage));
+    const sponsorPages = Array.from({ length: pageCount }, (_, p) => ({
+      width: (100 / pageCount) + '%',
+      items: sponsors.slice(p * itemsPerPage, p * itemsPerPage + itemsPerPage),
+    }));
+    const sponsorPage = Math.min(this.state.sponsorPage, pageCount - 1);
+    const sponsorsTrackWidth = (pageCount * 100) + '%';
+    const sponsorsTrackTransform = `translateX(-${(sponsorPage * (100 / pageCount)).toFixed(4)}%)`;
+    const sponsorDots = Array.from({ length: pageCount }, (_, p) => ({
+      n: p + 1,
+      select: () => this.setState({ sponsorPage: p }),
+      size: p === sponsorPage ? '26px' : '9px',
+      color: p === sponsorPage ? '#F4C542' : 'rgba(244,197,66,.3)',
+    }));
+
+    const bg1 = this.state.bg1 || { x: 0, y: 0 };
+    const bg2 = this.state.bg2 || { x: 0, y: 0 };
+    const bg3 = this.state.bg3 || { x: 0, y: 0 };
+    const bg4 = this.state.bg4 || { x: 0, y: 0 };
+
+    return {
+      bgLayer1Transform: `translate(${bg1.x.toFixed(1)}px, ${bg1.y.toFixed(1)}px)`,
+      bgLayer2Transform: `translate(${bg2.x.toFixed(1)}px, ${bg2.y.toFixed(1)}px)`,
+      bgLayer3Transform: `translate(${bg3.x.toFixed(1)}px, ${bg3.y.toFixed(1)}px)`,
+      bgLayer4Transform: `translate(${bg4.x.toFixed(1)}px, ${bg4.y.toFixed(1)}px)`,
+      itemsPerPage,
+      sponsorPages,
+      sponsorDots,
+      sponsorsTrackWidth,
+      sponsorsTrackTransform,
+      sponsorsNext: this.sponsorsNext,
+      sponsorsPrev: this.sponsorsPrev,
+      sponsorsPause: this.sponsorsPause,
+      sponsorsResume: this.sponsorsResume,
+      panoTransform,
+      panoFilter,
+      panoShadow,
+      panoEnter: this.panoEnter,
+      panoMove: this.panoMove,
+      panoLeave: this.panoLeave,
+      mompoxTransform,
+      mompoxFilter,
+      mompoxShadow,
+      mompoxOverlayOpacity,
+      mompoxOverlayTransform,
+      mompoxEnter: this.mompoxEnter,
+      mompoxMove: this.mompoxMove,
+      mompoxLeave: this.mompoxLeave,
+      headerBg: this.state.scrolled ? 'rgba(25,27,99,.85)' : 'transparent',
+      headerBlur: this.state.scrolled ? 'blur(12px)' : 'none',
+      mobileMenuOpen: this.state.mobileMenuOpen,
+      toggleMenu: this.toggleMenu,
+      closeMenu: this.closeMenu,
+      stopProp: this.stopProp,
+      countdown,
+      days,
+      activeDay,
+      artists,
+      news,
+      infoCards,
+      mompoxIcons,
+      galleryImages,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
