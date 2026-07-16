@@ -24,17 +24,39 @@
     @keyframes cdFlip { 0%{transform:rotateX(90deg); opacity:.3;} 100%{transform:rotateX(0deg); opacity:1;} }
     @keyframes cdGlow { 0%,100%{box-shadow:0 18px 44px rgba(0,0,0,.4), 0 0 0 rgba(244,197,66,0);} 50%{box-shadow:0 18px 44px rgba(0,0,0,.4), 0 0 26px 4px rgba(244,197,66,.35);} }
     @keyframes cdDust { 0%,100%{opacity:0; transform:translateY(0);} 50%{opacity:.8; transform:translateY(-18px);} }
-    @media (max-width:900px) {
-      .countdown-grid { grid-template-columns:repeat(2,1fr) !important; max-width:420px !important; }
-    }
-    @media (max-width:480px) {
-      .countdown-grid { grid-template-columns:1fr !important; max-width:220px !important; }
-    }
+    @keyframes heroEntranceUp { from{opacity:0; transform:translateY(36px);} to{opacity:1; transform:translateY(0);} }
     body { margin:0; background:#12123a; }
     ::selection { background:#F4C542; color:#191B63; }
     @media (max-width:1200px) {
       .desktop-nav { display:none !important; }
       .mobile-toggle { display:block !important; }
+    }
+    @media (max-width:1023px) and (min-width:768px) {
+      .countdown-grid { gap:14px !important; max-width:640px !important; }
+      .countdown-grid .cd-card { padding:20px 12px !important; }
+      .countdown-grid .cd-number { font-size:42px !important; }
+      .countdown-grid .cd-label { font-size:11px !important; margin-top:6px !important; }
+    }
+    @media (max-width:767px) {
+      .countdown-grid {
+        display:flex !important;
+        flex-direction:row !important;
+        flex-wrap:nowrap !important;
+        justify-content:space-between !important;
+        align-items:center !important;
+        gap:8px !important;
+        max-width:100% !important;
+        padding:0 4px;
+      }
+      .countdown-grid .cd-card {
+        flex:1 !important;
+        min-width:0 !important;
+        width:24% !important;
+        padding:10px 4px !important;
+        border-radius:14px !important;
+      }
+      .countdown-grid .cd-number { font-size:26px !important; line-height:1.1; }
+      .countdown-grid .cd-label { font-size:9px !important; margin-top:4px !important; letter-spacing:.08em !important; }
     }
     @media (max-width:640px) {
       .hero-grid { grid-template-columns:1fr !important; }
@@ -51,6 +73,58 @@
 </helmet>
 
 <div style="font-family:'Poppins',sans-serif; background:#12123a; color:#F5F3FF; overflow-x:hidden; position:relative;">
+
+  <!-- SPLASH SCREEN -->
+  <sc-if value="{{ splashMounted }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed; inset:0; z-index:9999; background:radial-gradient(ellipse at 50% 45%, #241d5c 0%, #191B63 55%, #0c0b2c 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; opacity:{{ splashOpacity }}; transform:{{ splashScale }}; transition:opacity .8s ease, transform .8s ease;">
+      <div style="position:absolute; inset:0; opacity:.9;">
+        <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#3a2d80; opacity:.09; animation:filigreeDriftA 28s ease-in-out infinite alternate;">
+          <use href="#filigreeMotif" x="-40" y="-30" width="420" height="420"/>
+          <use href="#filigreeMotif" x="1180" y="120" width="480" height="480"/>
+          <use href="#filigreeMotif" x="520" y="560" width="380" height="380"/>
+          <use href="#filigreeMotif" x="1000" y="700" width="340" height="340"/>
+        </svg>
+        <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#2B216D; opacity:.09; animation:filigreeDriftB 22s ease-in-out infinite alternate;">
+          <use href="#filigreeMotif" x="260" y="80" width="200" height="200"/>
+          <use href="#filigreeMotif" x="880" y="30" width="220" height="220"/>
+          <use href="#filigreeMotif" x="60" y="640" width="180" height="180"/>
+          <use href="#filigreeMotif" x="1360" y="480" width="210" height="210"/>
+        </svg>
+      </div>
+
+      <div style="position:absolute; left:12%; bottom:0; width:120px; opacity:{{ splashLantern1 }}; transition:opacity 1.4s ease; display:flex; flex-direction:column; align-items:center;">
+        <div style="width:46px; height:34px; border-radius:14px 14px 4px 4px; background:radial-gradient(circle,#FFD447,#F4C542 70%); box-shadow:0 0 60px 22px rgba(244,197,66,.45); animation:flicker 3s ease-in-out infinite;"></div>
+        <div style="width:4px; height:110px; background:#3a3560;"></div>
+      </div>
+      <div style="position:absolute; right:12%; bottom:0; width:120px; opacity:{{ splashLantern2 }}; transition:opacity 1.4s ease; display:flex; flex-direction:column; align-items:center;">
+        <div style="width:46px; height:34px; border-radius:14px 14px 4px 4px; background:radial-gradient(circle,#FFD447,#F4C542 70%); box-shadow:0 0 60px 22px rgba(244,197,66,.45); animation:flicker 3s ease-in-out infinite 1.5s;"></div>
+        <div style="width:4px; height:110px; background:#3a3560;"></div>
+      </div>
+
+      <div style="position:absolute; top:50%; left:50%; width:700px; height:700px; margin:-350px 0 0 -350px; border-radius:50%; background:radial-gradient(circle, rgba(244,197,66,.35) 0%, transparent 65%); filter:blur(30px); opacity:{{ splashCenterGlow }}; transition:opacity 1.8s ease;"></div>
+
+      <sc-for list="{{ splashParticles }}" as="p" hint-placeholder-count="14">
+        <div style="position:absolute; top:{{ p.top }}; left:{{ p.left }}; width:{{ p.size }}; height:{{ p.size }}; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.55); animation:dustFade {{ p.dur }} ease-in-out infinite {{ p.delay }};"></div>
+      </sc-for>
+
+      <div style="position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 24px;">
+        <div style="font-family:'Dancing Script',cursive; font-weight:700; font-size:clamp(38px,7vw,80px); line-height:1.05; filter:{{ splashTitleGlow }};">
+          <span style="opacity:{{ splashWord1 }}; transform:{{ splashWord1T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#FFD447; text-shadow:0 0 22px rgba(255,212,71,.6);">Festival</span>
+          <span style="opacity:{{ splashWord2 }}; transform:{{ splashWord2T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#F4C542; text-shadow:0 0 22px rgba(244,197,66,.55);"> de Jazz</span>
+          <br/>
+          <span style="opacity:{{ splashWord3 }}; transform:{{ splashWord3T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#F4C542; text-shadow:0 0 18px rgba(244,197,66,.5);">de</span>
+          <span style="opacity:{{ splashWord4 }}; transform:{{ splashWord4T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#FFFFFF; text-shadow:0 0 20px rgba(255,255,255,.5);"> Mompox</span>
+          <span style="opacity:{{ splashWord5 }}; transform:{{ splashWord5T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#FFD447; text-shadow:0 0 26px rgba(255,212,71,.75);"> 2026</span>
+        </div>
+
+        <p style="margin:26px 0 10px; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:#FFFFFF; opacity:.55;">Cargando experiencia...</p>
+        <div style="font-family:'Playfair Display',serif; font-size:15px; color:#F4C542; margin-bottom:16px; letter-spacing:.05em;">{{ splashPercentLabel }}</div>
+        <div style="width:220px; height:2px; background:rgba(255,255,255,.15); border-radius:2px; overflow:hidden; position:relative;">
+          <div style="height:100%; border-radius:2px; background:linear-gradient(90deg,#F4C542,#FFD447); box-shadow:0 0 10px 2px rgba(244,197,66,.6); width:{{ splashBarWidth }}; transition:width .3s ease;"></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
 
   <!-- ORNAMENTAL FILIGREE BACKGROUND -->
   <div style="position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;">
@@ -72,45 +146,45 @@
           M100,70 C108,70 114,78 108,86 C116,90 116,102 106,104
           C110,114 102,122 92,118 C88,126 76,124 74,114
           C64,116 58,106 64,98 C56,92 60,80 72,80
-          C68,70 78,62 88,68 C90,60 100,60 100,70 Z" fill="currentColor"/>
+          C68,70 78,62 88,68 C90,60 100,60 100,70 Z" fill="currentColor"></path>
       </defs>
     </svg>
 
     <!-- Layer 1: large motifs, slow drift, soft blur -->
     <div style="position:absolute; inset:-6%; animation:filigreeDriftA 34s ease-in-out infinite alternate; transform:{{ bgLayer1Transform }};">
       <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#3a2d80; opacity:.07; filter:blur(1.5px);">
-        <use href="#filigreeMotif" x="-40" y="-30" width="420" height="420"/>
-        <use href="#filigreeMotif" x="1180" y="120" width="480" height="480"/>
-        <use href="#filigreeMotif" x="520" y="560" width="380" height="380"/>
-        <use href="#filigreeMotif" x="1000" y="700" width="340" height="340"/>
+        <use href="#filigreeMotif" x="-40" y="-30" width="420" height="420"></use>
+        <use href="#filigreeMotif" x="1180" y="120" width="480" height="480"></use>
+        <use href="#filigreeMotif" x="520" y="560" width="380" height="380"></use>
+        <use href="#filigreeMotif" x="1000" y="700" width="340" height="340"></use>
       </svg>
     </div>
 
     <!-- Layer 2: medium motifs, diagonal drift -->
     <div style="position:absolute; inset:-6%; animation:filigreeDriftB 26s ease-in-out infinite alternate; transform:{{ bgLayer2Transform }};">
       <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#2B216D; opacity:.08;">
-        <use href="#filigreeMotif" x="260" y="80" width="200" height="200"/>
-        <use href="#filigreeMotif" x="880" y="30" width="220" height="220"/>
-        <use href="#filigreeMotif" x="60" y="640" width="180" height="180"/>
-        <use href="#filigreeMotif" x="1360" y="480" width="210" height="210"/>
-        <use href="#filigreeMotif" x="700" y="820" width="190" height="190"/>
+        <use href="#filigreeMotif" x="260" y="80" width="200" height="200"></use>
+        <use href="#filigreeMotif" x="880" y="30" width="220" height="220"></use>
+        <use href="#filigreeMotif" x="60" y="640" width="180" height="180"></use>
+        <use href="#filigreeMotif" x="1360" y="480" width="210" height="210"></use>
+        <use href="#filigreeMotif" x="700" y="820" width="190" height="190"></use>
       </svg>
     </div>
 
     <!-- Layer 3: small motifs, vertical drift -->
     <div style="position:absolute; inset:-6%; animation:filigreeDriftC 20s ease-in-out infinite alternate; transform:{{ bgLayer3Transform }};">
       <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#191B63; opacity:.06;">
-        <use href="#filigreeMotif" x="160" y="300" width="100" height="100"/>
-        <use href="#filigreeMotif" x="1020" y="220" width="110" height="110"/>
-        <use href="#filigreeMotif" x="460" y="440" width="90" height="90"/>
-        <use href="#filigreeMotif" x="1300" y="720" width="100" height="100"/>
-        <use href="#filigreeMotif" x="820" y="120" width="95" height="95"/>
-        <use href="#filigreeMotif" x="140" y="880" width="105" height="105"/>
+        <use href="#filigreeMotif" x="160" y="300" width="100" height="100"></use>
+        <use href="#filigreeMotif" x="1020" y="220" width="110" height="110"></use>
+        <use href="#filigreeMotif" x="460" y="440" width="90" height="90"></use>
+        <use href="#filigreeMotif" x="1300" y="720" width="100" height="100"></use>
+        <use href="#filigreeMotif" x="820" y="120" width="95" height="95"></use>
+        <use href="#filigreeMotif" x="140" y="880" width="105" height="105"></use>
       </svg>
     </div>
 
     <!-- Layer 4: gold dust particles -->
-    <div style="position:absolute; inset:0; transform:{{ bgLayer4Transform }};">
+    <div style="position: absolute; inset: 0; transform: {{ bgLayer4Transform }}; width: 1400px; height: 950px">
       <div style="position:absolute; top:8%; left:12%; width:3px; height:3px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 22s ease-in-out infinite;"></div>
       <div style="position:absolute; top:18%; left:78%; width:2px; height:2px; border-radius:50%; background:#F4C542; box-shadow:0 0 6px 2px rgba(244,197,66,.5); animation:dustFade 26s ease-in-out infinite 3s;"></div>
       <div style="position:absolute; top:32%; left:34%; width:3px; height:3px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 19s ease-in-out infinite 1.5s;"></div>
@@ -222,21 +296,21 @@
     </sc-if>
     <sc-if value="{{ countdown.notStarted }}" hint-placeholder-val="{{ true }}">
       <div style="position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:28px; max-width:760px; margin:14px auto 0;" class="countdown-grid">
-        <div style="position:relative; background:rgba(255,255,255,.06); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(244,197,66,.55); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.4); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) both, cdGlow 3s ease-in-out infinite; transition:transform .4s ease, border-color .4s ease; cursor:default;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447;">
-          <div key="{{ countdown.days }}" style="font-family:'Playfair Display',serif; font-size:62px; font-weight:900; color:#F4C430; text-shadow:0 0 18px rgba(244,196,48,.55), 0 0 40px rgba(244,196,48,.25); animation:cdFlip .4s ease;">{{ countdown.days }}</div>
-          <div style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#FFFFFF; margin-top:10px; font-weight:600;">Días</div>
+        <div style="position:relative; background:rgba(255,255,255,.06); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(244,197,66,.55); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.4); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) both, cdGlow 3s ease-in-out infinite; transition:transform .4s ease, border-color .4s ease; cursor:default; min-width:0;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447;">
+          <div key="{{ countdown.days }}" class="cd-number" style="font-family:'Playfair Display',serif; font-size:62px; font-weight:900; color:#F4C430; text-shadow:0 0 18px rgba(244,196,48,.55), 0 0 40px rgba(244,196,48,.25); animation:cdFlip .4s ease;">{{ countdown.days }}</div>
+          <div class="cd-label" style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#FFFFFF; margin-top:10px; font-weight:600;">Días</div>
         </div>
-        <div style="position:relative; background:rgba(255,255,255,.06); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(244,197,66,.55); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.4); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) .1s both, cdGlow 3s ease-in-out infinite .3s; transition:transform .4s ease, border-color .4s ease; cursor:default;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447;">
-          <div key="{{ countdown.hours }}" style="font-family:'Playfair Display',serif; font-size:62px; font-weight:900; color:#F4C430; text-shadow:0 0 18px rgba(244,196,48,.55), 0 0 40px rgba(244,196,48,.25); animation:cdFlip .4s ease;">{{ countdown.hours }}</div>
-          <div style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#FFFFFF; margin-top:10px; font-weight:600;">Horas</div>
+        <div style="position:relative; background:rgba(255,255,255,.06); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(244,197,66,.55); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.4); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) .1s both, cdGlow 3s ease-in-out infinite .3s; transition:transform .4s ease, border-color .4s ease; cursor:default; min-width:0;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447;">
+          <div key="{{ countdown.hours }}" class="cd-number" style="font-family:'Playfair Display',serif; font-size:62px; font-weight:900; color:#F4C430; text-shadow:0 0 18px rgba(244,196,48,.55), 0 0 40px rgba(244,196,48,.25); animation:cdFlip .4s ease;">{{ countdown.hours }}</div>
+          <div class="cd-label" style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#FFFFFF; margin-top:10px; font-weight:600;">Horas</div>
         </div>
-        <div style="position:relative; background:rgba(255,255,255,.06); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(244,197,66,.55); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.4); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) .2s both, cdGlow 3s ease-in-out infinite .6s; transition:transform .4s ease, border-color .4s ease; cursor:default;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447;">
-          <div key="{{ countdown.minutes }}" style="font-family:'Playfair Display',serif; font-size:62px; font-weight:900; color:#F4C430; text-shadow:0 0 18px rgba(244,196,48,.55), 0 0 40px rgba(244,196,48,.25); animation:cdFlip .4s ease;">{{ countdown.minutes }}</div>
-          <div style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#FFFFFF; margin-top:10px; font-weight:600;">Minutos</div>
+        <div style="position:relative; background:rgba(255,255,255,.06); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(244,197,66,.55); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.4); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) .2s both, cdGlow 3s ease-in-out infinite .6s; transition:transform .4s ease, border-color .4s ease; cursor:default; min-width:0;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447;">
+          <div key="{{ countdown.minutes }}" class="cd-number" style="font-family:'Playfair Display',serif; font-size:62px; font-weight:900; color:#F4C430; text-shadow:0 0 18px rgba(244,196,48,.55), 0 0 40px rgba(244,196,48,.25); animation:cdFlip .4s ease;">{{ countdown.minutes }}</div>
+          <div class="cd-label" style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#FFFFFF; margin-top:10px; font-weight:600;">Minutos</div>
         </div>
-        <div style="position:relative; background:rgba(255,255,255,.06); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(244,197,66,.55); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.4); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) .3s both, cdGlow 3s ease-in-out infinite .9s; transition:transform .4s ease, border-color .4s ease; cursor:default;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447;">
-          <div key="{{ countdown.seconds }}" style="font-family:'Playfair Display',serif; font-size:62px; font-weight:900; color:#F4C430; text-shadow:0 0 18px rgba(244,196,48,.55), 0 0 40px rgba(244,196,48,.25); animation:cdFlip .4s ease;">{{ countdown.seconds }}</div>
-          <div style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#FFFFFF; margin-top:10px; font-weight:600;">Segundos</div>
+        <div style="position:relative; background:rgba(255,255,255,.06); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(244,197,66,.55); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.4); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) .3s both, cdGlow 3s ease-in-out infinite .9s; transition:transform .4s ease, border-color .4s ease; cursor:default; min-width:0;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447;">
+          <div key="{{ countdown.seconds }}" class="cd-number" style="font-family:'Playfair Display',serif; font-size:62px; font-weight:900; color:#F4C430; text-shadow:0 0 18px rgba(244,196,48,.55), 0 0 40px rgba(244,196,48,.25); animation:cdFlip .4s ease;">{{ countdown.seconds }}</div>
+          <div class="cd-label" style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#FFFFFF; margin-top:10px; font-weight:600;">Segundos</div>
         </div>
       </div>
     </sc-if>
@@ -356,7 +430,7 @@
       <sc-for list="{{ mompoxIcons }}" as="mi" hint-placeholder-count="4">
         <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden;">
           <div onMouseEnter="{{ mi.enter }}" onMouseLeave="{{ mi.leave }}" style="position:relative; aspect-ratio:4/3; overflow:hidden; cursor:pointer; box-shadow:{{ mi.shadow }}; transition:box-shadow .5s ease;">
-            <sc-if value="{{ mi.hasImg }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ mi.hasImg }}" hint-placeholder-val="{{ false }}">
               <img src="{{ mi.src }}" alt="{{ mi.label }}" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ mi.transform }}; transition:transform .5s ease;">
             </sc-if>
             <sc-if value="{{ mi.needsSlot }}" hint-placeholder-val="{{ false }}">
@@ -428,9 +502,9 @@
           <sc-for list="{{ sponsorPages }}" as="page" hint-placeholder-count="2">
             <div style="flex:none; width:{{ page.width }}; display:grid; grid-template-columns:repeat({{ itemsPerPage }},1fr); gap:20px; padding:4px;">
               <sc-for list="{{ page.items }}" as="sp" hint-placeholder-count="4">
-                <div style="background:#FBF9F5; border-radius:16px; box-shadow:0 10px 26px rgba(0,0,0,.25); padding:22px 18px; display:flex; align-items:center; justify-content:center; height:110px; transition:transform .35s ease, box-shadow .35s ease, filter .35s ease;" class="sponsor-tile" style-hover="transform:scale(1.08); box-shadow:0 16px 36px rgba(0,0,0,.35); filter:brightness(1.06);">
+                <div style="background:#FBF9F5; border-radius:16px; box-shadow:0 10px 26px rgba(0,0,0,.25); padding:18px 14px; display:flex; align-items:center; justify-content:center; height:190px; transition:transform .35s ease, box-shadow .35s ease;" class="sponsor-tile" style-hover="box-shadow:0 16px 36px rgba(0,0,0,.35);">
                   <sc-if value="{{ sp.hasImg }}" hint-placeholder-val="{{ true }}">
-                    <img src="{{ sp.src }}" alt="{{ sp.name }}" style="max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain;">
+                    <img src="{{ sp.src }}" alt="{{ sp.name }}" style="height:130px; width:auto; max-width:100%; object-fit:contain; display:block; margin:0 auto; opacity:.8; transition:opacity .3s ease-in-out, transform .3s ease-in-out;" class="sponsor-logo" style-hover="opacity:1; transform:scale(1.05);">
                   </sc-if>
                   <sc-if value="{{ sp.needsSlot }}" hint-placeholder-val="{{ false }}">
                     <div style="width:100%; height:100%;">
@@ -523,17 +597,46 @@ class Component extends DCLogic {
       this._bgMouse.y = (e.clientY / window.innerHeight) * 2 - 1;
     };
     window.addEventListener('mousemove', this._onMouseMoveBg);
-    this._bgTick = () => {
-      const sy = Math.max(-40, Math.min(40, window.scrollY * 0.015));
-      this.setState({
-        bg1: { x: this._bgMouse.x * 6, y: this._bgMouse.y * 6 + sy * 0.4 },
-        bg2: { x: this._bgMouse.x * 9, y: this._bgMouse.y * 9 + sy * 0.7 },
-        bg3: { x: this._bgMouse.x * 5, y: this._bgMouse.y * 5 + sy },
-        bg4: { x: this._bgMouse.x * 3, y: this._bgMouse.y * 3 + sy * 1.2 },
-      });
+    this._bgLastTick = 0;
+    this._bgTick = (now) => {
+      if (now - this._bgLastTick >= 100) {
+        this._bgLastTick = now;
+        const sy = Math.max(-40, Math.min(40, window.scrollY * 0.015));
+        this.setState({
+          bg1: { x: this._bgMouse.x * 6, y: this._bgMouse.y * 6 + sy * 0.4 },
+          bg2: { x: this._bgMouse.x * 9, y: this._bgMouse.y * 9 + sy * 0.7 },
+          bg3: { x: this._bgMouse.x * 5, y: this._bgMouse.y * 5 + sy },
+          bg4: { x: this._bgMouse.x * 3, y: this._bgMouse.y * 3 + sy * 1.2 },
+        });
+      }
       this._bgRaf = requestAnimationFrame(this._bgTick);
     };
     this._bgRaf = requestAnimationFrame(this._bgTick);
+
+    this.setState({ splashMounted: true, splashProgress: 0, splashFadeOut: false });
+    const start = performance.now();
+    const DURATION = 4000;
+    const HOLD = 300;
+    const FADE = 800;
+    this._splashLastTick = 0;
+    const splashTick = (now) => {
+      const elapsed = now - start;
+      if (elapsed < DURATION) {
+        if (now - this._splashLastTick >= 100) {
+          this._splashLastTick = now;
+          const pct = Math.min(100, (elapsed / DURATION) * 100);
+          this.setState({ splashProgress: pct });
+        }
+        this._splashRaf = requestAnimationFrame(splashTick);
+      } else {
+        this.setState({ splashProgress: 100 });
+        setTimeout(() => {
+          this.setState({ splashFadeOut: true });
+          setTimeout(() => this.setState({ splashMounted: false }), FADE);
+        }, HOLD);
+      }
+    };
+    this._splashRaf = requestAnimationFrame(splashTick);
   }
 
   componentWillUnmount() {
@@ -543,6 +646,7 @@ class Component extends DCLogic {
     clearInterval(this._sponsorTimer);
     window.removeEventListener('mousemove', this._onMouseMoveBg);
     cancelAnimationFrame(this._bgRaf);
+    cancelAnimationFrame(this._splashRaf);
   }
 
   _startSponsorAutoplay() {
@@ -571,9 +675,9 @@ class Component extends DCLogic {
 
   _sponsorList() {
     return [
-      { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/cultura-transparent.png' },
-      { name: 'Gobernación de Bolívar', src: 'uploads/gob-transparent.png' },
-      { name: 'Icultur', src: 'uploads/icultur-transparent.png' },
+      { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/cultura-sponsor.png' },
+      { name: 'Gobernación de Bolívar', src: 'uploads/gob-sponsor.png' },
+      { name: 'Icultur', src: 'uploads/icultur-sponsor.png' },
       { name: 'Alcaldía Distrital de Santa Cruz de Mompox', src: 'uploads/alcaldiamompox.png' },
       { name: 'Patrocinador oficial', slotId: 'sponsor-extra' },
     ];
@@ -771,7 +875,35 @@ class Component extends DCLogic {
     const bg3 = this.state.bg3 || { x: 0, y: 0 };
     const bg4 = this.state.bg4 || { x: 0, y: 0 };
 
+    const sp = this.state.splashProgress || 0;
+    const elapsedApprox = (sp / 100) * 4000;
+    const wordAt = (t) => elapsedApprox >= t;
+    const wordStyle = (t) => ({ opacity: wordAt(t) ? 1 : 0, transform: wordAt(t) ? 'translateY(0) scale(1)' : 'translateY(10px) scale(.95)' });
+    const w1 = wordStyle(300), w2 = wordStyle(800), w3 = wordStyle(1300), w4 = wordStyle(1800), w5 = wordStyle(2300);
+    const splashParticles = Array.from({ length: 14 }, (_, i) => ({
+      top: `${8 + (i * 6.3) % 84}%`,
+      left: `${(i * 17.2) % 96}%`,
+      size: i % 3 === 0 ? '3px' : '2px',
+      dur: `${18 + (i % 5) * 3}s`,
+      delay: `${(i % 7) * 0.9}s`,
+    }));
+
     return {
+      splashMounted: this.state.splashMounted,
+      splashOpacity: this.state.splashFadeOut ? 0 : 1,
+      splashScale: this.state.splashFadeOut ? 'scale(1.06)' : 'scale(1)',
+      splashLantern1: elapsedApprox >= 600 ? 1 : 0,
+      splashLantern2: elapsedApprox >= 1400 ? 1 : 0,
+      splashCenterGlow: sp >= 100 ? 0.95 : Math.min(0.6, elapsedApprox / 4000 + 0.15),
+      splashTitleGlow: sp >= 100 ? 'drop-shadow(0 0 30px rgba(244,197,66,.8))' : 'drop-shadow(0 0 0px rgba(244,197,66,0))',
+      splashParticles,
+      splashWord1: w1.opacity, splashWord1T: w1.transform,
+      splashWord2: w2.opacity, splashWord2T: w2.transform,
+      splashWord3: w3.opacity, splashWord3T: w3.transform,
+      splashWord4: w4.opacity, splashWord4T: w4.transform,
+      splashWord5: w5.opacity, splashWord5T: w5.transform,
+      splashPercentLabel: `${Math.round(sp)}%`,
+      splashBarWidth: `${sp}%`,
       bgLayer1Transform: `translate(${bg1.x.toFixed(1)}px, ${bg1.y.toFixed(1)}px)`,
       bgLayer2Transform: `translate(${bg2.x.toFixed(1)}px, ${bg2.y.toFixed(1)}px)`,
       bgLayer3Transform: `translate(${bg3.x.toFixed(1)}px, ${bg3.y.toFixed(1)}px)`,
