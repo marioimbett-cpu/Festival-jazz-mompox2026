@@ -85,6 +85,7 @@
       .artist-name { font-size:27px !important; }
     }
     @media (max-width:640px) {
+      .hero-inner { padding-top:88px !important; }
       .hero-grid { grid-template-columns:1fr !important; }
       .two-col { grid-template-columns:1fr !important; }
       .artist-grid { grid-template-columns:repeat(2,1fr) !important; }
@@ -265,7 +266,7 @@
 
   <!-- HERO -->
   <section id="inicio" data-screen-label="Hero" style="position:relative; background:radial-gradient(ellipse at 30% 20%, #2B216D 0%, #191B63 45%, #0f0e33 100%); overflow:hidden;">
-  <div style="position: relative; min-height: 100vh; display: flex; align-items: center; padding: 140px 5% 80px; overflow: hidden; opacity: 1">
+  <div style="position: relative; min-height: 100vh; display: flex; align-items: center; padding: 140px 5% 80px; overflow: hidden; opacity: 1" class="hero-inner">
     <div style="position:absolute; top:20%; left:50%; width:900px; height:900px; margin-left:-450px; border-radius:50%; background:radial-gradient(circle, rgba(244,197,66,.26) 0%, rgba(244,197,66,.16) 30%, rgba(244,197,66,.05) 55%, transparent 70%); animation:heroGlowPulse 12s ease-in-out infinite; pointer-events:none;"></div>
     <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 15% 25%, rgba(244,197,66,.10) 0, transparent 45%), radial-gradient(circle at 85% 70%, rgba(255,212,71,.08) 0, transparent 40%); pointer-events:none;"></div>
     <div style="position:absolute; top:12%; left:6%; width:5px; height:5px; border-radius:50%; background:#FFD447; animation:drift 6s linear infinite; box-shadow:0 0 8px 2px rgba(255,212,71,.6);"></div>
