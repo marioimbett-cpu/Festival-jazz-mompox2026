@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&amp;family=Dancing+Script:wght@600;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    @keyframes flicker { 0%,100%{opacity:1;} 50%{opacity:.82;} }
+    @keyframes floatUp { 0%{transform:translateY(0);} 50%{transform:translateY(-14px);} 100%{transform:translateY(0);} }
+    @keyframes glowPulse { 0%,100%{box-shadow:0 0 40px 6px rgba(244,197,66,.25);} 50%{box-shadow:0 0 60px 14px rgba(244,197,66,.45);} }
+    @keyframes drift { 0%{transform:translateY(0) translateX(0);opacity:.7;} 100%{transform:translateY(-140px) translateX(20px);opacity:0;} }
+    @keyframes revealUp { from{opacity:0; transform:translateY(28px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes filigreeDriftA { 0%{transform:translate(0,0) rotate(-1deg) scale(0.99);} 50%{transform:translate(10px,-8px) rotate(1deg) scale(1.01);} 100%{transform:translate(-8px,6px) rotate(-1.5deg) scale(1.02);} }
+    @keyframes filigreeDriftB { 0%{transform:translate(0,0) rotate(0.8deg) scale(1);} 50%{transform:translate(-12px,10px) rotate(-1.2deg) scale(0.985);} 100%{transform:translate(8px,-6px) rotate(1.6deg) scale(1.015);} }
+    @keyframes filigreeDriftC { 0%{transform:translate(0,0) rotate(-0.6deg) scale(1);} 50%{transform:translate(4px,-14px) rotate(1deg) scale(0.98);} 100%{transform:translate(-6px,10px) rotate(-1.4deg) scale(1.02);} }
+    @keyframes dustFade { 0%,100%{opacity:0; transform:translate(0,0);} 15%{opacity:.9;} 50%{opacity:.4; transform:translate(6px,-16px);} 85%{opacity:.8;} }
+    @keyframes heroGlowPulse { 0%,100%{opacity:.35; transform:scale(1);} 50%{opacity:.6; transform:scale(1.08);} }
+    @keyframes cdFlip { 0%{transform:rotateX(90deg); opacity:.3;} 100%{transform:rotateX(0deg); opacity:1;} }
+    @keyframes cdGlow { 0%,100%{box-shadow:0 18px 44px rgba(0,0,0,.4), 0 0 0 rgba(244,197,66,0);} 50%{box-shadow:0 18px 44px rgba(0,0,0,.4), 0 0 26px 4px rgba(244,197,66,.35);} }
+    @keyframes cdDust { 0%,100%{opacity:0; transform:translateY(0);} 50%{opacity:.8; transform:translateY(-18px);} }
+    @keyframes heroEntranceUp { from{opacity:0; transform:translateY(36px);} to{opacity:1; transform:translateY(0);} }
+    body { margin:0; background:#12123a; }
+    ::selection { background:#F4C542; color:#191B63; }
+    .nav-link { position:relative; }
+    .nav-link::after { content:""; position:absolute; left:0; right:0; bottom:-6px; height:1px; background:#F4C542; transform:scaleX(0); transform-origin:left; transition:transform .25s ease; }
+    .nav-link:hover { color:#FFD447 !important; text-shadow:0 0 14px rgba(255,212,71,.5) !important; }
+    .nav-link.active { color:#FFD447 !important; text-shadow:0 0 16px rgba(255,212,71,.6) !important; }
+    .nav-link.active::after { transform:scaleX(1); }
+    @media (max-width:900px) {
+      .desktop-nav { display:none !important; }
+      .mobile-toggle { display:block !important; }
+    }
+    @media (max-width:1023px) and (min-width:768px) {
+      .countdown-grid { gap:14px !important; max-width:640px !important; }
+      .countdown-grid .cd-card { padding:20px 12px !important; }
+      .countdown-grid .cd-number { font-size:42px !important; }
+      .countdown-grid .cd-label { font-size:11px !important; margin-top:6px !important; }
+    }
+    @media (max-width:767px) {
+      .countdown-grid {
+        display:flex !important;
+        flex-direction:row !important;
+        flex-wrap:nowrap !important;
+        justify-content:space-between !important;
+        align-items:center !important;
+        gap:8px !important;
+        max-width:100% !important;
+        padding:0 4px;
+      }
+      .countdown-grid .cd-card {
+        flex:1 !important;
+        min-width:0 !important;
+        width:24% !important;
+        padding:10px 4px !important;
+        border-radius:14px !important;
+      }
+      .countdown-grid .cd-number { font-size:26px !important; line-height:1.1; }
+      .countdown-grid .cd-label { font-size:9px !important; margin-top:4px !important; letter-spacing:.08em !important; }
+    }
+    @media (max-width:767px) {
+      .navbar-logos-img { height:28px !important; }
+      .gob-logo { height:28px !important; }
+      .icultur-logo { height:72px !important; }
+    }
+    @media (max-width:1023px) and (min-width:768px) {
+      .navbar-logos-img { height:37px !important; }
+      .gob-logo { height:37px !important; }
+      .icultur-logo { height:92px !important; }
+      .nav-link { font-size:17px !important; }
+    }
+    @media (max-width:1023px) and (min-width:768px) {
+      .mompox-card-title { font-size:32px !important; }
+      .news-title { font-size:30px !important; }
+      .artist-name { font-size:33px !important; }
+    }
+    @media (max-width:767px) {
+      .mompox-card-title { font-size:26px !important; }
+      .news-title { font-size:24px !important; }
+      .artist-name { font-size:27px !important; }
+    }
+    @media (max-width:640px) {
+      .hero-grid { grid-template-columns:1fr !important; }
+      .two-col { grid-template-columns:1fr !important; }
+      .artist-grid { grid-template-columns:repeat(2,1fr) !important; }
+      .news-grid { grid-template-columns:1fr !important; }
+      .info-grid { grid-template-columns:1fr !important; }
+      .icon-grid { grid-template-columns:repeat(2,1fr) !important; }
+      .masonry { columns:2 !important; }
+      .footer-grid { grid-template-columns:1fr !important; }
+      .prog-card { grid-template-columns:1fr !important; text-align:left; }
+    }
+  </style>
+</helmet>
+
+<div style="font-family:'Poppins',sans-serif; background:#12123a; color:#F5F3FF; overflow-x:hidden; position:relative;">
+
+  <!-- SPLASH SCREEN -->
+  <sc-if value="{{ splashMounted }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed; inset:0; z-index:9999; background:radial-gradient(ellipse at 50% 45%, #241d5c 0%, #191B63 55%, #0c0b2c 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; opacity:{{ splashOpacity }}; transform:{{ splashScale }}; transition:opacity .8s ease, transform .8s ease;">
+      <div style="position:absolute; inset:0; opacity:.9;">
+        <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#3a2d80; opacity:.09; animation:filigreeDriftA 28s ease-in-out infinite alternate;">
+          <use href="#filigreeMotif" x="-40" y="-30" width="420" height="420"></use>
+          <use href="#filigreeMotif" x="1180" y="120" width="480" height="480"></use>
+          <use href="#filigreeMotif" x="520" y="560" width="380" height="380"></use>
+          <use href="#filigreeMotif" x="1000" y="700" width="340" height="340"></use>
+        </svg>
+        <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#2B216D; opacity:.09; animation:filigreeDriftB 22s ease-in-out infinite alternate;">
+          <use href="#filigreeMotif" x="260" y="80" width="200" height="200"></use>
+          <use href="#filigreeMotif" x="880" y="30" width="220" height="220"></use>
+          <use href="#filigreeMotif" x="60" y="640" width="180" height="180"></use>
+          <use href="#filigreeMotif" x="1360" y="480" width="210" height="210"></use>
+        </svg>
+      </div>
+
+      <div style="position:absolute; left:12%; bottom:0; width:120px; opacity:{{ splashLantern1 }}; transition:opacity 1.4s ease; display:flex; flex-direction:column; align-items:center;">
+        <div style="width:46px; height:34px; border-radius:14px 14px 4px 4px; background:radial-gradient(circle,#FFD447,#F4C542 70%); box-shadow:0 0 60px 22px rgba(244,197,66,.45); animation:flicker 3s ease-in-out infinite;"></div>
+        <div style="width:4px; height:110px; background:#3a3560;"></div>
+      </div>
+      <div style="position:absolute; right:12%; bottom:0; width:120px; opacity:{{ splashLantern2 }}; transition:opacity 1.4s ease; display:flex; flex-direction:column; align-items:center;">
+        <div style="width:46px; height:34px; border-radius:14px 14px 4px 4px; background:radial-gradient(circle,#FFD447,#F4C542 70%); box-shadow:0 0 60px 22px rgba(244,197,66,.45); animation:flicker 3s ease-in-out infinite 1.5s;"></div>
+        <div style="width:4px; height:110px; background:#3a3560;"></div>
+      </div>
+
+      <div style="position:absolute; top:50%; left:50%; width:700px; height:700px; margin:-350px 0 0 -350px; border-radius:50%; background:radial-gradient(circle, rgba(244,197,66,.3) 0%, rgba(244,197,66,.18) 25%, rgba(244,197,66,.06) 50%, transparent 70%); opacity:{{ splashCenterGlow }}; transition:opacity 1.8s ease;"></div>
+
+      <sc-for list="{{ splashParticles }}" as="p" hint-placeholder-count="14">
+        <div style="position:absolute; top:{{ p.top }}; left:{{ p.left }}; width:{{ p.size }}; height:{{ p.size }}; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.55); animation:dustFade {{ p.dur }} ease-in-out infinite {{ p.delay }};"></div>
+      </sc-for>
+
+      <div style="position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 24px;">
+        <div style="font-family:'Dancing Script',cursive; font-weight:700; font-size:clamp(38px,7vw,80px); line-height:1.05; filter:{{ splashTitleGlow }};">
+          <span style="opacity:{{ splashWord1 }}; transform:{{ splashWord1T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#FFD447; text-shadow:0 0 22px rgba(255,212,71,.6);">Festival</span>
+          <span style="opacity:{{ splashWord2 }}; transform:{{ splashWord2T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#F4C542; text-shadow:0 0 22px rgba(244,197,66,.55);"> de Jazz</span>
+          <br>
+          <span style="opacity:{{ splashWord3 }}; transform:{{ splashWord3T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#F4C542; text-shadow:0 0 18px rgba(244,197,66,.5);">de</span>
+          <span style="opacity:{{ splashWord4 }}; transform:{{ splashWord4T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#FFFFFF; text-shadow:0 0 20px rgba(255,255,255,.5);"> Mompox</span>
+          <span style="opacity:{{ splashWord5 }}; transform:{{ splashWord5T }}; display:inline-block; transition:opacity .5s ease, transform .5s ease; color:#FFD447; text-shadow:0 0 26px rgba(255,212,71,.75);"> 2026</span>
+        </div>
+
+        <p style="margin:26px 0 10px; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:#FFFFFF; opacity:.55;">Cargando experiencia...</p>
+        <div style="font-family:'Playfair Display',serif; font-size:15px; color:#F4C542; margin-bottom:16px; letter-spacing:.05em;">{{ splashPercentLabel }}</div>
+        <div style="width:220px; height:2px; background:rgba(255,255,255,.15); border-radius:2px; overflow:hidden; position:relative;">
+          <div style="height:100%; border-radius:2px; background:linear-gradient(90deg,#F4C542,#FFD447); box-shadow:0 0 10px 2px rgba(244,197,66,.6); width:{{ splashBarWidth }}; transition:width .3s ease;"></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ORNAMENTAL FILIGREE BACKGROUND -->
+  <div style="position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;">
+    <svg width="0" height="0" style="position:absolute;">
+      <defs>
+        <path id="filigreeMotif" d="M100,20
+          C120,20 130,40 118,55
+          C140,50 158,66 150,86
+          C168,84 180,102 168,118
+          C185,122 190,142 174,152
+          C178,168 164,182 148,176
+          C146,192 128,198 116,186
+          C104,196 86,192 84,176
+          C68,182 54,168 58,152
+          C42,142 47,122 64,118
+          C52,102 64,84 82,86
+          C74,66 92,50 114,55
+          C102,40 112,20 100,20 Z
+          M100,70 C108,70 114,78 108,86 C116,90 116,102 106,104
+          C110,114 102,122 92,118 C88,126 76,124 74,114
+          C64,116 58,106 64,98 C56,92 60,80 72,80
+          C68,70 78,62 88,68 C90,60 100,60 100,70 Z" fill="currentColor"></path>
+      </defs>
+    </svg>
+
+    <!-- Layer 1: large motifs, slow drift, soft blur -->
+    <div style="position:absolute; inset:-6%; animation:filigreeDriftA 34s ease-in-out infinite alternate; transform:{{ bgLayer1Transform }};">
+      <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#3a2d80; opacity:.055;">
+        <use href="#filigreeMotif" x="-40" y="-30" width="420" height="420"></use>
+        <use href="#filigreeMotif" x="1180" y="120" width="480" height="480"></use>
+        <use href="#filigreeMotif" x="520" y="560" width="380" height="380"></use>
+        <use href="#filigreeMotif" x="1000" y="700" width="340" height="340"></use>
+      </svg>
+    </div>
+
+    <!-- Layer 2: medium motifs, diagonal drift -->
+    <div style="position:absolute; inset:-6%; animation:filigreeDriftB 26s ease-in-out infinite alternate; transform:{{ bgLayer2Transform }};">
+      <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#2B216D; opacity:.08;">
+        <use href="#filigreeMotif" x="260" y="80" width="200" height="200"></use>
+        <use href="#filigreeMotif" x="880" y="30" width="220" height="220"></use>
+        <use href="#filigreeMotif" x="60" y="640" width="180" height="180"></use>
+        <use href="#filigreeMotif" x="1360" y="480" width="210" height="210"></use>
+        <use href="#filigreeMotif" x="700" y="820" width="190" height="190"></use>
+      </svg>
+    </div>
+
+    <!-- Layer 3: small motifs, vertical drift -->
+    <div style="position:absolute; inset:-6%; animation:filigreeDriftC 20s ease-in-out infinite alternate; transform:{{ bgLayer3Transform }};">
+      <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="color:#191B63; opacity:.06;">
+        <use href="#filigreeMotif" x="160" y="300" width="100" height="100"></use>
+        <use href="#filigreeMotif" x="1020" y="220" width="110" height="110"></use>
+        <use href="#filigreeMotif" x="460" y="440" width="90" height="90"></use>
+        <use href="#filigreeMotif" x="1300" y="720" width="100" height="100"></use>
+        <use href="#filigreeMotif" x="820" y="120" width="95" height="95"></use>
+        <use href="#filigreeMotif" x="140" y="880" width="105" height="105"></use>
+      </svg>
+    </div>
+
+    <!-- Layer 4: gold dust particles -->
+    <div style="position: absolute; inset: 0; transform: {{ bgLayer4Transform }}; width: 1400px; height: 950px; left: 0px; top: 1px">
+      <div style="position:absolute; top:8%; left:12%; width:3px; height:3px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 22s ease-in-out infinite;"></div>
+      <div style="position:absolute; top:18%; left:78%; width:2px; height:2px; border-radius:50%; background:#F4C542; box-shadow:0 0 6px 2px rgba(244,197,66,.5); animation:dustFade 26s ease-in-out infinite 3s;"></div>
+      <div style="position:absolute; top:46%; left:60%; width:2px; height:2px; border-radius:50%; background:#F4C542; box-shadow:0 0 6px 2px rgba(244,197,66,.5); animation:dustFade 30s ease-in-out infinite 6s;"></div>
+      <div style="position:absolute; top:74%; left:44%; width:3px; height:3px; border-radius:50%; background:#FFD447; box-shadow:0 0 6px 2px rgba(255,212,71,.5); animation:dustFade 21s ease-in-out infinite 7s;"></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header data-screen-label="Header" style="position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:14px 5%; transition:background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease; background:{{ headerBg }}; backdrop-filter:{{ headerBlur }};">
+    <div style="display:flex; align-items:center; gap:16px;" class="navbar-logos">
+      <a href="https://www.mincultura.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
+        <img src="uploads/cultura-white.png" alt="Ministerio de las Culturas, las Artes y los Saberes de Colombia" style="height:43px; width:auto; object-fit:contain; display:block;" class="navbar-logos-img">
+      </a>
+      <div style="width:1px; height:28px; background:rgba(244,197,66,.4);"></div>
+      <a href="#inicio" style="display:flex; align-items:center; height:40px;">
+        <img src="uploads/logo-gobernacion-bolivar.png" alt="Gobernación de Bolívar" loading="eager" style="height:43px; width:auto; object-fit:contain; display:block;" class="navbar-logos-img gob-logo">
+      </a>
+      <div style="width:1px; height:28px; background:rgba(244,197,66,.4);"></div>
+      <a href="https://icultur.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
+        <img src="uploads/icultur-white.png" alt="Icultur — Instituto de Cultura y Turismo de Bolívar" style="height:110px; width:auto; object-fit:contain; display:block;" class="icultur-logo">
+      </a>
+    </div>
+
+    <nav style="display:flex; align-items:center; gap:28px;" class="desktop-nav">
+      <a href="#inicio" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">Inicio</a>
+      <a href="#programacion" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">Programación</a>
+      <a href="#artistas" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">Artistas</a>
+      <a href="#noticias" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">Noticias</a>
+      <a href="#galeria" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">Galería</a>
+      <a href="#informacion" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">Información</a>
+      <a href="#informacion" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">Cómo llegar</a>
+    </nav>
+
+    <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">☰</button>
+  </header>
+
+  <!-- MOBILE DRAWER -->
+  <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:200; background:rgba(15,14,45,.6); backdrop-filter:blur(4px);" onClick="{{ closeMenu }}">
+      <div onClick="{{ stopProp }}" style="position:absolute; top:0; right:0; bottom:0; width:78%; max-width:320px; background:linear-gradient(180deg,#191B63,#2B216D); padding:28px 26px; display:flex; flex-direction:column; gap:26px; box-shadow:-8px 0 40px rgba(0,0,0,.4);">
+        <button onClick="{{ closeMenu }}" style="align-self:flex-end; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">✕</button>
+        <a href="#inicio" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">Inicio</a>
+        <a href="#programacion" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">Programación</a>
+        <a href="#artistas" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">Artistas</a>
+        <a href="#noticias" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">Noticias</a>
+        <a href="#galeria" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">Galería</a>
+        <a href="#informacion" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">Información</a>
+        <a href="#informacion" onClick="{{ closeMenu }}" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:12px 20px; border-radius:30px; font-weight:600; font-size:14px; text-decoration:none; text-align:center;">Cómo llegar</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- HERO -->
+  <section id="inicio" data-screen-label="Hero" style="position:relative; background:radial-gradient(ellipse at 30% 20%, #2B216D 0%, #191B63 45%, #0f0e33 100%); overflow:hidden;">
+  <div style="position: relative; min-height: 100vh; display: flex; align-items: center; padding: 140px 5% 80px; overflow: hidden; opacity: 1">
+    <div style="position:absolute; top:20%; left:50%; width:900px; height:900px; margin-left:-450px; border-radius:50%; background:radial-gradient(circle, rgba(244,197,66,.26) 0%, rgba(244,197,66,.16) 30%, rgba(244,197,66,.05) 55%, transparent 70%); animation:heroGlowPulse 12s ease-in-out infinite; pointer-events:none;"></div>
+    <div style="position:absolute; inset:0; background-image:radial-gradient(circle at 15% 25%, rgba(244,197,66,.10) 0, transparent 45%), radial-gradient(circle at 85% 70%, rgba(255,212,71,.08) 0, transparent 40%); pointer-events:none;"></div>
+    <div style="position:absolute; top:12%; left:6%; width:5px; height:5px; border-radius:50%; background:#FFD447; animation:drift 6s linear infinite; box-shadow:0 0 8px 2px rgba(255,212,71,.6);"></div>
+    <div style="position:absolute; top:65%; left:12%; width:4px; height:4px; border-radius:50%; background:#FFD447; animation:drift 7s linear infinite 2.4s; box-shadow:0 0 8px 2px rgba(255,212,71,.6);"></div>
+
+    <div style="position:absolute; left:2%; bottom:0; width:120px; opacity:.9; animation:floatUp 5s ease-in-out infinite; display:flex; flex-direction:column; align-items:center;" class="lamp-deco">
+      <div style="width:46px; height:34px; border-radius:14px 14px 4px 4px; background:radial-gradient(circle,#FFD447,#F4C542 70%); box-shadow:0 0 50px 18px rgba(244,197,66,.35); animation:flicker 3s ease-in-out infinite;"></div>
+      <div style="width:4px; height:120px; background:#3a3560;"></div>
+    </div>
+    <div style="position:absolute; right:2%; bottom:0; width:120px; opacity:.9; animation:floatUp 5s ease-in-out infinite 1s; display:flex; flex-direction:column; align-items:center;" class="lamp-deco">
+      <div style="width:46px; height:34px; border-radius:14px 14px 4px 4px; background:radial-gradient(circle,#FFD447,#F4C542 70%); box-shadow:0 0 50px 18px rgba(244,197,66,.35); animation:flicker 3s ease-in-out infinite 1.5s;"></div>
+      <div style="width:4px; height:120px; background:#3a3560;"></div>
+    </div>
+
+    <div style="position:relative; z-index:2; display:grid; grid-template-columns:1.15fr .85fr; gap:50px; align-items:center; width:100%; max-width:1280px; margin:0 auto;" class="hero-grid">
+      <div>
+        <div style="display:inline-block; padding:7px 18px; border:1px solid rgba(244,197,66,.5); border-radius:30px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#F4C542; margin-bottom:22px;">XII Edición · Patrimonio Cultural</div>
+        <h1 style="font-family:{{ heroFontFamily }}; font-weight:{{ heroFontWeight }}; font-size:{{ heroFontSizePx }}; line-height:{{ heroLineHeight }}; letter-spacing:{{ heroLetterSpacing }}; margin:0 0 6px; color:{{ heroColor }}; text-shadow:{{ heroTextShadow }};">Festival de Jazz</h1>
+        <h1 style="font-family:{{ heroFontFamily }}; font-weight:{{ heroFontWeight }}; font-size:{{ heroFontSizePx }}; line-height:{{ heroLineHeight }}; letter-spacing:{{ heroLetterSpacing }}; margin:0 0 22px; color:#FFFFFF;">de Mompox <span style="color:#F4C542;">2026</span></h1>
+        <p style="font-family: Dancing Script; font-style: italic; font-size: 25px; color: #EDEAFF; margin: 0 0 18px">03 al 05 de septiembre de 2026 · Mompox, Bolívar</p>
+        <p style="font-size:15.5px; line-height:1.75; color:#D9D5F5; max-width:520px; margin:0 0 34px;">Tres noches de jazz bajo los faroles coloniales de Mompox. Música, río, arquitectura patrimonio de la humanidad y la calidez del Caribe colombiano se encuentran en una experiencia cultural irrepetible.</p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <a href="#programacion" style="background: linear-gradient(135deg,#F4C542,#FFD447); color: #191B63; padding: 15px 30px; border-radius: 30px; font-weight: 600; font-size: 20px; text-decoration: none; box-shadow: 0 8px 30px rgba(244,197,66,.35); font-family: Dancing Script">Conoce la programación</a>
+          <a href="#artistas" style="border: 1.5px solid rgba(255,255,255,.4); color: #F5F3FF; padding: 15px 30px; border-radius: 30px; font-weight: 500; font-size: 20px; text-decoration: none; font-family: Dancing Script">Ver artistas</a>
+        </div>
+      </div>
+      <div style="position:relative; display:flex; justify-content:center;">
+        <div style="position:absolute; inset:-30px; border-radius:24px; background:radial-gradient(circle,rgba(244,197,66,.16) 0%,rgba(244,197,66,.08) 40%,transparent 70%);"></div>
+        <img src="uploads/festijazz2026-jpg.jpg" alt="Afiche oficial Festival de Jazz de Mompox 2026" style="position:relative; width:100%; max-width:380px; border-radius:18px; box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(244,197,66,.25); animation:glowPulse 5s ease-in-out infinite;">
+      </div>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div data-screen-label="Cuenta regresiva" style="position: relative; padding: 90px 5% 120px; text-align: center; overflow: hidden; background: linear-gradient(180deg, #191B63 0%, #12143f 50%, #191B63 100%);">
+    <div style="position:absolute; inset:0; background-image:url('azul2-boosted.jpg'); background-size:cover; background-position:center; background-repeat:no-repeat; opacity:.68; pointer-events:none;"></div>
+    <div style="position:absolute; inset:0; background:rgba(10,15,40,.4); pointer-events:none;"></div>
+    <div style="position:absolute; inset:0; background:radial-gradient(ellipse at 50% 50%, rgba(10,15,40,.3) 0%, rgba(10,15,40,.08) 45%, transparent 72%); pointer-events:none;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; height:100px; background:linear-gradient(180deg, #191B63 0%, transparent 100%); pointer-events:none;"></div>
+    <div style="position:absolute; bottom:0; left:0; right:0; height:110px; background:linear-gradient(180deg, transparent 0%, #191B63 100%); pointer-events:none;"></div>
+
+    <h3 style="position:relative; font-family:{{ countdownFontFamily }}; font-weight:{{ countdownFontWeight }}; text-transform:uppercase; letter-spacing:{{ countdownLetterSpacing }}; font-size:{{ countdownFontSizePx }}; color:{{ countdownColor }}; line-height:{{ countdownLineHeight }}; text-shadow:{{ countdownTextShadow }}; margin:0 0 40px; text-align:center;">Faltan para el gran encuentro</h3>
+    <dc-import name="Countdown" target-date="2026-09-03T00:00:00-05:00" hint-size="100%,220px"></dc-import>
+  </div>
+  </section>
+
+  <!-- FESTIVAL INTRO -->
+  <section data-screen-label="Sobre el festival" style="padding:100px 5%; background:#191B63; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;" class="two-col">
+    <div>
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 14px;">El Festival</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0 0 20px; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">Jazz entre callejones coloniales</h2>
+      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0 0 16px;">Desde hace más de una década, Mompox —Patrimonio de la Humanidad UNESCO— abre sus plazas, iglesias y orillas del río Magdalena para recibir a músicos nacionales e internacionales en un festival gratuito que celebra la improvisación, la memoria caribeña y el mestizaje sonoro.</p>
+      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0;">Cada septiembre, los faroles se encienden, los abanicos se agitan y el jazz se mezcla con porro, gaita y son para crear una experiencia que solo Mompox puede ofrecer.</p>
+    </div>
+    <div onMouseEnter="{{ mompoxEnter }}" onMouseMove="{{ mompoxMove }}" onMouseLeave="{{ mompoxLeave }}" style="position:relative; border-radius:20px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; border:1.5px solid rgba(244,197,66,.15); box-shadow:{{ mompoxShadow }}; transition:box-shadow .6s ease, border-color .6s ease;">
+      <img src="uploads/mompox.jpeg" alt="Iglesia de Santa Bárbara iluminada de noche, Mompox" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ mompoxTransform }}; filter:{{ mompoxFilter }}; transition:transform .65s cubic-bezier(.22,.8,.36,1), filter .65s ease;">
+      <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,14,51,0) 40%, rgba(15,14,51,.75) 100%); pointer-events:none;"></div>
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(15,14,51,.35); opacity:{{ mompoxOverlayOpacity }}; transform:{{ mompoxOverlayTransform }}; transition:opacity .45s ease, transform .45s ease; pointer-events:none;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+          <div style="width:60px; height:60px; border-radius:50%; background:rgba(244,197,66,.18); border:1.5px solid #F4C542; display:flex; align-items:center; justify-content:center; font-size:20px; color:#F4C542;">▶</div>
+          <span style="font-family:'Playfair Display',serif; font-style:italic; font-size:22px; color:#FFFFFF; letter-spacing:.02em;">Descubrir Mompox</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMACIÓN -->
+  <section id="programacion" data-screen-label="Programación" style="padding:100px 5%; background:linear-gradient(180deg,#191B63,#221a5e);">
+    <div style="text-align: center; margin-bottom: 44px; font-family: Dancing Script; font-size: 25px">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Agenda</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">Programación</h2>
+    </div>
+    <div style="display:flex; justify-content:center; gap:14px; margin-bottom:44px; flex-wrap:wrap;">
+      <sc-for list="{{ days }}" as="day" hint-placeholder-count="3">
+        <button onClick="{{ day.select }}" style="border:1.5px solid {{ day.borderColor }}; background:{{ day.bg }}; color:{{ day.textColor }}; padding:13px 26px; border-radius:30px; font-weight:600; font-size:14px; cursor:pointer; font-family:'Poppins',sans-serif;">{{ day.label }}</button>
+      </sc-for>
+    </div>
+    <div style="max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
+      <sc-for list="{{ activeDay.events }}" as="ev" hint-placeholder-count="3">
+        <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.2); border-radius:18px; padding:26px 30px; display:grid; grid-template-columns:150px 1fr; gap:24px; align-items:center;" class="prog-card">
+          <div>
+            <div style="font-family:'Dancing Script',cursive; font-size:22px; color:#F4C542; font-weight:700;">{{ ev.time }}</div>
+          </div>
+          <div>
+            <div style="font-size:18px; font-weight:600; color:#FFFFFF; margin-bottom:6px;">{{ ev.title }}</div>
+            <sc-if value="{{ ev.hasPlace }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:14px; color:#D9D5F5; line-height:1.6;">{{ ev.place }}</div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ARTISTAS -->
+  <section id="artistas" data-screen-label="Artistas" style="padding:100px 5%; background:#221a5e;">
+    <div style="text-align:center; margin-bottom:50px;">
+      <p style="font-size: 20px; letter-spacing: .18em; text-transform: uppercase; color: #F4C542; margin: 0 0 12px; font-family: Dancing Script">Line-up</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">Artistas</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:26px; max-width:1280px; margin:0 auto;" class="artist-grid">
+      <sc-for list="{{ artists }}" as="artist" hint-placeholder-count="8">
+        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; transition:transform .3s ease, box-shadow .3s ease;" class="artist-card" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
+          <sc-if value="{{ artist.hasSlot }}" hint-placeholder-val="{{ true }}">
+            <div style="aspect-ratio:1;">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="artist-{{ $index }}" shape="rect" fit="cover" placeholder="Foto de {{ artist.name }}" hint-size="100%,100%"></x-import>
+            </div>
+          </sc-if>
+          <sc-if value="{{ artist.noSlot }}" hint-placeholder-val="{{ false }}">
+            <div style="aspect-ratio:1; background:linear-gradient(135deg,{{ artist.c1 }},{{ artist.c2 }}); display:flex; align-items:center; justify-content:center;">
+              <span style="font-family:'Playfair Display',serif; font-size:34px; font-weight:700; color:rgba(255,255,255,.85);">{{ artist.initial }}</span>
+            </div>
+          </sc-if>
+          <div style="padding:18px;">
+            <div style="font-family:'Dancing Script',cursive; font-size:40px; font-weight:700; letter-spacing:0; line-height:1.1; color:#FFFFFF; margin-bottom:4px; text-shadow:0 2px 10px rgba(0,0,0,.4);" class="artist-name">{{ artist.name }}</div>
+            <div style="font-size:12.5px; color:#B9B3E8; margin-bottom:14px;">{{ artist.country }} · {{ artist.genre }}</div>
+            <a href="#" style="font-size:12.5px; color:#F4C542; text-decoration:none; font-weight:600;">Más información →</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  <section id="noticias" data-screen-label="Noticias" style="padding:100px 5%; background:#191B63;">
+    <div style="text-align:center; margin-bottom:50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Actualidad</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">Noticias</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:28px; max-width:1200px; margin:0 auto;" class="news-grid">
+      <sc-for list="{{ news }}" as="n" hint-placeholder-count="3">
+        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden;">
+          <div style="aspect-ratio:16/10; background:linear-gradient(135deg,{{ n.c1 }},{{ n.c2 }}); display:flex; align-items:center; justify-content:center;">
+            <span style="font-family:monospace; font-size:11px; color:rgba(255,255,255,.65);">[ imagen ]</span>
+          </div>
+          <div style="padding:22px;">
+            <div style="font-size:12px; color:#F4C542; letter-spacing:.06em; margin-bottom:8px;">{{ n.date }}</div>
+            <div style="font-family:'Dancing Script',cursive; font-size:36px; font-weight:700; letter-spacing:0; color:#FFFFFF; margin-bottom:10px; line-height:1.15; text-shadow:0 2px 8px rgba(0,0,0,.35);" class="news-title">{{ n.title }}</div>
+            <div style="font-size:14px; color:#D9D5F5; line-height:1.6; margin-bottom:14px;">{{ n.summary }}</div>
+            <a href="#" style="font-size:13px; color:#F4C542; text-decoration:none; font-weight:600;">Leer más →</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section></section>
+
+  <!-- MOMPOX TURISMO -->
+  <section data-screen-label="Mompox" style="padding:100px 5%; background:#191B63;">
+    <div style="border-radius: 24px; overflow: hidden; margin-bottom: 50px; animation: revealUp .9s cubic-bezier(.22,.8,.36,1) both">
+      <div onMouseEnter="{{ panoEnter }}" onMouseMove="{{ panoMove }}" onMouseLeave="{{ panoLeave }}" style="position:relative; aspect-ratio:21/7; cursor:pointer; border:1.5px solid rgba(244,197,66,.15); box-shadow:{{ panoShadow }}; transition:box-shadow .6s ease, border-color .6s ease;">
+        <img src="uploads/panoramica-enhanced-jpg.jpg" alt="Vista panorámica de Santa Cruz de Mompox al atardecer sobre el río Magdalena" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ panoTransform }}; filter:{{ panoFilter }}; transition:transform .6s cubic-bezier(.22,.8,.36,1), filter .6s ease;">
+        <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,14,51,.35) 0%, rgba(15,14,51,0) 20%, rgba(15,14,51,0) 70%, rgba(15,14,51,.55) 100%); pointer-events:none;"></div>
+      </div>
+    </div>
+    <div style="text-align:center; max-width:720px; margin:0 auto 50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Destino</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0 0 18px; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">Santa Cruz de Mompox</h2>
+      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0;">Un pueblo ribereño detenido en el tiempo, con calles empedradas, orfebrería en filigrana y el Magdalena como testigo eterno de su historia.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:26px; max-width:1200px; margin:0 auto;" class="icon-grid">
+      <sc-for list="{{ mompoxIcons }}" as="mi" hint-placeholder-count="4">
+        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden;">
+          <div onMouseEnter="{{ mi.enter }}" onMouseLeave="{{ mi.leave }}" style="position:relative; aspect-ratio:4/3; overflow:hidden; cursor:pointer; box-shadow:{{ mi.shadow }}; transition:box-shadow .5s ease;">
+            <sc-if value="{{ mi.hasImg }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ mi.src }}" alt="{{ mi.label }}" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ mi.transform }}; transition:transform .5s ease;">
+            </sc-if>
+            <sc-if value="{{ mi.needsSlot }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%; height:100%; background:linear-gradient(135deg,#2B216D,#191B63); display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:'Playfair Display',serif; font-size:15px; color:rgba(244,197,66,.7); text-align:center; padding:0 12px;">{{ mi.label }}</span>
+              </div>
+            </sc-if>
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,14,51,0) 35%, rgba(15,14,51,.85) 100%); pointer-events:none;"></div>
+            <div style="position:absolute; left:0; right:0; bottom:0; padding:16px 18px; display:flex; align-items:center; min-height:1.1em; font-family:'Dancing Script',cursive; font-size:38px; font-weight:700; line-height:1.1; color:#FFFFFF; text-shadow:0 2px 8px rgba(0,0,0,.45); pointer-events:none;" class="mompox-card-title">{{ mi.label }}</div>
+          </div>
+          <div style="padding:18px;">
+            <p style="font-size:13.5px; color:#D9D5F5; line-height:1.6; margin:0 0 14px;">{{ mi.desc }}</p>
+            <button onClick="{{ mi.toggle }}" style="border:1.5px solid #F4C542; color:#F4C542; background:none; padding:9px 18px; border-radius:24px; font-size:12.5px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif;">{{ mi.buttonLabel }}</button>
+            <div style="max-height:{{ mi.panelMaxHeight }}; overflow:hidden; transition:max-height .45s ease;">
+              <p style="font-size:13px; color:#B9B3E8; line-height:1.7; margin:14px 0 0;">{{ mi.more }}</p>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="galeria" data-screen-label="Galería" style="padding:100px 5%; background:#221a5e;">
+    <div style="text-align:center; margin-bottom:50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Momentos</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">Galería</h2>
+    </div>
+    <div style="columns:4; column-gap:18px; max-width:1280px; margin:0 auto;" class="masonry">
+      <sc-for list="{{ galleryImages }}" as="gi" hint-placeholder-count="9">
+        <div style="break-inside:avoid; margin-bottom:18px; border-radius:14px; overflow:hidden; height:{{ gi.h }}px; background:linear-gradient(150deg,{{ gi.c1 }},{{ gi.c2 }}); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(0,0,0,.3);">
+          <span style="font-family:monospace; font-size:11px; color:rgba(255,255,255,.65);">[ foto {{ gi.n }} ]</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- NOTICIAS -->
+  
+
+  <!-- INFORMACIÓN -->
+  <section id="informacion" data-screen-label="Información" style="padding:100px 5%; background:#221a5e;">
+    <div style="text-align:center; margin-bottom:50px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Práctica</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">Información</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1200px; margin:0 auto;" class="info-grid">
+      <sc-for list="{{ infoCards }}" as="ic" hint-placeholder-count="6">
+        <a href="{{ ic.href }}" style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:26px; text-decoration:none; display:block; transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;" class="info-card" style-hover="transform:translateY(-6px); box-shadow:0 16px 34px rgba(0,0,0,.35); border-color:rgba(244,197,66,.5);">
+          <div style="font-size:26px; margin-bottom:12px;">{{ ic.emoji }}</div>
+          <div style="font-size:16px; font-weight:600; color:#FFFFFF; margin-bottom:8px;">{{ ic.title }}</div>
+          <div style="font-size:13.5px; color:#D9D5F5; line-height:1.6;">{{ ic.desc }}</div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- PATROCINADORES -->
+  <section data-screen-label="Patrocinadores" style="padding:90px 5%; background:#191B63;">
+    <div style="text-align:center; margin-bottom:44px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Aliados</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">Patrocinadores</h2>
+    </div>
+    <div onMouseEnter="{{ sponsorsPause }}" onMouseLeave="{{ sponsorsResume }}" style="position:relative; max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:16px;">
+      <button onClick="{{ sponsorsPrev }}" aria-label="Anterior" style="flex:none; width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(244,197,66,.4); background:rgba(255,255,255,.03); color:#F4C542; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">‹</button>
+
+      <div style="flex:1; overflow:hidden; border-radius:20px;">
+        <div style="display:flex; width:{{ sponsorsTrackWidth }}; transform:{{ sponsorsTrackTransform }}; transition:transform .6s cubic-bezier(.22,.8,.36,1);">
+          <sc-for list="{{ sponsorPages }}" as="page" hint-placeholder-count="2">
+            <div style="flex:none; width:{{ page.width }}; display:grid; grid-template-columns:repeat({{ itemsPerPage }},1fr); gap:20px; padding:4px;">
+              <sc-for list="{{ page.items }}" as="sp" hint-placeholder-count="4">
+                <div style="background:#FBF9F5; border-radius:16px; box-shadow:0 10px 26px rgba(0,0,0,.25); padding:18px 14px; display:flex; align-items:center; justify-content:center; height:190px; transition:transform .35s ease, box-shadow .35s ease;" class="sponsor-tile" style-hover="box-shadow:0 16px 36px rgba(0,0,0,.35);">
+                  <sc-if value="{{ sp.hasImg }}" hint-placeholder-val="{{ false }}">
+                    <img src="{{ sp.src }}" alt="{{ sp.name }}" style="height:130px; width:auto; max-width:100%; object-fit:contain; display:block; margin:0 auto; opacity:.8; transition:opacity .3s ease-in-out, transform .3s ease-in-out;" class="sponsor-logo" style-hover="opacity:1; transform:scale(1.05);">
+                  </sc-if>
+                  <sc-if value="{{ sp.needsSlot }}" hint-placeholder-val="{{ false }}">
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+                      <span style="font-family:'Playfair Display',serif; font-size:13px; color:#191B63; opacity:.6; text-align:center; padding:0 10px;">{{ sp.name }}</span>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <button onClick="{{ sponsorsNext }}" aria-label="Siguiente" style="flex:none; width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(244,197,66,.4); background:rgba(255,255,255,.03); color:#F4C542; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">›</button>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:10px; margin-top:30px;">
+      <sc-for list="{{ sponsorDots }}" as="dot" hint-placeholder-count="2">
+        <button onClick="{{ dot.select }}" aria-label="Ir a página {{ dot.n }}" style="width:{{ dot.size }}; height:9px; border-radius:5px; border:none; background:{{ dot.color }}; cursor:pointer; transition:all .3s ease; padding:0;"></button>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contacto" data-screen-label="Footer" style="background:#0f0e33; padding:70px 5% 30px; border-top:1px solid rgba(244,197,66,.15);">
+    <div style="display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:44px; max-width:1280px; margin:0 auto 40px;" class="footer-grid">
+      <div>
+        <div style="font-family:'Dancing Script',cursive; font-size:28px; color:#FFD447; margin-bottom:12px;">Festival de Jazz de Mompox</div>
+        <p style="font-size:13.5px; color:#B9B3E8; line-height:1.7;">Un evento gratuito de Icultur, la Gobernación de Bolívar y el Ministerio de las Culturas de Colombia.</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Contacto</div>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">info@icultur.gov.co<br>+57 (5) 660 0000<br>Mompox, Bolívar, Colombia</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Redes sociales</div>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">Instagram<br>Facebook<br>YouTube</p>
+      </div>
+      <div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Ubicación</div>
+        <a href="mapa.dc.html" style="display:flex; aspect-ratio:4/3; border-radius:12px; background:repeating-linear-gradient(115deg,#2B216D 0 14px,#1c1652 14px 28px); align-items:center; justify-content:center; text-decoration:none;">
+          <span style="font-family:monospace; font-size:10.5px; color:#F4C542;">[ ver mapa ]</span>
+        </a>
+      </div>
+    </div>
+    <div style="text-align:center; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); font-size:12.5px; color:#8983c2;">© 2026 Icultur — Instituto de Cultura y Turismo de Bolívar. Todos los derechos reservados.</div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;navFontFamily&quot;: {&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;'Dancing Script',cursive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
+  &quot;navFontSize&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:20,&quot;min&quot;:12,&quot;max&quot;:32,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
+  &quot;navFontWeight&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:600,&quot;options&quot;:[400,500,600,700,800,900],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
+  &quot;navColor&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F4C542&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
+  &quot;navGlow&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
+  &quot;navLetterSpacing&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.02,&quot;min&quot;:-0.02,&quot;max&quot;:0.2,&quot;step&quot;:0.01,&quot;unit&quot;:&quot;em&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
+  &quot;navLineHeight&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.2,&quot;min&quot;:0.9,&quot;max&quot;:2,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
+
+  &quot;countdownFontFamily&quot;: {&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;'Dancing Script',cursive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Título del Cronómetro&quot;},
+  &quot;countdownFontSize&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:32,&quot;min&quot;:18,&quot;max&quot;:56,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Título del Cronómetro&quot;},
+  &quot;countdownFontWeight&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:700,&quot;options&quot;:[400,500,600,700,800,900],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Título del Cronómetro&quot;},
+  &quot;countdownColor&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#D4AF37&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Título del Cronómetro&quot;},
+  &quot;countdownGlow&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Título del Cronómetro&quot;},
+  &quot;countdownLetterSpacing&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.08,&quot;min&quot;:-0.02,&quot;max&quot;:0.3,&quot;step&quot;:0.01,&quot;unit&quot;:&quot;em&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Título del Cronómetro&quot;},
+  &quot;countdownLineHeight&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.2,&quot;min&quot;:0.9,&quot;max&quot;:2,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Título del Cronómetro&quot;},
+
+  &quot;headingFontFamily&quot;: {&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;'Dancing Script',cursive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Encabezados de Sección&quot;},
+  &quot;headingFontSize&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:48,&quot;min&quot;:28,&quot;max&quot;:80,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Encabezados de Sección&quot;},
+  &quot;headingFontWeight&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:700,&quot;options&quot;:[400,500,600,700,800,900],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Encabezados de Sección&quot;},
+  &quot;headingColor&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FFFFFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Encabezados de Sección&quot;},
+  &quot;headingGlow&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Encabezados de Sección&quot;},
+  &quot;headingLetterSpacing&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-0.02,&quot;max&quot;:0.2,&quot;step&quot;:0.01,&quot;unit&quot;:&quot;em&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Encabezados de Sección&quot;},
+  &quot;headingLineHeight&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.15,&quot;min&quot;:0.9,&quot;max&quot;:2,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Encabezados de Sección&quot;},
+
+  &quot;heroFontFamily&quot;: {&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;'Dancing Script',cursive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Título Principal (Hero)&quot;},
+  &quot;heroFontSize&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:80,&quot;min&quot;:40,&quot;max&quot;:110,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Título Principal (Hero)&quot;},
+  &quot;heroFontWeight&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:700,&quot;options&quot;:[400,500,600,700,800,900],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Título Principal (Hero)&quot;},
+  &quot;heroColor&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FFD447&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Título Principal (Hero)&quot;},
+  &quot;heroGlow&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Título Principal (Hero)&quot;},
+  &quot;heroLetterSpacing&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-0.02,&quot;max&quot;:0.2,&quot;step&quot;:0.01,&quot;unit&quot;:&quot;em&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Título Principal (Hero)&quot;},
+  &quot;heroLineHeight&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.02,&quot;min&quot;:0.9,&quot;max&quot;:1.5,&quot;step&quot;:0.02,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Título Principal (Hero)&quot;}
+}">
+class Component extends DCLogic {
+  state = {
+    scrolled: false,
+    mobileMenuOpen: false,
+    activeDayIndex: 0,
+    mompoxHover: false,
+    mompoxX: 0,
+    mompoxY: 0,
+    panoHover: false,
+    panoX: 0,
+    panoY: 0,
+    itemsPerPage: 4,
+    sponsorPage: 0,
+    sponsorsPaused: false,
+  };
+
+  componentDidMount() {
+    this._onScroll = () => {
+      const scrolled = window.scrollY > 60;
+      if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+    };
+    window.addEventListener('scroll', this._onScroll);
+
+    this._setItemsPerPage = () => {
+      const w = window.innerWidth;
+      const n = w < 640 ? 2 : w < 1000 ? 3 : 4;
+      if (n !== this.state.itemsPerPage) this.setState({ itemsPerPage: n, sponsorPage: 0 });
+    };
+    this._setItemsPerPage();
+    window.addEventListener('resize', this._setItemsPerPage);
+    this._startSponsorAutoplay();
+
+    // Background parallax is driven by CSS keyframes only (see filigreeDriftA/B/C in
+    // <helmet>) — no JS polling loop. An earlier rAF-driven version caused a recurring
+    // main-thread freeze during capture; this is deliberately removed, not omitted by accident.
+
+    this.setState({ splashMounted: true, splashProgress: 0, splashFadeOut: false });
+    const start = performance.now();
+    const DURATION = 4000;
+    const HOLD = 300;
+    const FADE = 800;
+    this._splashLastTick = 0;
+    const splashTick = (now) => {
+      const elapsed = now - start;
+      if (elapsed < DURATION) {
+        if (now - this._splashLastTick >= 200) {
+          this._splashLastTick = now;
+          const pct = Math.min(100, (elapsed / DURATION) * 100);
+          this.setState({ splashProgress: pct });
+        }
+        this._splashRaf = requestAnimationFrame(splashTick);
+      } else {
+        this.setState({ splashProgress: 100 });
+        setTimeout(() => {
+          this.setState({ splashFadeOut: true });
+          setTimeout(() => this.setState({ splashMounted: false }), FADE);
+        }, HOLD);
+      }
+    };
+    this._splashRaf = requestAnimationFrame(splashTick);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._setItemsPerPage);
+    clearInterval(this._sponsorTimer);
+    cancelAnimationFrame(this._splashRaf);
+  }
+
+  _startSponsorAutoplay() {
+    clearInterval(this._sponsorTimer);
+    this._sponsorTimer = setInterval(() => {
+      if (this.state.sponsorsPaused) return;
+      this.sponsorsNext();
+    }, 3500);
+  }
+
+  _sponsorPageCount() {
+    const total = this._sponsorList().length;
+    return Math.max(1, Math.ceil(total / this.state.itemsPerPage));
+  }
+
+  sponsorsNext = () => {
+    const count = this._sponsorPageCount();
+    this.setState(s => ({ sponsorPage: (s.sponsorPage + 1) % count }));
+  };
+  sponsorsPrev = () => {
+    const count = this._sponsorPageCount();
+    this.setState(s => ({ sponsorPage: (s.sponsorPage - 1 + count) % count }));
+  };
+  sponsorsPause = () => this.setState({ sponsorsPaused: true });
+  sponsorsResume = () => this.setState({ sponsorsPaused: false });
+
+  _sponsorList() {
+    return [
+      { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/cultura-sponsor.png' },
+      { name: 'Gobernación de Bolívar', src: 'uploads/gob-sponsor.png' },
+      { name: 'Icultur', src: 'uploads/icultur-sponsor.png' },
+      { name: 'Alcaldía Distrital de Santa Cruz de Mompox', src: 'uploads/alcaldiamompox.png' },
+      { name: 'Patrocinador oficial', slotId: 'sponsor-extra' },
+    ];
+  }
+
+  toggleMenu = () => this.setState(s => ({ mobileMenuOpen: !s.mobileMenuOpen }));
+  closeMenu = () => this.setState({ mobileMenuOpen: false });
+  stopProp = (e) => e.stopPropagation();
+
+  mompoxEnter = () => this.setState({ mompoxHover: true });
+  mompoxLeave = () => this.setState({ mompoxHover: false, mompoxX: 0, mompoxY: 0 });
+  mompoxMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    const y = ((e.clientY - r.top) / r.height) * 2 - 1;
+    this.setState({ mompoxX: x, mompoxY: y });
+  };
+
+  panoEnter = () => this.setState({ panoHover: true });
+  panoLeave = () => this.setState({ panoHover: false, panoX: 0, panoY: 0 });
+  panoMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    const y = ((e.clientY - r.top) / r.height) * 2 - 1;
+    this.setState({ panoX: x, panoY: y });
+  };
+
+  renderVals() {
+    const dayDefs = [
+      { label: 'Mar 1 Sep', events: [
+        { time: '2:00 p.m. - 4:00 p.m.', title: 'Talleres de formación itinerante BOLÍVAR LATE', place: 'Hatillo de Loba — Danza y Música' },
+      ]},
+      { label: 'Mié 2 Sep', events: [
+        { time: '9:00 a.m. San Fernando / 2:00 p.m. Margarita', title: 'Talleres de formación itinerante BOLÍVAR LATE', place: 'Danza y Música' },
+        { time: '7:00 p.m.', title: 'Proyección FICCI — Paddington in Peru', place: 'Plaza San Francisco' },
+      ]},
+      { label: 'Jue 3 Sep', events: [
+        { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
+        { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
+        { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+        { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
+        { time: '10:00 a.m. - 12:00 m / 2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Biblioteca Pública Municipal Pedro Salcedo Del Villar de Mompox' },
+        { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+        { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
+        { time: '4:00 p.m. - 7:00 p.m.', title: 'Desfile cultural y folclórico Río de Gente — Homenaje a Gilberto Márquez', place: 'Desde la Bomba Gilmar hacia la Plaza Santa Bárbara' },
+        { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
+      ]},
+      { label: 'Vie 4 Sep', events: [
+        { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
+        { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
+        { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+        { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
+        { time: '2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Biblioteca Rural Itinerante — Corregimiento de Tierra Firme, Mompox' },
+        { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+        { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
+        { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: '' },
+        { time: '6:00 p.m.', title: 'Animeros — Corporación Cultural Atabaques', place: 'Plaza San Francisco' },
+        { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
+      ]},
+      { label: 'Sáb 5 Sep', events: [
+        { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
+        { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
+        { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+        { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
+        { time: '2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Barrio Primero de Mayo, Mompox' },
+        { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+        { time: '10:00 a.m. - 12:00 m', title: 'Concierto Gospel Unibac', place: 'Iglesia Santa Bárbara' },
+        { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
+        { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: '' },
+        { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: '' },
+        { time: '6:00 p.m.', title: 'Marca Bolívar — Pasarela Elar, Canto de Palma', place: 'Plaza de La Concepción' },
+        { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
+      ]},
+    ];
+
+    const days = dayDefs.map((d, i) => ({
+      label: d.label,
+      select: () => this.setState({ activeDayIndex: i }),
+      borderColor: i === this.state.activeDayIndex ? '#F4C542' : 'rgba(244,197,66,.25)',
+      bg: i === this.state.activeDayIndex ? 'linear-gradient(135deg,#F4C542,#FFD447)' : 'transparent',
+      textColor: i === this.state.activeDayIndex ? '#191B63' : '#F5F3FF',
+    }));
+
+    const activeDayRaw = dayDefs[this.state.activeDayIndex];
+    const activeDay = { ...activeDayRaw, events: activeDayRaw.events.map(ev => ({ ...ev, hasPlace: !!ev.place })) };
+
+    const artistDefs = [
+      { name: 'Orquesta del Río Magdalena', country: 'Colombia', genre: 'Jazz afrocaribeño', c1: '#2B216D', c2: '#191B63' },
+      { name: 'Trío Farol de Bronce', country: 'Colombia', genre: 'Jazz contemporáneo', c1: '#191B63', c2: '#2B216D' },
+      { name: 'Elena Vidales', country: 'Cuba', genre: 'Jazz vocal', c1: '#3a2d80', c2: '#221a5e' },
+      { name: 'Ensamble Mompox Big Band', country: 'Colombia', genre: 'Big band', c1: '#241d5c', c2: '#39306e' },
+      { name: 'Sexteto Filigrana', country: 'Colombia', genre: 'Jazz fusión', c1: '#2B216D', c2: '#191B63' },
+      { name: 'Marco Ferreira Trio', country: 'Brasil', genre: 'Bossa jazz', c1: '#191B63', c2: '#2B216D' },
+      { name: 'Amanda Reyes', country: 'Panamá', genre: 'Jazz vocal', c1: '#3a2d80', c2: '#221a5e' },
+      { name: 'Cuarteto del Caribe', country: 'Colombia', genre: 'Jazz caribeño', c1: '#241d5c', c2: '#39306e' },
+    ];
+    // Only the first few cards use a live fillable photo slot — keeping the
+    // total number of concurrently-mounted image slots on the page small
+    // avoids a rendering stall (many simultaneous drag-drop slots + the
+    // header logo slots is too much at once). The rest show a monogram
+    // card in the same visual language.
+    const MAX_ARTIST_SLOTS = 3;
+    const artists = artistDefs.map((a, i) => ({
+      ...a,
+      hasSlot: i < MAX_ARTIST_SLOTS,
+      noSlot: i >= MAX_ARTIST_SLOTS,
+      initial: a.name.charAt(0),
+    }));
+
+    const news = [
+      { date: '10 JUL 2026', title: 'Anunciado el line-up completo del Festival 2026', summary: 'Doce agrupaciones nacionales e internacionales confirmadas para tres noches de jazz.', c1: '#2B216D', c2: '#191B63' },
+      { date: '02 JUL 2026', title: 'Mompox se prepara para recibir a miles de visitantes', summary: 'Hospedaje, transporte fluvial y gastronomía listos para la temporada del festival.', c1: '#241d5c', c2: '#39306e' },
+      { date: '20 JUN 2026', title: 'Convocatoria abierta para la Jam Session', summary: 'Músicos locales pueden inscribirse para el espacio de improvisación libre.', c1: '#191B63', c2: '#2B216D' },
+    ];
+
+    const infoCards = [
+      { emoji: '🧭', title: 'Cómo llegar', desc: 'Vía terrestre desde Cartagena (4h) o vuelo a Corozal + trayecto fluvial.', href: 'como-llegar.dc.html' },
+      { emoji: '🏨', title: 'Hospedaje', desc: 'Casonas coloniales y hoteles boutique en el centro histórico.', href: 'hospedaje.dc.html' },
+      { emoji: '🚌', title: 'Transporte', desc: 'Rutas especiales y chalupas durante los días del festival.', href: 'transporte.dc.html' },
+      { emoji: '❓', title: 'Preguntas frecuentes', desc: 'Entrada libre, aforo por zonas y recomendaciones de asistencia.', href: 'faq.dc.html' },
+      { emoji: '🗺️', title: 'Mapa', desc: 'Ubicación de escenarios, plazas y puntos de información.', href: 'mapa.dc.html' },
+      { emoji: '☀️', title: 'Clima', desc: 'Cálido y húmedo; se recomienda ropa ligera y protección solar.', href: 'clima.dc.html' },
+    ];
+
+    const mompoxIconDefs = [
+      { label: 'Arquitectura Colonial', src: 'uploads/mompox.jpeg',
+        desc: 'Iglesias, balcones de madera y calles empedradas definen el paisaje momposino.',
+        more: 'Templos como Santa Bárbara, con su torre octogonal única en Colombia, y las fachadas encaladas del centro histórico reflejan tres siglos de historia colonial junto al Magdalena.' },
+      { label: 'Gastronomía', slotId: 'mompox-gastronomia',
+        desc: 'Pescado de río, dulces de leche y platos ribereños con siglos de tradición.',
+        more: 'La cocina momposina gira en torno al bocachico y otros pescados del Magdalena, acompañados de dulces artesanales como el queso de capa y las bolas de tamarindo.' },
+      { label: 'Artesanías', slotId: 'mompox-artesanias',
+        desc: 'La filigrana en oro y plata es un oficio momposino transmitido por generaciones.',
+        more: 'Los orfebres de Mompox trabajan finos hilos de oro y plata para crear joyería de filigrana, un oficio patrimonial que ha distinguido al pueblo desde la época colonial.' },
+      { label: 'Río Magdalena', src: 'uploads/panoramica-enhanced-jpg.jpg',
+        desc: 'El gran río que da vida, sustento e identidad a Santa Cruz de Mompox.',
+        more: 'El Magdalena ha sido la vía de comercio, transporte y encuentro cultural de Mompox desde su fundación — sus atardeceres sobre el malecón son parte esencial de la experiencia del festival.' },
+    ];
+    const mompoxIcons = mompoxIconDefs.map((m, i) => {
+      const hover = !!this.state['mompoxCardHover' + i];
+      const expanded = !!this.state['mompoxCardOpen' + i];
+      return {
+        ...m,
+        hasImg: !!m.src,
+        needsSlot: !m.src,
+        enter: () => this.setState({ ['mompoxCardHover' + i]: true }),
+        leave: () => this.setState({ ['mompoxCardHover' + i]: false }),
+        toggle: () => this.setState({ ['mompoxCardOpen' + i]: !expanded }),
+        transform: hover ? 'scale(1.08)' : 'scale(1)',
+        shadow: hover ? '0 18px 40px rgba(0,0,0,.4)' : '0 0 0 rgba(0,0,0,0)',
+        buttonLabel: expanded ? 'Ver menos' : 'Ver más',
+        panelMaxHeight: expanded ? '200px' : '0px',
+      };
+    });
+
+    const galleryPairs = [
+      ['#2B216D','#191B63',260],['#241d5c','#39306e',180],['#191B63','#2B216D',220],
+      ['#3a2d80','#221a5e',300],['#2B216D','#191B63',190],['#241d5c','#39306e',250],
+      ['#191B63','#2B216D',210],['#3a2d80','#221a5e',270],['#2B216D','#191B63',200],
+    ];
+    const galleryImages = galleryPairs.map((g, i) => ({
+      n: i + 1, c1: g[0], c2: g[1], h: g[2],
+    }));
+
+    const mompoxHover = this.state.mompoxHover;
+    const scale = mompoxHover ? 1.1 : 1;
+    const panX = mompoxHover ? this.state.mompoxX * -8 : 0;
+    const panY = mompoxHover ? this.state.mompoxY * -8 : 0;
+    const mompoxTransform = `translate(${panX.toFixed(1)}px, ${panY.toFixed(1)}px) scale(${scale})`;
+    const mompoxFilter = mompoxHover ? 'brightness(1.08) saturate(1.15)' : 'brightness(1) saturate(1)';
+    const mompoxShadow = mompoxHover
+      ? '0 26px 70px rgba(0,0,0,.5), 0 0 0 2px #F4C542, 0 0 32px 4px rgba(244,197,66,.45)'
+      : '0 20px 60px rgba(0,0,0,.4)';
+    const mompoxOverlayOpacity = mompoxHover ? 1 : 0;
+    const mompoxOverlayTransform = mompoxHover ? 'translateY(0)' : 'translateY(14px)';
+
+    const panoHover = this.state.panoHover;
+    const panoScale = panoHover ? 1.1 : 1;
+    const panoPanX = panoHover ? this.state.panoX * -10 : 0;
+    const panoPanY = panoHover ? this.state.panoY * -6 : 0;
+    const panoTransform = `translate(${panoPanX.toFixed(1)}px, ${panoPanY.toFixed(1)}px) scale(${panoScale})`;
+    const panoFilter = panoHover ? 'brightness(1.07) saturate(1.12)' : 'brightness(1) saturate(1)';
+    const panoShadow = panoHover
+      ? '0 24px 60px rgba(0,0,0,.45), 0 0 0 2px rgba(244,197,66,.6), 0 0 26px 3px rgba(244,197,66,.3)'
+      : '0 20px 60px rgba(0,0,0,.4)';
+
+    const itemsPerPage = this.state.itemsPerPage;
+    const rawSponsors = this._sponsorList();
+    const sponsors = rawSponsors.map((s, i) => ({
+      ...s,
+      hasImg: !!s.src,
+      needsSlot: !s.src,
+      slotId: s.slotId || '',
+    }));
+    const pageCount = Math.max(1, Math.ceil(sponsors.length / itemsPerPage));
+    const sponsorPages = Array.from({ length: pageCount }, (_, p) => ({
+      width: (100 / pageCount) + '%',
+      items: sponsors.slice(p * itemsPerPage, p * itemsPerPage + itemsPerPage),
+    }));
+    const sponsorPage = Math.min(this.state.sponsorPage, pageCount - 1);
+    const sponsorsTrackWidth = (pageCount * 100) + '%';
+    const sponsorsTrackTransform = `translateX(-${(sponsorPage * (100 / pageCount)).toFixed(4)}%)`;
+    const sponsorDots = Array.from({ length: pageCount }, (_, p) => ({
+      n: p + 1,
+      select: () => this.setState({ sponsorPage: p }),
+      size: p === sponsorPage ? '26px' : '9px',
+      color: p === sponsorPage ? '#F4C542' : 'rgba(244,197,66,.3)',
+    }));
+
+    const sp = this.state.splashProgress || 0;
+    const elapsedApprox = (sp / 100) * 4000;
+    const wordAt = (t) => elapsedApprox >= t;
+    const wordStyle = (t) => ({ opacity: wordAt(t) ? 1 : 0, transform: wordAt(t) ? 'translateY(0) scale(1)' : 'translateY(10px) scale(.95)' });
+    const w1 = wordStyle(300), w2 = wordStyle(800), w3 = wordStyle(1300), w4 = wordStyle(1800), w5 = wordStyle(2300);
+    const splashParticles = Array.from({ length: 6 }, (_, i) => ({
+      top: `${8 + (i * 6.3) % 84}%`,
+      left: `${(i * 17.2) % 96}%`,
+      size: i % 3 === 0 ? '3px' : '2px',
+      dur: `${18 + (i % 5) * 3}s`,
+      delay: `${(i % 7) * 0.9}s`,
+    }));
+
+    const p = this.props;
+    const glowShadow = (color, on) => on ? `0 0 8px ${color}, 0 0 18px ${color}` : 'none';
+    const navFontSize = p.navFontSize ?? 20;
+    const countdownFontSize = p.countdownFontSize ?? 32;
+    const headingFontSize = p.headingFontSize ?? 48;
+    const heroFontSize = p.heroFontSize ?? 80;
+    const navColorVal = p.navColor ?? '#F4C542';
+    const countdownColorVal = p.countdownColor ?? '#D4AF37';
+    const headingColorVal = p.headingColor ?? '#FFFFFF';
+    const heroColorVal = p.heroColor ?? '#FFD447';
+
+    return {
+      navFontFamily: p.navFontFamily ?? "'Dancing Script',cursive",
+      navFontSizePx: navFontSize + 'px',
+      navFontWeight: p.navFontWeight ?? 600,
+      navColor: navColorVal,
+      navLetterSpacing: (p.navLetterSpacing ?? 0.02) + 'em',
+      navLineHeight: p.navLineHeight ?? 1.2,
+      navTextShadow: glowShadow(navColorVal, p.navGlow ?? true),
+
+      countdownFontFamily: p.countdownFontFamily ?? "'Dancing Script',cursive",
+      countdownFontSizePx: countdownFontSize + 'px',
+      countdownFontWeight: p.countdownFontWeight ?? 700,
+      countdownColor: countdownColorVal,
+      countdownLetterSpacing: (p.countdownLetterSpacing ?? 0.08) + 'em',
+      countdownLineHeight: p.countdownLineHeight ?? 1.2,
+      countdownTextShadow: glowShadow(countdownColorVal, p.countdownGlow ?? true),
+
+      headingFontFamily: p.headingFontFamily ?? "'Dancing Script',cursive",
+      headingFontSizePx: headingFontSize + 'px',
+      headingFontWeight: p.headingFontWeight ?? 700,
+      headingColor: headingColorVal,
+      headingLetterSpacing: (p.headingLetterSpacing ?? 0) + 'em',
+      headingLineHeight: p.headingLineHeight ?? 1.15,
+      headingTextShadow: glowShadow(headingColorVal, p.headingGlow ?? false),
+
+      heroFontFamily: p.heroFontFamily ?? "'Dancing Script',cursive",
+      heroFontSizePx: heroFontSize + 'px',
+      heroFontWeight: p.heroFontWeight ?? 700,
+      heroColor: heroColorVal,
+      heroLetterSpacing: (p.heroLetterSpacing ?? 0) + 'em',
+      heroLineHeight: p.heroLineHeight ?? 1.02,
+      heroTextShadow: glowShadow(heroColorVal, p.heroGlow ?? true),
+
+      splashMounted: this.state.splashMounted,
+      splashOpacity: this.state.splashFadeOut ? 0 : 1,
+      splashScale: this.state.splashFadeOut ? 'scale(1.06)' : 'scale(1)',
+      splashLantern1: elapsedApprox >= 600 ? 1 : 0,
+      splashLantern2: elapsedApprox >= 1400 ? 1 : 0,
+      splashCenterGlow: sp >= 100 ? 0.95 : Math.min(0.6, elapsedApprox / 4000 + 0.15),
+      splashTitleGlow: sp >= 100 ? 'drop-shadow(0 0 30px rgba(244,197,66,.8))' : 'drop-shadow(0 0 0px rgba(244,197,66,0))',
+      splashParticles,
+      splashWord1: w1.opacity, splashWord1T: w1.transform,
+      splashWord2: w2.opacity, splashWord2T: w2.transform,
+      splashWord3: w3.opacity, splashWord3T: w3.transform,
+      splashWord4: w4.opacity, splashWord4T: w4.transform,
+      splashWord5: w5.opacity, splashWord5T: w5.transform,
+      splashPercentLabel: `${Math.round(sp)}%`,
+      splashBarWidth: `${sp}%`,
+      bgLayer1Transform: 'translate(0px, 0px)',
+      bgLayer2Transform: 'translate(0px, 0px)',
+      bgLayer3Transform: 'translate(0px, 0px)',
+      bgLayer4Transform: 'translate(0px, 0px)',
+      itemsPerPage,
+      sponsorPages,
+      sponsorDots,
+      sponsorsTrackWidth,
+      sponsorsTrackTransform,
+      sponsorsNext: this.sponsorsNext,
+      sponsorsPrev: this.sponsorsPrev,
+      sponsorsPause: this.sponsorsPause,
+      sponsorsResume: this.sponsorsResume,
+      panoTransform,
+      panoFilter,
+      panoShadow,
+      panoEnter: this.panoEnter,
+      panoMove: this.panoMove,
+      panoLeave: this.panoLeave,
+      mompoxTransform,
+      mompoxFilter,
+      mompoxShadow,
+      mompoxOverlayOpacity,
+      mompoxOverlayTransform,
+      mompoxEnter: this.mompoxEnter,
+      mompoxMove: this.mompoxMove,
+      mompoxLeave: this.mompoxLeave,
+      headerBg: this.state.scrolled ? 'rgba(25,27,99,.85)' : 'transparent',
+      headerBlur: this.state.scrolled ? 'blur(12px)' : 'none',
+      mobileMenuOpen: this.state.mobileMenuOpen,
+      toggleMenu: this.toggleMenu,
+      closeMenu: this.closeMenu,
+      stopProp: this.stopProp,
+      days,
+      activeDay,
+      artists,
+      news,
+      infoCards,
+      mompoxIcons,
+      galleryImages,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
