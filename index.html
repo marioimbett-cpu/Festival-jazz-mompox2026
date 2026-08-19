@@ -345,16 +345,16 @@
     </div>
     <div style="max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
       <sc-for list="{{ activeDay.events }}" as="ev" hint-placeholder-count="3">
-        <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.2); border-radius:18px; padding:26px 30px; display:grid; grid-template-columns:120px 1fr auto; gap:24px; align-items:center;" class="prog-card">
+        <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.2); border-radius:18px; padding:26px 30px; display:grid; grid-template-columns:150px 1fr; gap:24px; align-items:center;" class="prog-card">
           <div>
-            <div style="font-family:'Playfair Display',serif; font-size:22px; color:#F4C542; font-weight:700;">{{ ev.time }}</div>
-            <div style="font-size:12px; color:#B9B3E8; margin-top:4px;">{{ ev.place }}</div>
+            <div style="font-family:'Dancing Script',cursive; font-size:22px; color:#F4C542; font-weight:700;">{{ ev.time }}</div>
           </div>
           <div>
-            <div style="font-size:18px; font-weight:600; color:#FFFFFF; margin-bottom:6px;">{{ ev.artist }}</div>
-            <div style="font-size:14px; color:#D9D5F5; line-height:1.6;">{{ ev.desc }}</div>
+            <div style="font-size:18px; font-weight:600; color:#FFFFFF; margin-bottom:6px;">{{ ev.title }}</div>
+            <sc-if value="{{ ev.hasPlace }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:14px; color:#D9D5F5; line-height:1.6;">{{ ev.place }}</div>
+            </sc-if>
           </div>
-          <a href="#artistas" style="border:1.5px solid #F4C542; color:#F4C542; padding:10px 20px; border-radius:24px; font-size:13px; font-weight:600; text-decoration:none; white-space:nowrap;">Ver más</a>
         </div>
       </sc-for>
     </div>
@@ -712,18 +712,49 @@ class Component extends DCLogic {
 
   renderVals() {
     const dayDefs = [
-      { label: '03 Septiembre', events: [
-        { time: '6:00 PM', place: 'Plaza de la Concepción', artist: 'Orquesta del Río Magdalena', desc: 'Apertura oficial con jazz afrocaribeño y homenaje a la tradición ribereña.' },
-        { time: '8:30 PM', place: 'Claustro San Agustín', artist: 'Trío Farol de Bronce', desc: 'Jazz contemporáneo con influencias de porro y bullerengue.' },
+      { label: 'Mar 1 Sep', events: [
+        { time: '2:00 p.m. - 4:00 p.m.', title: 'Talleres de formación itinerante BOLÍVAR LATE', place: 'Hatillo de Loba — Danza y Música' },
       ]},
-      { label: '04 Septiembre', events: [
-        { time: '6:00 PM', place: 'Malecón del Magdalena', artist: 'Ensamble Mompox Big Band', desc: 'Big band con repertorio latino y estándares reinterpretados.' },
-        { time: '8:30 PM', place: 'Plaza Santa Bárbara', artist: 'Elena Vidales Quartet', desc: 'Voz y jazz vocal con raíces caribeñas.' },
-        { time: '10:00 PM', place: 'Casa de la Cultura', artist: 'Jam Session Abierta', desc: 'Espacio de improvisación libre para músicos invitados y locales.' },
+      { label: 'Mié 2 Sep', events: [
+        { time: '9:00 a.m. San Fernando / 2:00 p.m. Margarita', title: 'Talleres de formación itinerante BOLÍVAR LATE', place: 'Danza y Música' },
+        { time: '7:00 p.m.', title: 'Proyección FICCI — Paddington in Peru', place: 'Plaza San Francisco' },
       ]},
-      { label: '05 Septiembre', events: [
-        { time: '6:00 PM', place: 'Plaza de la Concepción', artist: 'Sexteto Filigrana', desc: 'Fusión de jazz con orfebrería sonora momposina.' },
-        { time: '9:00 PM', place: 'Malecón del Magdalena', artist: 'Concierto de Clausura', desc: 'Gran cierre con todos los artistas invitados sobre el río.' },
+      { label: 'Jue 3 Sep', events: [
+        { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
+        { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
+        { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+        { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
+        { time: '10:00 a.m. - 12:00 m / 2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Biblioteca Pública Municipal Pedro Salcedo Del Villar de Mompox' },
+        { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+        { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
+        { time: '4:00 p.m. - 7:00 p.m.', title: 'Desfile cultural y folclórico Río de Gente — Homenaje a Gilberto Márquez', place: 'Desde la Bomba Gilmar hacia la Plaza Santa Bárbara' },
+        { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
+      ]},
+      { label: 'Vie 4 Sep', events: [
+        { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
+        { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
+        { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+        { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
+        { time: '2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Biblioteca Rural Itinerante — Corregimiento de Tierra Firme, Mompox' },
+        { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+        { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
+        { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: '' },
+        { time: '6:00 p.m.', title: 'Animeros — Corporación Cultural Atabaques', place: 'Plaza San Francisco' },
+        { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
+      ]},
+      { label: 'Sáb 5 Sep', events: [
+        { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
+        { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
+        { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+        { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
+        { time: '2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Barrio Primero de Mayo, Mompox' },
+        { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+        { time: '10:00 a.m. - 12:00 m', title: 'Concierto Gospel Unibac', place: 'Iglesia Santa Bárbara' },
+        { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
+        { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: '' },
+        { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: '' },
+        { time: '6:00 p.m.', title: 'Marca Bolívar — Pasarela Elar, Canto de Palma', place: 'Plaza de La Concepción' },
+        { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
       ]},
     ];
 
@@ -735,7 +766,8 @@ class Component extends DCLogic {
       textColor: i === this.state.activeDayIndex ? '#191B63' : '#F5F3FF',
     }));
 
-    const activeDay = dayDefs[this.state.activeDayIndex];
+    const activeDayRaw = dayDefs[this.state.activeDayIndex];
+    const activeDay = { ...activeDayRaw, events: activeDayRaw.events.map(ev => ({ ...ev, hasPlace: !!ev.place })) };
 
     const artistDefs = [
       { name: 'Orquesta del Río Magdalena', country: 'Colombia', genre: 'Jazz afrocaribeño', c1: '#2B216D', c2: '#191B63' },
