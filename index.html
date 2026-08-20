@@ -27,6 +27,11 @@
     @keyframes heroEntranceUp { from{opacity:0; transform:translateY(36px);} to{opacity:1; transform:translateY(0);} }
     body { margin:0; background:#12123a; }
     ::selection { background:#F4C542; color:#191B63; }
+    .gallery-card:hover .gallery-img { transform:scale(1.08); filter:brightness(1.12); }
+    .gallery-card:hover .gallery-overlay { background:rgba(15,14,45,.38); }
+    .gallery-card:hover .gallery-icon { opacity:1; transform:scale(1); }
+    @media (max-width:1023px) and (min-width:769px) { .masonry { columns:3 !important; } }
+    @media (max-width:768px) { .masonry { columns:2 !important; column-gap:12px !important; } .masonry > div { margin-bottom:12px !important; } }
     .nav-link { position:relative; }
     .nav-link::after { content:""; position:absolute; left:0; right:0; bottom:-6px; height:1px; background:#F4C542; transform:scaleX(0); transform-origin:left; transition:transform .25s ease; }
     .nav-link:hover { color:#FFD447 !important; text-shadow:0 0 14px rgba(255,212,71,.5) !important; }
@@ -458,12 +463,27 @@
     </div>
     <div style="columns:4; column-gap:18px; max-width:1280px; margin:0 auto;" class="masonry">
       <sc-for list="{{ galleryImages }}" as="gi" hint-placeholder-count="9">
-        <div style="break-inside:avoid; margin-bottom:18px; border-radius:14px; overflow:hidden; height:{{ gi.h }}px; background:linear-gradient(150deg,{{ gi.c1 }},{{ gi.c2 }}); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(0,0,0,.3);">
-          <span style="font-family:monospace; font-size:11px; color:rgba(255,255,255,.65);">[ foto {{ gi.n }} ]</span>
+        <div onClick="{{ gi.open }}" style="position:relative; break-inside:avoid; margin-bottom:18px; border-radius:14px; overflow:hidden; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,.3); border:1px solid rgba(244,197,66,.15);" class="gallery-card">
+          <img src="{{ gi.src }}" alt="{{ gi.alt }}" style="width:100%; height:{{ gi.h }}px; object-fit:cover; display:block; transition:transform .5s ease, filter .5s ease;" class="gallery-img">
+          <div style="position:absolute; inset:0; background:rgba(15,14,45,0); display:flex; align-items:center; justify-content:center; transition:background .35s ease;" class="gallery-overlay">
+            <div style="width:50px; height:50px; border-radius:50%; border:1.5px solid #F4C542; background:rgba(15,14,45,.55); display:flex; align-items:center; justify-content:center; font-size:20px; color:#F4C542; opacity:0; transform:scale(.8); transition:opacity .35s ease, transform .35s ease;" class="gallery-icon">🔍</div>
+          </div>
         </div>
       </sc-for>
     </div>
   </section>
+
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" style="position:fixed; inset:0; z-index:300; background:rgba(10,9,30,.92); display:flex; align-items:center; justify-content:center; padding:40px; animation:revealUp .3s ease both;">
+      <button onClick="{{ prevPhoto }}" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; border:1.5px solid rgba(244,197,66,.5); background:rgba(38,32,90,.7); color:#F4C542; font-size:26px; cursor:pointer; z-index:2;">‹</button>
+      <div onClick="{{ stopProp }}" style="position:relative; max-width:88vw; max-height:82vh; display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <img src="{{ lightboxImage.src }}" alt="{{ lightboxImage.alt }}" style="max-width:88vw; max-height:74vh; width:auto; height:auto; object-fit:contain; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(244,197,66,.3);">
+        <div style="font-size:13px; letter-spacing:.1em; color:#F4C542; opacity:.85;">{{ lightboxCounter }}</div>
+      </div>
+      <button onClick="{{ nextPhoto }}" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; border:1.5px solid rgba(244,197,66,.5); background:rgba(38,32,90,.7); color:#F4C542; font-size:26px; cursor:pointer; z-index:2;">›</button>
+      <button onClick="{{ closeLightbox }}" style="position:absolute; top:24px; right:24px; background:none; border:none; color:#F4C542; font-size:32px; cursor:pointer;">✕</button>
+    </div>
+  </sc-if>
 
   <!-- NOTICIAS -->
   
@@ -590,6 +610,7 @@ class Component extends DCLogic {
   state = {
     scrolled: false,
     mobileMenuOpen: false,
+    lightboxIndex: null,
     activeDayIndex: 0,
     mompoxHover: false,
     mompoxX: 0,
@@ -609,6 +630,14 @@ class Component extends DCLogic {
     };
     window.addEventListener('scroll', this._onScroll);
 
+    this._onKeyDown = (e) => {
+      if (this.state.lightboxIndex === null || this.state.lightboxIndex === undefined) return;
+      if (e.key === 'Escape') this.setState({ lightboxIndex: null });
+      else if (e.key === 'ArrowLeft') this.setState(s => ({ lightboxIndex: (s.lightboxIndex - 1 + 9) % 9 }));
+      else if (e.key === 'ArrowRight') this.setState(s => ({ lightboxIndex: (s.lightboxIndex + 1) % 9 }));
+    };
+    window.addEventListener('keydown', this._onKeyDown);
+
     this._setItemsPerPage = () => {
       const w = window.innerWidth;
       const n = w < 640 ? 2 : w < 1000 ? 3 : 4;
@@ -622,8 +651,13 @@ class Component extends DCLogic {
     // <helmet>) — no JS polling loop. An earlier rAF-driven version caused a recurring
     // main-thread freeze during capture; this is deliberately removed, not omitted by accident.
 
-    this.setState({ splashMounted: true, splashProgress: 0, splashFadeOut: false });
-    const start = performance.now();
+    const alreadySeen = sessionStorage.getItem('festijazzSplashSeen') === '1';
+    if (alreadySeen) {
+      this.setState({ splashMounted: false, splashProgress: 100 });
+    } else {
+      sessionStorage.setItem('festijazzSplashSeen', '1');
+      this.setState({ splashMounted: true, splashProgress: 0, splashFadeOut: false });
+      const start = performance.now();
     const DURATION = 4000;
     const HOLD = 300;
     const FADE = 800;
@@ -645,11 +679,13 @@ class Component extends DCLogic {
         }, HOLD);
       }
     };
-    this._splashRaf = requestAnimationFrame(splashTick);
+      this._splashRaf = requestAnimationFrame(splashTick);
+    }
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('keydown', this._onKeyDown);
     window.removeEventListener('resize', this._setItemsPerPage);
     clearInterval(this._sponsorTimer);
     cancelAnimationFrame(this._splashRaf);
@@ -681,10 +717,18 @@ class Component extends DCLogic {
 
   _sponsorList() {
     return [
-      { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/cultura-sponsor.png' },
+      { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/LOGO CULTURAS VIOLETA.png' },
       { name: 'Gobernación de Bolívar', src: 'uploads/gob-sponsor.png' },
       { name: 'Icultur', src: 'uploads/icultur-sponsor.png' },
       { name: 'Alcaldía Distrital de Santa Cruz de Mompox', src: 'uploads/alcaldiamompox.png' },
+      { name: 'Caribe Afirmativo', src: 'uploads/caforiginalcaribeh-esp-67dafcdf.svg' },
+      { name: 'ANDI Más País — Seccional Bolívar', src: 'uploads/Logo a color y en alta.jpg' },
+      { name: 'EMMAT — Berklee Global Partners', src: 'uploads/LOGOS_EMMAT-Berklee_Fondo_Claro.png' },
+      { name: 'Cámara de Comercio de Cartagena — Tejiendo Progreso en Bolívar', src: 'uploads/Logo_1.png' },
+      { name: 'Ambassade de France en Colombie', src: 'uploads/Logo Ambassade de France en Colombie.png' },
+      { name: 'Universidad del Magdalena', src: 'uploads/WhatsApp Image 2026-08-05 at 08.54.41.jpeg' },
+      { name: 'Hidra Tao', src: 'uploads/hidra.png' },
+      { name: 'Aguardiente Antioqueño', src: 'uploads/aguardiente.png' },
       { name: 'Patrocinador oficial', slotId: 'sponsor-extra' },
     ];
   }
@@ -839,14 +883,27 @@ class Component extends DCLogic {
       };
     });
 
-    const galleryPairs = [
-      ['#2B216D','#191B63',260],['#241d5c','#39306e',180],['#191B63','#2B216D',220],
-      ['#3a2d80','#221a5e',300],['#2B216D','#191B63',190],['#241d5c','#39306e',250],
-      ['#191B63','#2B216D',210],['#3a2d80','#221a5e',270],['#2B216D','#191B63',200],
+    const galleryDefs = [
+      { src: 'uploads/foto1-sm.jpg', alt: 'Saxofonista en concierto nocturno', h: 320 },
+      { src: 'uploads/foto2-sm.jpg', alt: 'Embarcación turística sobre el río Magdalena', h: 240 },
+      { src: 'uploads/foto3-sm.jpg', alt: 'Cuarteto de saxofones en tarima', h: 280 },
+      { src: 'uploads/foto4-sm.jpg', alt: 'Filigrana de Mompox en vitrina', h: 220 },
+      { src: 'uploads/foto5-sm.jpg', alt: 'Artesana trabajando la filigrana', h: 300 },
+      { src: 'uploads/foto6-sm.jpg', alt: 'Bailarinas con faldas coloridas al atardecer', h: 260 },
+      { src: 'uploads/foto7-sm.jpg', alt: 'Recorrido nocturno por el Claustro San Agustín', h: 240 },
+      { src: 'uploads/foto8-sm.jpg', alt: 'Fachada colonial de Mompox', h: 300 },
+      { src: 'uploads/foto9-sm.jpg', alt: 'Plaza de la Libertad con estatua y arboleda', h: 220 },
     ];
-    const galleryImages = galleryPairs.map((g, i) => ({
-      n: i + 1, c1: g[0], c2: g[1], h: g[2],
+    const galleryImages = galleryDefs.map((g, i) => ({
+      ...g, n: i + 1,
+      open: () => this.setState({ lightboxIndex: i }),
     }));
+
+    const lightboxOpen = this.state.lightboxIndex !== null;
+    const lightboxImage = lightboxOpen ? galleryImages[this.state.lightboxIndex] : { src: '', alt: '' };
+    const lightboxCounter = lightboxOpen ? `${this.state.lightboxIndex + 1} / ${galleryImages.length}` : '';
+    const prevPhoto = () => this.setState(s => ({ lightboxIndex: (s.lightboxIndex - 1 + galleryImages.length) % galleryImages.length }));
+    const nextPhoto = () => this.setState(s => ({ lightboxIndex: (s.lightboxIndex + 1) % galleryImages.length }));
 
     const mompoxHover = this.state.mompoxHover;
     const scale = mompoxHover ? 1.1 : 1;
@@ -1005,6 +1062,13 @@ class Component extends DCLogic {
       infoCards,
       mompoxIcons,
       galleryImages,
+      lightboxOpen,
+      lightboxImage,
+      lightboxCounter,
+      prevPhoto,
+      nextPhoto,
+      closeLightbox: () => this.setState({ lightboxIndex: null }),
+      stopProp: this.stopProp,
     };
   }
 }
