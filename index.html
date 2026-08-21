@@ -26,6 +26,19 @@
     @keyframes cdDust { 0%,100%{opacity:0; transform:translateY(0);} 50%{opacity:.8; transform:translateY(-18px);} }
     @keyframes heroEntranceUp { from{opacity:0; transform:translateY(36px);} to{opacity:1; transform:translateY(0);} }
     body { margin:0; background:#12123a; }
+  </style>
+  <script>
+    (function poll(){
+      var v = document.getElementById('hero-flyer-video');
+      if (v) { v.muted = true; v.defaultMuted = true; v.loop = true; v.addEventListener('ended', function(){ v.currentTime = 0; v.play(); }); var p = v.play(); if (p && p.catch) p.catch(function(){});
+        var unmute = function(){ v.muted = false; document.removeEventListener('click', unmute); document.removeEventListener('touchstart', unmute); };
+        document.addEventListener('click', unmute, { once: true });
+        document.addEventListener('touchstart', unmute, { once: true });
+      }
+      else { setTimeout(poll, 150); }
+    })();
+  </script>
+  <style>
     ::selection { background:#F4C542; color:#191B63; }
     .gallery-card:hover .gallery-img { transform:scale(1.08); filter:brightness(1.12); }
     .gallery-card:hover .gallery-overlay { background:rgba(15,14,45,.38); }
@@ -300,7 +313,7 @@
       </div>
       <div style="position:relative; display:flex; justify-content:center;">
         <div style="position:absolute; inset:-30px; border-radius:24px; background:radial-gradient(circle,rgba(244,197,66,.16) 0%,rgba(244,197,66,.08) 40%,transparent 70%);"></div>
-        <img src="uploads/festijazz2026-jpg.jpg" alt="Afiche oficial Festival de Jazz de Mompox 2026" style="position:relative; width:100%; max-width:380px; border-radius:18px; box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(244,197,66,.25); animation:glowPulse 5s ease-in-out infinite;">
+        <video src="uploads/video-1787274402821-ynuw.mp4" autoplay muted loop playsinline id="hero-flyer-video" style="position:relative; width:100%; max-width:380px; aspect-ratio:9/16; object-fit:cover; border-radius:18px; box-shadow:0 30px 70px rgba(0,0,0,.5); display:block;"></video>
       </div>
     </div>
   </div>
