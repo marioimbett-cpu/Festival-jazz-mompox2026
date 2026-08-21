@@ -284,7 +284,7 @@
 
     <div style="display:flex; align-items:center; gap:8px;">
       <button onClick="{{ toggleLang }}" class="mobile-toggle" aria-label="Cambiar idioma / Switch language" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:none; color:#F4C542; padding:6px 12px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">{{ langButtonLabel }}</button>
-      <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">☰</button>
+      <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:34px; line-height:1; cursor:pointer; padding:4px;">☰</button>
     </div>
   </header>
 
@@ -931,7 +931,7 @@ class Component extends DCLogic {
 
     this._setItemsPerPage = () => {
       const w = window.innerWidth;
-      const n = w < 480 ? 1 : w < 640 ? 2 : w < 1000 ? 3 : 4;
+      const n = w < 600 ? 1 : w < 640 ? 2 : w < 1000 ? 3 : 4;
       if (n !== this.state.itemsPerPage) this.setState({ itemsPerPage: n, sponsorPage: 0 });
     };
     this._setItemsPerPage();
