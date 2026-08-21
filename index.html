@@ -646,8 +646,8 @@ class Component extends DCLogic {
     this._onKeyDown = (e) => {
       if (this.state.lightboxIndex === null || this.state.lightboxIndex === undefined) return;
       if (e.key === 'Escape') this.setState({ lightboxIndex: null });
-      else if (e.key === 'ArrowLeft') this.setState(s => ({ lightboxIndex: (s.lightboxIndex - 1 + 9) % 9 }));
-      else if (e.key === 'ArrowRight') this.setState(s => ({ lightboxIndex: (s.lightboxIndex + 1) % 9 }));
+      else if (e.key === 'ArrowLeft') this.setState(s => ({ lightboxIndex: (s.lightboxIndex - 1 + this._galleryLength) % this._galleryLength }));
+      else if (e.key === 'ArrowRight') this.setState(s => ({ lightboxIndex: (s.lightboxIndex + 1) % this._galleryLength }));
     };
     window.addEventListener('keydown', this._onKeyDown);
 
@@ -911,12 +911,13 @@ class Component extends DCLogic {
       ...g, n: i + 1,
       open: () => this.setState({ lightboxIndex: i }),
     }));
+    this._galleryLength = galleryImages.length;
 
     const lightboxOpen = this.state.lightboxIndex !== null;
     const lightboxImage = lightboxOpen ? galleryImages[this.state.lightboxIndex] : { src: '', alt: '' };
     const lightboxCounter = lightboxOpen ? `${this.state.lightboxIndex + 1} / ${galleryImages.length}` : '';
-    const prevPhoto = () => this.setState(s => ({ lightboxIndex: (s.lightboxIndex - 1 + galleryImages.length) % galleryImages.length }));
-    const nextPhoto = () => this.setState(s => ({ lightboxIndex: (s.lightboxIndex + 1) % galleryImages.length }));
+    const prevPhoto = (e) => { e.stopPropagation(); this.setState(s => ({ lightboxIndex: (s.lightboxIndex - 1 + galleryImages.length) % galleryImages.length })); };
+    const nextPhoto = (e) => { e.stopPropagation(); this.setState(s => ({ lightboxIndex: (s.lightboxIndex + 1) % galleryImages.length })); };
 
     const mompoxHover = this.state.mompoxHover;
     const scale = mompoxHover ? 1.1 : 1;
