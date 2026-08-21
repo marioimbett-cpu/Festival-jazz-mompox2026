@@ -103,6 +103,10 @@
       .artist-name { font-size:27px !important; }
     }
     @media (max-width:640px) {
+      .sponsor-tile { height:260px !important; border-radius:22px !important; padding:26px 20px !important; box-shadow:0 16px 34px rgba(0,0,0,.35) !important; }
+      .sponsor-logo { height:180px !important; opacity:1 !important; }
+    }
+    @media (max-width:640px) {
       .hero-inner { padding-top:88px !important; }
       .hero-grid { grid-template-columns:1fr !important; }
       .hero-video-wrap { margin-top:24px !important; }
@@ -554,6 +558,7 @@
                   <sc-if value="{{ sp.hasImg }}" hint-placeholder-val="{{ false }}">
                     <img src="{{ sp.src }}" alt="{{ sp.name }}" style="height:130px; width:auto; max-width:100%; object-fit:contain; display:block; margin:0 auto; opacity:.8; transition:opacity .3s ease-in-out, transform .3s ease-in-out;" class="sponsor-logo" style-hover="opacity:1; transform:scale(1.05);">
                   </sc-if>
+                  </sc-if>
                   <sc-if value="{{ sp.needsSlot }}" hint-placeholder-val="{{ false }}">
                     <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
                       <span style="font-family:'Playfair Display',serif; font-size:13px; color:#191B63; opacity:.6; text-align:center; padding:0 10px;">{{ sp.name }}</span>
@@ -926,7 +931,7 @@ class Component extends DCLogic {
 
     this._setItemsPerPage = () => {
       const w = window.innerWidth;
-      const n = w < 640 ? 2 : w < 1000 ? 3 : 4;
+      const n = w < 480 ? 1 : w < 640 ? 2 : w < 1000 ? 3 : 4;
       if (n !== this.state.itemsPerPage) this.setState({ itemsPerPage: n, sponsorPage: 0 });
     };
     this._setItemsPerPage();
