@@ -105,6 +105,7 @@
     @media (max-width:640px) {
       .hero-inner { padding-top:88px !important; }
       .hero-grid { grid-template-columns:1fr !important; }
+      .hero-video-wrap { margin-top:24px !important; }
       .two-col { grid-template-columns:1fr !important; }
       .artist-grid { grid-template-columns:repeat(2,1fr) !important; }
       .news-grid { grid-template-columns:1fr !important; }
@@ -274,15 +275,11 @@
       <a href="#galeria" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navGallery }}</a>
       <a href="#informacion" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navInfo }}</a>
       <a href="#informacion" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">{{ t.navGetThere }}</a>
-      <div style="display:flex; gap:6px;">
-        <button onClick="{{ setLangEs }}" style="border:1.5px solid rgba(244,197,66,.5); background:{{ esBg }}; color:{{ esColor }}; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">Español</button>
-        <button onClick="{{ setLangEn }}" style="border:1.5px solid rgba(244,197,66,.5); background:{{ enBg }}; color:{{ enColor }}; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">English</button>
-      </div>
+      <button onClick="{{ toggleLang }}" aria-label="Cambiar idioma / Switch language" style="border:1.5px solid rgba(244,197,66,.5); background:none; color:#F4C542; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:.05em; cursor:pointer; font-family:'Poppins',sans-serif;">{{ langButtonLabel }}</button>
     </nav>
 
     <div style="display:flex; align-items:center; gap:8px;">
-      <button onClick="{{ setLangEs }}" class="mobile-toggle" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:{{ esBg }}; color:{{ esColor }}; padding:6px 10px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">ES</button>
-      <button onClick="{{ setLangEn }}" class="mobile-toggle" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:{{ enBg }}; color:{{ enColor }}; padding:6px 10px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">EN</button>
+      <button onClick="{{ toggleLang }}" class="mobile-toggle" aria-label="Cambiar idioma / Switch language" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:none; color:#F4C542; padding:6px 12px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">{{ langButtonLabel }}</button>
       <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">☰</button>
     </div>
   </header>
@@ -332,7 +329,7 @@
           <a href="#artistas" style="border: 1.5px solid rgba(255,255,255,.4); color: #F5F3FF; padding: 15px 30px; border-radius: 30px; font-weight: 500; font-size: 20px; text-decoration: none; font-family: Dancing Script">{{ t.heroBtnArtists }}</a>
         </div>
       </div>
-      <div style="position:relative; display:flex; justify-content:center; align-self:flex-start; margin-top:-70px;">
+      <div style="position:relative; display:flex; justify-content:center; align-self:flex-start; margin-top:-70px;" class="hero-video-wrap">
         <div style="position:absolute; inset:-30px; border-radius:24px; background:radial-gradient(circle,rgba(244,197,66,.16) 0%,rgba(244,197,66,.08) 40%,transparent 70%);"></div>
         <video src="uploads/video-1787274402821-ynuw.mp4" autoplay muted loop playsinline preload="auto" id="hero-flyer-video" style="position:relative; width:100%; max-width:380px; aspect-ratio:9/16; object-fit:cover; border-radius:18px; box-shadow:0 30px 70px rgba(0,0,0,.5); display:block;"></video>
       </div>
@@ -1040,6 +1037,11 @@ class Component extends DCLogic {
     this.setState({ panoX: x, panoY: y });
   };
 
+  toggleLang = () => {
+    const next = this.state.lang === 'es' ? 'en' : 'es';
+    this.setLang(next);
+  };
+
   renderVals() {
     const lang = this.state.lang === 'en' ? 'en' : 'es';
     const t = TRANSLATIONS[lang];
@@ -1195,6 +1197,8 @@ class Component extends DCLogic {
       setLangEs: this.setLangEs,
       setLangEn: this.setLangEn,
       esBg, esColor, enBg, enColor,
+      langButtonLabel: lang === 'es' ? 'EN' : 'ES',
+      toggleLang: this.toggleLang,
       navFontFamily: p.navFontFamily ?? "'Dancing Script',cursive",
       navFontSizePx: navFontSize + 'px',
       navFontWeight: p.navFontWeight ?? 600,
