@@ -13,7 +13,7 @@
   <style>
     body { margin:0; background:#12123a; }
     ::selection { background:#F4C542; color:#191B63; }
-    @media (max-width:1200px) {
+    @media (max-width:1320px) {
       .desktop-nav { display:none !important; }
       .mobile-toggle { display:block !important; }
     }
@@ -42,38 +42,46 @@
     </div>
 
     <nav style="display:flex; align-items:center; gap:28px;" class="desktop-nav">
-      <a href="index.html#inicio" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">Inicio</a>
-      <a href="index.html#programacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">Programación</a>
-      <a href="index.html#artistas" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">Artistas</a>
-      <a href="index.html#noticias" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">Noticias</a>
-      <a href="index.html#galeria" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">Galería</a>
-      <a href="index.html#informacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">Información</a>
-      <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">Cómo llegar</a>
+      <a href="index.html#inicio" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navHome }}</a>
+      <a href="index.html#programacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navProgram }}</a>
+      <a href="index.html#artistas" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navArtists }}</a>
+      <a href="index.html#noticias" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navNews }}</a>
+      <a href="index.html#galeria" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navGallery }}</a>
+      <a href="index.html#informacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navInfo }}</a>
+      <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">{{ t.navGetThere }}</a>
+      <div style="display:flex; gap:6px;">
+        <button onClick="{{ setLangEs }}" style="border:1.5px solid rgba(244,197,66,.5); background:{{ esBg }}; color:{{ esColor }}; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">Español</button>
+        <button onClick="{{ setLangEn }}" style="border:1.5px solid rgba(244,197,66,.5); background:{{ enBg }}; color:{{ enColor }}; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">English</button>
+      </div>
     </nav>
 
-    <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">☰</button>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button onClick="{{ setLangEs }}" class="mobile-toggle" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:{{ esBg }}; color:{{ esColor }}; padding:6px 10px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">ES</button>
+      <button onClick="{{ setLangEn }}" class="mobile-toggle" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:{{ enBg }}; color:{{ enColor }}; padding:6px 10px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">EN</button>
+      <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">☰</button>
+    </div>
   </header>
 
   <sc-if value="{{ mobileMenuOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed; inset:0; z-index:200; background:rgba(15,14,45,.6); backdrop-filter:blur(4px);" onClick="{{ closeMenu }}">
       <div onClick="{{ stopProp }}" style="position:absolute; top:0; right:0; bottom:0; width:78%; max-width:320px; background:linear-gradient(180deg,#191B63,#2B216D); padding:28px 26px; display:flex; flex-direction:column; gap:26px; box-shadow:-8px 0 40px rgba(0,0,0,.4);">
         <button onClick="{{ closeMenu }}" style="align-self:flex-end; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">✕</button>
-        <a href="index.html#inicio" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">Inicio</a>
-        <a href="index.html#programacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">Programación</a>
-        <a href="index.html#artistas" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">Artistas</a>
-        <a href="index.html#noticias" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">Noticias</a>
-        <a href="index.html#galeria" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">Galería</a>
-        <a href="index.html#informacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">Información</a>
-        <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:12px 20px; border-radius:30px; font-weight:600; font-size:14px; text-decoration:none; text-align:center;">Cómo llegar</a>
+        <a href="index.html#inicio" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navHome }}</a>
+        <a href="index.html#programacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navProgram }}</a>
+        <a href="index.html#artistas" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navArtists }}</a>
+        <a href="index.html#noticias" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navNews }}</a>
+        <a href="index.html#galeria" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navGallery }}</a>
+        <a href="index.html#informacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navInfo }}</a>
+        <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:12px 20px; border-radius:30px; font-weight:600; font-size:14px; text-decoration:none; text-align:center;">{{ t.navGetThere }}</a>
       </div>
     </div>
   </sc-if>
 
   <section data-screen-label="Clima — Encabezado" style="padding:150px 5% 60px; background:radial-gradient(ellipse at 30% 0%, #2B216D 0%, #191B63 50%, #0f0e33 100%);">
-    <a href="index.html" style="display:inline-flex; align-items:center; gap:8px; color:#F4C542; text-decoration:none; font-size:13px; font-weight:600; margin-bottom:26px;">← Volver al inicio</a>
-    <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">Información práctica</p>
-    <h1 style="font-family:'Dancing Script',cursive; font-size:clamp(38px,5.5vw,58px); font-weight:700; margin:0 0 16px; color:#FFD447; text-shadow:0 0 18px rgba(255,212,71,.35);">Clima en Mompox</h1>
-    <p style="font-size:16px; line-height:1.8; color:#D9D5F5; max-width:640px; margin:0;">Septiembre es temporada cálida y húmeda a orillas del Magdalena — así puedes prepararte para disfrutar el festival al aire libre.</p>
+    <a href="index.html" style="display:inline-flex; align-items:center; gap:8px; color:#F4C542; text-decoration:none; font-size:13px; font-weight:600; margin-bottom:26px;">{{ t.backHome }}</a>
+    <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.practicalTag }}</p>
+    <h1 style="font-family:'Dancing Script',cursive; font-size:clamp(38px,5.5vw,58px); font-weight:700; margin:0 0 16px; color:#FFD447; text-shadow:0 0 18px rgba(255,212,71,.35);">{{ t.heading }}</h1>
+    <p style="font-size:16px; line-height:1.8; color:#D9D5F5; max-width:640px; margin:0;">{{ t.subheading }}</p>
   </section>
 
   <section data-screen-label="Clima — Detalle" style="padding:20px 5% 100px; background:#191B63;">
@@ -81,22 +89,22 @@
       <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px; text-align:center;">
         <div style="font-size:32px; margin-bottom:10px;">🌡️</div>
         <div style="font-family:'Playfair Display',serif; font-size:26px; color:#FFFFFF; margin-bottom:6px;">28–34°C</div>
-        <div style="font-size:13px; color:#B9B3E8;">Temperatura promedio</div>
+        <div style="font-size:13px; color:#B9B3E8;">{{ t.avgTemp }}</div>
       </div>
       <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px; text-align:center;">
         <div style="font-size:32px; margin-bottom:10px;">💧</div>
-        <div style="font-family:'Playfair Display',serif; font-size:26px; color:#FFFFFF; margin-bottom:6px;">Alta</div>
-        <div style="font-size:13px; color:#B9B3E8;">Humedad relativa</div>
+        <div style="font-family:'Playfair Display',serif; font-size:26px; color:#FFFFFF; margin-bottom:6px;">{{ t.high }}</div>
+        <div style="font-size:13px; color:#B9B3E8;">{{ t.humidity }}</div>
       </div>
       <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px; text-align:center;">
         <div style="font-size:32px; margin-bottom:10px;">🌦️</div>
-        <div style="font-family:'Playfair Display',serif; font-size:26px; color:#FFFFFF; margin-bottom:6px;">Posibles</div>
-        <div style="font-size:13px; color:#B9B3E8;">Lluvias breves al final del día</div>
+        <div style="font-family:'Playfair Display',serif; font-size:26px; color:#FFFFFF; margin-bottom:6px;">{{ t.possible }}</div>
+        <div style="font-size:13px; color:#B9B3E8;">{{ t.rain }}</div>
       </div>
     </div>
     <div style="max-width:1100px; margin:0 auto; background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px;">
-      <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px;">Recomendaciones</div>
-      <p style="font-size:14px; color:#D9D5F5; line-height:1.8; margin:0;">Ropa ligera y transpirable, calzado cómodo para caminar sobre piedra, protector solar, sombrero o abanico (¡como en el afiche!), y una chaqueta ligera impermeable para las noches junto al río.</p>
+      <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px;">{{ t.recommendationsTitle }}</div>
+      <p style="font-size:14px; color:#D9D5F5; line-height:1.8; margin:0;">{{ t.recommendationsText }}</p>
     </div>
   </section>
 
@@ -104,32 +112,68 @@
     <div style="display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:44px; max-width:1280px; margin:0 auto 40px;" class="footer-grid">
       <div>
         <div style="font-family:'Dancing Script',cursive; font-size:28px; color:#FFD447; margin-bottom:12px;">Festival de Jazz de Mompox</div>
-        <p style="font-size:13.5px; color:#B9B3E8; line-height:1.7;">Un evento gratuito de Icultur, la Gobernación de Bolívar y el Ministerio de las Culturas de Colombia.</p>
+        <p style="font-size:13.5px; color:#B9B3E8; line-height:1.7;">{{ t.footerTagline }}</p>
       </div>
       <div>
-        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Contacto</div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerContact }}</div>
         <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">info@icultur.gov.co<br/>+57 (5) 660 0000<br/>Mompox, Bolívar, Colombia</p>
       </div>
       <div>
-        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Redes sociales</div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerSocial }}</div>
         <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">Instagram<br/>Facebook<br/>YouTube</p>
       </div>
       <div>
-        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">Ubicación</div>
+        <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerLocation }}</div>
         <a href="mapa.dc.html" style="display:block; aspect-ratio:4/3; border-radius:12px; background:repeating-linear-gradient(115deg,#2B216D 0 14px,#1c1652 14px 28px); display:flex; align-items:center; justify-content:center; text-decoration:none;">
-          <span style="font-family:monospace; font-size:10.5px; color:#F4C542;">[ ver mapa ]</span>
+          <span style="font-family:monospace; font-size:10.5px; color:#F4C542;">{{ t.footerMap }}</span>
         </a>
       </div>
     </div>
-    <div style="text-align:center; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); font-size:12.5px; color:#8983c2;">© 2026 Icultur — Instituto de Cultura y Turismo de Bolívar. Todos los derechos reservados.</div>
+    <div style="text-align:center; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); font-size:12.5px; color:#8983c2;">{{ t.footerCopyright }}</div>
   </footer>
 
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const TRANSLATIONS = {
+  es: {
+    navHome: 'Inicio', navProgram: 'Programación', navArtists: 'Artistas', navNews: 'Noticias',
+    navGallery: 'Galería', navInfo: 'Información', navGetThere: 'Cómo llegar',
+    backHome: '← Volver al inicio', practicalTag: 'Información práctica',
+    heading: 'Clima en Mompox',
+    subheading: 'Septiembre es temporada cálida y húmeda a orillas del Magdalena — así puedes prepararte para disfrutar el festival al aire libre.',
+    avgTemp: 'Temperatura promedio', high: 'Alta', humidity: 'Humedad relativa',
+    possible: 'Posibles', rain: 'Lluvias breves al final del día',
+    recommendationsTitle: 'Recomendaciones',
+    recommendationsText: 'Ropa ligera y transpirable, calzado cómodo para caminar sobre piedra, protector solar, sombrero o abanico (¡como en el afiche!), y una chaqueta ligera impermeable para las noches junto al río.',
+    footerTagline: 'Un evento gratuito de Icultur, la Gobernación de Bolívar y el Ministerio de las Culturas de Colombia.',
+    footerContact: 'Contacto', footerSocial: 'Redes sociales', footerLocation: 'Ubicación',
+    footerMap: '[ ver mapa ]',
+    footerCopyright: '© 2026 Icultur — Instituto de Cultura y Turismo de Bolívar. Todos los derechos reservados.',
+  },
+  en: {
+    navHome: 'Home', navProgram: 'Program', navArtists: 'Artists', navNews: 'News',
+    navGallery: 'Gallery', navInfo: 'Info', navGetThere: 'Getting there',
+    backHome: '← Back to home', practicalTag: 'Practical info',
+    heading: 'Weather in Mompox',
+    subheading: 'September is warm and humid along the Magdalena River — here\u2019s how to prepare for the open-air festival.',
+    avgTemp: 'Average temperature', high: 'High', humidity: 'Relative humidity',
+    possible: 'Possible', rain: 'Brief showers late in the day',
+    recommendationsTitle: 'Recommendations',
+    recommendationsText: 'Light, breathable clothing, comfortable shoes for cobblestone streets, sunscreen, a hat or fan (just like on the poster!), and a light waterproof jacket for riverside evenings.',
+    footerTagline: 'A free event by Icultur, the Government of Bolívar, and Colombia\u2019s Ministry of Culture.',
+    footerContact: 'Contact', footerSocial: 'Social media', footerLocation: 'Location',
+    footerMap: '[ view map ]',
+    footerCopyright: '© 2026 Icultur — Institute of Culture and Tourism of Bolívar. All rights reserved.',
+  },
+};
+
 class Component extends DCLogic {
-  state = { scrolled: false, mobileMenuOpen: false };
+  state = {
+    scrolled: false, mobileMenuOpen: false,
+    lang: (typeof localStorage !== 'undefined' && localStorage.getItem('festijazzLang')) || 'es',
+  };
   componentDidMount() {
     this._onScroll = () => {
       const scrolled = window.scrollY > 60;
@@ -141,8 +185,21 @@ class Component extends DCLogic {
   toggleMenu = () => this.setState(s => ({ mobileMenuOpen: !s.mobileMenuOpen }));
   closeMenu = () => this.setState({ mobileMenuOpen: false });
   stopProp = (e) => e.stopPropagation();
+  setLang = (next) => {
+    this.setState({ lang: next });
+    try { localStorage.setItem('festijazzLang', next); } catch (e) {}
+  };
+  setLangEs = () => this.setLang('es');
+  setLangEn = () => this.setLang('en');
   renderVals() {
+    const lang = this.state.lang === 'en' ? 'en' : 'es';
+    const t = TRANSLATIONS[lang];
+    const esBg = lang === 'es' ? 'linear-gradient(135deg,#F4C542,#FFD447)' : 'none';
+    const esColor = lang === 'es' ? '#191B63' : '#F4C542';
+    const enBg = lang === 'en' ? 'linear-gradient(135deg,#F4C542,#FFD447)' : 'none';
+    const enColor = lang === 'en' ? '#191B63' : '#F4C542';
     return {
+      t, setLangEs: this.setLangEs, setLangEn: this.setLangEn, esBg, esColor, enBg, enColor,
       headerBg: this.state.scrolled ? 'rgba(25,27,99,.85)' : 'transparent',
       headerBlur: this.state.scrolled ? 'blur(12px)' : 'none',
       mobileMenuOpen: this.state.mobileMenuOpen,
