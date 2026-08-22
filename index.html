@@ -417,7 +417,7 @@
         <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; transition:transform .3s ease, box-shadow .3s ease;" class="artist-card" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
           <sc-if value="{{ artist.hasPhoto }}" hint-placeholder-val="{{ true }}">
             <div style="aspect-ratio:1; overflow:hidden;">
-              <img src="{{ artist.photo }}" alt="{{ artist.name }}" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center 30%; display:block; transition:transform .5s ease;" style-hover="transform:scale(1.05);"/>
+              <img onClick="{{ artist.openPhoto }}" src="{{ artist.photo }}" alt="{{ artist.name }}" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center 30%; display:block; cursor:zoom-in; transition:transform .5s ease;" style-hover="transform:scale(1.05);"/>
             </div>
           </sc-if>
           <sc-if value="{{ artist.hasSlot }}" hint-placeholder-val="{{ false }}">
@@ -526,6 +526,16 @@
       </sc-for>
     </div>
   </section>
+
+  <sc-if value="{{ artistPhotoOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeArtistPhoto }}" style="position:fixed; inset:0; z-index:300; background:rgba(10,9,30,.93); display:flex; align-items:center; justify-content:center; padding:40px; animation:revealUp .3s ease both;">
+      <div onClick="{{ stopProp }}" style="display:flex; flex-direction:column; align-items:center; gap:16px; max-width:88vw;">
+        <img src="{{ artistPhoto.photo }}" alt="{{ artistPhoto.name }}" style="max-width:88vw; max-height:76vh; width:auto; height:auto; object-fit:contain; border-radius:14px; box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(244,197,66,.3);"/>
+        <div style="font-family:'Dancing Script',cursive; font-size:32px; color:#FFD447; text-shadow:0 2px 12px rgba(0,0,0,.5);">{{ artistPhoto.name }}</div>
+      </div>
+      <button onClick="{{ closeArtistPhoto }}" style="position:absolute; top:24px; right:24px; background:none; border:none; color:#F4C542; font-size:32px; cursor:pointer;">✕</button>
+    </div>
+  </sc-if>
 
   <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ closeLightbox }}" style="position:fixed; inset:0; z-index:300; background:rgba(10,9,30,.92); display:flex; align-items:center; justify-content:center; padding:40px; animation:revealUp .3s ease both;">
@@ -918,6 +928,7 @@ class Component extends DCLogic {
     scrolled: false,
     mobileMenuOpen: false,
     lightboxIndex: null,
+    artistPhotoIndex: null,
     activeDayIndex: 0,
     mompoxHover: false,
     mompoxX: 0,
@@ -1119,6 +1130,7 @@ class Component extends DCLogic {
       bioMaxHeight: this.state['artistBio' + i] ? 'none' : '0px',
       bioLabel: this.state['artistBio' + i] ? (lang === 'en' ? 'Show less' : 'Ver menos') : (lang === 'en' ? 'Information' : 'Información'),
       toggleBio: () => this.setState({ ['artistBio' + i]: !this.state['artistBio' + i] }),
+      openPhoto: () => this.setState({ artistPhotoIndex: i }),
     }));
 
     const news = NEWS_DEFS[lang];
@@ -1326,6 +1338,9 @@ class Component extends DCLogic {
       infoCards,
       mompoxIcons,
       galleryImages,
+      artistPhotoOpen: this.state.artistPhotoIndex !== null && this.state.artistPhotoIndex !== undefined,
+      artistPhoto: (this.state.artistPhotoIndex !== null && this.state.artistPhotoIndex !== undefined) ? artists[this.state.artistPhotoIndex] : { photo: '', name: '' },
+      closeArtistPhoto: () => this.setState({ artistPhotoIndex: null }),
       lightboxOpen,
       lightboxImage,
       lightboxCounter,
