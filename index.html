@@ -103,8 +103,7 @@
       .artist-name { font-size:27px !important; }
     }
     @media (max-width:640px) {
-      .sponsor-tile { height:260px !important; border-radius:22px !important; padding:26px 20px !important; box-shadow:0 16px 34px rgba(0,0,0,.35) !important; }
-      .sponsor-logo { height:180px !important; opacity:1 !important; }
+      .sponsor-grid { gap:14px !important; }
     }
     @media (max-width:640px) {
       section[data-screen-label] { padding-top:52px !important; padding-bottom:52px !important; }
@@ -305,6 +304,11 @@
     </div>
   </sc-if>
 
+  <!-- BACK TO TOP -->
+  <sc-if value="{{ showBackToTop }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ scrollToTop }}" aria-label="Volver arriba" style="position:fixed; right:24px; bottom:28px; z-index:150; width:56px; height:56px; border-radius:50%; border:3px solid #F4C542; background:rgba(25,27,99,.9); backdrop-filter:blur(8px); color:#F4C542; font-size:32px; font-weight:900; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center;">↑</button>
+  </sc-if>
+
   <!-- HERO -->
   <section id="inicio" data-screen-label="Hero" style="position:relative; background:radial-gradient(ellipse at 30% 20%, #2B216D 0%, #191B63 45%, #0f0e33 100%); overflow:hidden;">
   <div style="position: relative; min-height: 100vh; display: flex; align-items: center; padding: 100px 5% 80px; overflow: hidden; opacity: 1" class="hero-inner">
@@ -411,7 +415,12 @@
     <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:26px; max-width:1280px; margin:0 auto;" class="artist-grid">
       <sc-for list="{{ artists }}" as="artist" hint-placeholder-count="8">
         <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; transition:transform .3s ease, box-shadow .3s ease;" class="artist-card" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
-          <sc-if value="{{ artist.hasSlot }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ artist.hasPhoto }}" hint-placeholder-val="{{ true }}">
+            <div style="aspect-ratio:1; overflow:hidden;">
+              <img src="{{ artist.photo }}" alt="{{ artist.name }}" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center 30%; display:block; transition:transform .5s ease;" style-hover="transform:scale(1.05);"/>
+            </div>
+          </sc-if>
+          <sc-if value="{{ artist.hasSlot }}" hint-placeholder-val="{{ false }}">
             <div style="aspect-ratio:1;">
               <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="artist-{{ $index }}" shape="rect" fit="cover" placeholder="Foto de {{ artist.name }}" hint-size="100%,100%"></x-import>
             </div>
@@ -423,8 +432,17 @@
           </sc-if>
           <div style="padding:18px;">
             <div style="font-family:'Dancing Script',cursive; font-size:40px; font-weight:700; letter-spacing:0; line-height:1.1; color:#FFFFFF; margin-bottom:4px; text-shadow:0 2px 10px rgba(0,0,0,.4);" class="artist-name">{{ artist.name }}</div>
-            <div style="font-size:12.5px; color:#B9B3E8; margin-bottom:14px;">{{ artist.country }} · {{ artist.genre }}</div>
-            <a href="#" style="font-size:12.5px; color:#F4C542; text-decoration:none; font-weight:600;">{{ t.moreInfo }}</a>
+            <sc-if value="{{ artist.hasMeta }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:12.5px; color:#B9B3E8; margin-bottom:12px;">{{ artist.meta }}</div>
+            </sc-if>
+            <sc-if value="{{ artist.hasBio }}" hint-placeholder-val="{{ false }}">
+              <div>
+                <button onClick="{{ artist.toggleBio }}" style="border:1.5px solid rgba(244,197,66,.55); background:none; color:#F4C542; padding:8px 16px; border-radius:22px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif;">{{ artist.bioLabel }}</button>
+                <div style="max-height:{{ artist.bioMaxHeight }}; overflow:hidden; transition:max-height .45s ease;">
+                  <p style="font-size:13px; color:#D9D5F5; line-height:1.7; margin:14px 0 0; text-wrap:pretty;">{{ artist.bio }}</p>
+                </div>
+              </div>
+            </sc-if>
           </div>
         </div>
       </sc-for>
@@ -542,42 +560,45 @@
   </section>
 
   <!-- PATROCINADORES -->
-  <section data-screen-label="Patrocinadores" style="padding:90px 5%; background:#191B63;">
-    <div style="text-align:center; margin-bottom:44px;">
+  <section data-screen-label="Patrocinadores" style="position:relative; padding:100px 5% 110px; background:#191B63; overflow:hidden;">
+    <svg width="100%" height="100%" viewBox="0 0 1600 1200" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#F4C542; opacity:.035; pointer-events:none;">
+      <use href="#filigreeMotif" x="-60" y="60" width="440" height="440"></use>
+      <use href="#filigreeMotif" x="1240" y="420" width="400" height="400"></use>
+      <use href="#filigreeMotif" x="620" y="860" width="320" height="320"></use>
+    </svg>
+
+    <div style="position:relative; text-align:center; margin-bottom:70px;">
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.sponsorsTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.sponsorsHeading }}</h2>
     </div>
-    <div onMouseEnter="{{ sponsorsPause }}" onMouseLeave="{{ sponsorsResume }}" style="position:relative; max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:16px;">
-      <button onClick="{{ sponsorsPrev }}" aria-label="Anterior" style="flex:none; width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(244,197,66,.4); background:rgba(255,255,255,.03); color:#F4C542; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">‹</button>
 
-      <div style="flex:1; overflow:hidden; border-radius:20px;">
-        <div style="display:flex; width:{{ sponsorsTrackWidth }}; transform:{{ sponsorsTrackTransform }}; transition:transform .6s cubic-bezier(.22,.8,.36,1);">
-          <sc-for list="{{ sponsorPages }}" as="page" hint-placeholder-count="2">
-            <div style="flex:none; width:{{ page.width }}; display:grid; grid-template-columns:repeat({{ itemsPerPage }},1fr); gap:20px; padding:4px;">
-              <sc-for list="{{ page.items }}" as="sp" hint-placeholder-count="4">
-                <div style="background:#FBF9F5; border-radius:16px; box-shadow:0 10px 26px rgba(0,0,0,.25); padding:18px 14px; display:flex; align-items:center; justify-content:center; height:190px; transition:transform .35s ease, box-shadow .35s ease;" class="sponsor-tile" style-hover="box-shadow:0 16px 36px rgba(0,0,0,.35);">
-                  <sc-if value="{{ sp.hasImg }}" hint-placeholder-val="{{ false }}">
-                    <img src="{{ sp.src }}" alt="{{ sp.name }}" style="height:130px; width:auto; max-width:100%; object-fit:contain; display:block; margin:0 auto; opacity:.8; transition:opacity .3s ease-in-out, transform .3s ease-in-out;" class="sponsor-logo" style-hover="opacity:1; transform:scale(1.05);">
-                  </sc-if>
-                  </sc-if>
-                  <sc-if value="{{ sp.needsSlot }}" hint-placeholder-val="{{ false }}">
-                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-                      <span style="font-family:'Playfair Display',serif; font-size:13px; color:#191B63; opacity:.6; text-align:center; padding:0 10px;">{{ sp.name }}</span>
-                    </div>
-                  </sc-if>
-                </div>
-              </sc-for>
-            </div>
-          </sc-for>
+    <div style="position:relative; max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:76px;">
+      <sc-for list="{{ sponsorGroups }}" as="group" hint-placeholder-count="6">
+        <div style="animation:revealUp .8s cubic-bezier(.22,.8,.36,1) both;">
+          <div style="display:flex; align-items:center; justify-content:center; gap:18px; margin-bottom:34px;">
+            <div style="height:1px; width:{{ group.ruleWidth }}; max-width:22vw; background:linear-gradient(90deg, transparent, rgba(244,197,66,.55));"></div>
+            <span style="flex:none; color:#F4C542; font-size:11px; opacity:.75;">✦</span>
+            <h3 style="flex:none; margin:0; font-family:'Poppins',sans-serif; font-size:{{ group.titleSize }}; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#F4C542; text-align:center; text-shadow:0 0 18px rgba(244,197,66,.28);">{{ group.title }}</h3>
+            <span style="flex:none; color:#F4C542; font-size:11px; opacity:.75;">✦</span>
+            <div style="height:1px; width:{{ group.ruleWidth }}; max-width:22vw; background:linear-gradient(90deg, rgba(244,197,66,.55), transparent);"></div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:{{ group.columns }}; gap:{{ group.gap }}; justify-content:center; max-width:{{ group.maxWidth }}; margin:0 auto;" class="sponsor-grid">
+            <sc-for list="{{ group.items }}" as="sp" hint-placeholder-count="3">
+              <a href="{{ sp.href }}" target="_blank" rel="noopener" title="{{ sp.name }}" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-decoration:none; background:{{ sp.cardBg }}; border:1px solid {{ sp.cardBorder }}; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.28); box-sizing:border-box; padding:{{ sp.padding }}; height:{{ sp.cardHeight }}; cursor:{{ sp.cursor }}; transition:transform .35s cubic-bezier(.22,.8,.36,1), box-shadow .35s ease, border-color .35s ease;" class="sponsor-tile" style-hover="transform:translateY(-6px); border-color:rgba(244,197,66,.75); box-shadow:0 18px 42px rgba(0,0,0,.4), 0 0 30px 2px rgba(244,197,66,.28);">
+                <sc-if value="{{ sp.hasImg }}" hint-placeholder-val="{{ true }}">
+                  <img src="{{ sp.src }}" alt="{{ sp.name }}" loading="lazy" style="flex:1 1 auto; width:100%; height:100%; min-height:0; max-height:100%; object-fit:contain; display:block; transition:transform .35s ease, filter .35s ease;" class="sponsor-logo" style-hover="transform:scale(1.05); filter:brightness(1.05);"/>
+                </sc-if>
+                <sc-if value="{{ sp.pending }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-family:'Playfair Display',serif; font-size:14px; line-height:1.5; color:#F4C542; text-align:center; opacity:.85;">{{ sp.name }}</span>
+                </sc-if>
+                <sc-if value="{{ sp.hasNote }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:11px; letter-spacing:.06em; color:#4a4470; text-align:center; line-height:1.45;">{{ sp.note }}</span>
+                </sc-if>
+              </a>
+            </sc-for>
+          </div>
         </div>
-      </div>
-
-      <button onClick="{{ sponsorsNext }}" aria-label="Siguiente" style="flex:none; width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(244,197,66,.4); background:rgba(255,255,255,.03); color:#F4C542; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">›</button>
-    </div>
-
-    <div style="display:flex; justify-content:center; gap:10px; margin-top:30px;">
-      <sc-for list="{{ sponsorDots }}" as="dot" hint-placeholder-count="2">
-        <button onClick="{{ dot.select }}" aria-label="Ir a página {{ dot.n }}" style="width:{{ dot.size }}; height:9px; border-radius:5px; border:none; background:{{ dot.color }}; cursor:pointer; transition:all .3s ease; padding:0;"></button>
       </sc-for>
     </div>
   </section>
@@ -599,9 +620,10 @@
       </div>
       <div>
         <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerLocation }}</div>
-        <a href="mapa.dc.html" style="display:flex; aspect-ratio:4/3; border-radius:12px; background:repeating-linear-gradient(115deg,#2B216D 0 14px,#1c1652 14px 28px); align-items:center; justify-content:center; text-decoration:none;">
-          <span style="font-family:monospace; font-size:10.5px; color:#F4C542;">{{ t.footerMap }}</span>
-        </a>
+        <div style="border-radius:12px; overflow:hidden; border:1px solid rgba(244,197,66,.25); aspect-ratio:4/3;">
+          <iframe title="Mapa de Santa Cruz de Mompox" src="https://www.google.com/maps?q=Santa+Cruz+de+Mompox,+Bol%C3%ADvar,+Colombia&amp;output=embed" width="100%" height="100%" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <a href="mapa.dc.html" style="display:inline-block; margin-top:10px; font-size:12.5px; color:#F4C542; text-decoration:none; font-weight:600;">{{ t.footerMap }}</a>
       </div>
     </div>
     <div style="text-align:center; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); font-size:12.5px; color:#8983c2;">{{ t.footerCopyright }}</div>
@@ -666,7 +688,7 @@ const TRANSLATIONS = {
     galleryTag: 'Momentos', galleryHeading: 'Galería',
     infoTag: 'Práctica', infoHeading: 'Información',
     sponsorsTag: 'Aliados', sponsorsHeading: 'Patrocinadores',
-    footerTagline: 'Un evento gratuito de Icultur, la Gobernación de Bolívar y el Ministerio de las Culturas de Colombia.',
+    footerTagline: 'Un evento gratuito de la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas de Colombia.',
     footerContact: 'Contacto', footerSocial: 'Redes sociales', footerLocation: 'Ubicación',
     footerMap: '[ ver mapa ]',
     footerCopyright: '© 2026 Icultur — Instituto de Cultura y Turismo de Bolívar. Todos los derechos reservados.',
@@ -693,7 +715,7 @@ const TRANSLATIONS = {
     galleryTag: 'Moments', galleryHeading: 'Gallery',
     infoTag: 'Practical', infoHeading: 'Information',
     sponsorsTag: 'Partners', sponsorsHeading: 'Sponsors',
-    footerTagline: 'A free event by Icultur, the Government of Bolívar, and Colombia\u2019s Ministry of Culture.',
+    footerTagline: 'A free event by the Government of Bolívar, Icultur and Colombia\u2019s Ministry of Culture.',
     footerContact: 'Contact', footerSocial: 'Social media', footerLocation: 'Location',
     footerMap: '[ view map ]',
     footerCopyright: '© 2026 Icultur — Institute of Culture and Tourism of Bolívar. All rights reserved.',
@@ -712,37 +734,38 @@ const DAY_DEFS = {
     { label: 'Jue 3 Sep', events: [
       { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
       { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
-      { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+      { time: '8:00 am - 7:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
       { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
       { time: '10:00 a.m. - 12:00 m / 2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Biblioteca Pública Municipal Pedro Salcedo Del Villar de Mompox' },
-      { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
-      { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
+      { time: '3:00 pm - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+      { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 p.m. - 7:00 p.m.', title: 'Desfile cultural y folclórico Río de Gente — Homenaje a Gilberto Márquez', place: 'Desde la Bomba Gilmar hacia la Plaza Santa Bárbara' },
       { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
     ]},
     { label: 'Vie 4 Sep', events: [
       { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
       { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
-      { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+      { time: '8:00 am - 7:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+      { time: '8:00 a.m. - 8:00 p.m.', title: '2da versión Festival del frito momposino', place: 'Albarrada Portales de la Marquesa' },
       { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
+      { time: '10:00 a.m. - 12:00 m', title: 'Concierto Gospel Unibac', place: 'Iglesia Santa Bárbara' },
       { time: '2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Biblioteca Rural Itinerante — Corregimiento de Tierra Firme, Mompox' },
-      { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
-      { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
-      { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: '' },
-      { time: '6:00 p.m.', title: 'Animeros — Corporación Cultural Atabaques', place: 'Plaza San Francisco' },
+      { time: '3:00 pm - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+      { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
+      { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: 'Plaza Santa Bárbara' },
+      { time: '6:00 p.m.', title: 'Animeros — Corporación Cultural Atabaques', place: 'Plaza Santa Bárbara' },
       { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
     ]},
     { label: 'Sáb 5 Sep', events: [
       { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
       { time: 'Todo el día', title: 'Street Jazz', place: 'Calles y plazas de Mompox' },
-      { time: '8:00 am - 6:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+      { time: '8:00 am - 7:00 pm', title: 'Campamento de Jazz de Mompox', place: 'Claustro San Agustín' },
+      { time: '8:00 a.m. - 8:00 p.m.', title: '2da versión Festival del frito momposino', place: 'Albarrada Portales de la Marquesa' },
       { time: '9:00 a.m. - 5:00 p.m.', title: 'Exposición los colores del Jazz', place: 'Claustro de San Carlos' },
       { time: '2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Barrio Primero de Mayo, Mompox' },
-      { time: '10:00 am - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
-      { time: '10:00 a.m. - 12:00 m', title: 'Concierto Gospel Unibac', place: 'Iglesia Santa Bárbara' },
-      { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
-      { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: '' },
-      { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: '' },
+      { time: '3:00 pm - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
+      { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
+      { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: 'Calle de atrás — Sede Universidad de Cartagena' },
       { time: '6:00 p.m.', title: 'Marca Bolívar — Pasarela Elar, Canto de Palma', place: 'Plaza de La Concepción' },
       { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
     ]},
@@ -758,37 +781,38 @@ const DAY_DEFS = {
     { label: 'Thu Sep 3', events: [
       { time: 'All day', title: 'Airport welcome', place: '' },
       { time: 'All day', title: 'Street Jazz', place: 'Streets and squares of Mompox' },
-      { time: '8:00 am - 6:00 pm', title: 'Mompox Jazz Camp', place: 'Claustro San Agustín' },
+      { time: '8:00 am - 7:00 pm', title: 'Mompox Jazz Camp', place: 'Claustro San Agustín' },
       { time: '9:00 am - 5:00 pm', title: 'The Colors of Jazz Exhibition', place: 'Claustro de San Carlos' },
       { time: '10:00 am - 12:00 pm / 2:00 pm - 4:00 pm', title: 'La Carreta Literaria reading promotion workshop', place: 'Pedro Salcedo Del Villar Municipal Public Library, Mompox' },
-      { time: '10:00 am - 8:00 pm', title: 'Craft and Food Fair', place: 'Albarrada, Plaza Santa Bárbara' },
-      { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
+      { time: '3:00 pm - 8:00 pm', title: 'Craft and Food Fair', place: 'Albarrada, Plaza Santa Bárbara' },
+      { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 pm - 7:00 pm', title: 'Río de Gente cultural and folk parade — Tribute to Gilberto Márquez', place: 'From Bomba Gilmar to Plaza Santa Bárbara' },
       { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
     ]},
     { label: 'Fri Sep 4', events: [
       { time: 'All day', title: 'Airport welcome', place: '' },
       { time: 'All day', title: 'Street Jazz', place: 'Streets and squares of Mompox' },
-      { time: '8:00 am - 6:00 pm', title: 'Mompox Jazz Camp', place: 'Claustro San Agustín' },
+      { time: '8:00 am - 7:00 pm', title: 'Mompox Jazz Camp', place: 'Claustro San Agustín' },
+      { time: '8:00 am - 8:00 pm', title: '2nd Mompox Fried Food Festival', place: 'Albarrada Portales de la Marquesa' },
       { time: '9:00 am - 5:00 pm', title: 'The Colors of Jazz Exhibition', place: 'Claustro de San Carlos' },
+      { time: '10:00 am - 12:00 pm', title: 'Unibac Gospel Concert', place: 'Iglesia Santa Bárbara' },
       { time: '2:00 pm - 4:00 pm', title: 'La Carreta Literaria reading promotion workshop', place: 'Traveling Rural Library — Tierra Firme township, Mompox' },
-      { time: '10:00 am - 8:00 pm', title: 'Craft and Food Fair', place: 'Albarrada, Plaza Santa Bárbara' },
-      { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
-      { time: '4:00 pm', title: 'UNIBAC al Parque Concert', place: '' },
-      { time: '6:00 pm', title: 'Animeros — Atabaques Cultural Corporation', place: 'Plaza San Francisco' },
+      { time: '3:00 pm - 8:00 pm', title: 'Craft and Food Fair', place: 'Albarrada, Plaza Santa Bárbara' },
+      { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
+      { time: '4:00 pm', title: 'UNIBAC al Parque Concert', place: 'Plaza Santa Bárbara' },
+      { time: '6:00 pm', title: 'Animeros — Atabaques Cultural Corporation', place: 'Plaza Santa Bárbara' },
       { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
     ]},
     { label: 'Sat Sep 5', events: [
       { time: 'All day', title: 'Airport welcome', place: '' },
       { time: 'All day', title: 'Street Jazz', place: 'Streets and squares of Mompox' },
-      { time: '8:00 am - 6:00 pm', title: 'Mompox Jazz Camp', place: 'Claustro San Agustín' },
+      { time: '8:00 am - 7:00 pm', title: 'Mompox Jazz Camp', place: 'Claustro San Agustín' },
+      { time: '8:00 am - 8:00 pm', title: '2nd Mompox Fried Food Festival', place: 'Albarrada Portales de la Marquesa' },
       { time: '9:00 am - 5:00 pm', title: 'The Colors of Jazz Exhibition', place: 'Claustro de San Carlos' },
       { time: '2:00 pm - 4:00 pm', title: 'La Carreta Literaria reading promotion workshop', place: 'Primero de Mayo neighborhood, Mompox' },
-      { time: '10:00 am - 8:00 pm', title: 'Craft and Food Fair', place: 'Albarrada, Plaza Santa Bárbara' },
-      { time: '10:00 am - 12:00 pm', title: 'Unibac Gospel Concert', place: 'Iglesia Santa Bárbara' },
-      { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Calle del Cabildo' },
-      { time: '2:00 pm', title: 'UNIBAC Mural Launch', place: '' },
-      { time: '4:00 pm', title: 'UNIBAC al Parque Concert', place: '' },
+      { time: '3:00 pm - 8:00 pm', title: 'Craft and Food Fair', place: 'Albarrada, Plaza Santa Bárbara' },
+      { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
+      { time: '2:00 pm', title: 'UNIBAC Mural Launch', place: 'Back street — Universidad de Cartagena campus' },
       { time: '6:00 pm', title: 'Marca Bolívar — Elar Runway, Canto de Palma', place: 'Plaza de La Concepción' },
       { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
     ]},
@@ -797,24 +821,24 @@ const DAY_DEFS = {
 
 const ARTIST_DEFS = {
   es: [
-    { name: 'Orquesta del Río Magdalena', country: 'Colombia', genre: 'Jazz afrocaribeño', c1: '#2B216D', c2: '#191B63' },
-    { name: 'Trío Farol de Bronce', country: 'Colombia', genre: 'Jazz contemporáneo', c1: '#191B63', c2: '#2B216D' },
-    { name: 'Elena Vidales', country: 'Cuba', genre: 'Jazz vocal', c1: '#3a2d80', c2: '#221a5e' },
-    { name: 'Ensamble Mompox Big Band', country: 'Colombia', genre: 'Big band', c1: '#241d5c', c2: '#39306e' },
-    { name: 'Sexteto Filigrana', country: 'Colombia', genre: 'Jazz fusión', c1: '#2B216D', c2: '#191B63' },
-    { name: 'Marco Ferreira Trio', country: 'Brasil', genre: 'Bossa jazz', c1: '#191B63', c2: '#2B216D' },
-    { name: 'Amanda Reyes', country: 'Panamá', genre: 'Jazz vocal', c1: '#3a2d80', c2: '#221a5e' },
-    { name: 'Cuarteto del Caribe', country: 'Colombia', genre: 'Jazz caribeño', c1: '#241d5c', c2: '#39306e' },
+    { name: 'Victoria Sur', meta: 'Colombia', photo: 'uploads/victoriasurynicolasospina.jpeg', bio: 'Cantante y compositora nacida en Armenia, Quindío. Comenzó su carrera musical desde los 10 años con el dúo Sombra y Luz, con el que ganó el Festival Mono Núñez en 1994. Como solista ha desarrollado una propuesta que mezcla música andina y latinoamericana con jazz, rock y otros géneros. Ha publicado varios álbumes y fue nominada al Latin Grammy por Nanas consentidoras.', c1: '#2B216D', c2: '#191B63' },
+    { name: 'Nicolás Ospina', meta: 'Colombia', photo: 'uploads/nicolasospina.jpeg', bio: 'Pianista, compositor, arreglista, productor, cantante y docente colombiano. Es reconocido por su versatilidad dentro del jazz y la música latinoamericana. Ha trabajado en diferentes países y escenarios internacionales, combinando jazz, ritmos colombianos y música contemporánea. También ha desarrollado proyectos de creación para teatro, conciertos y producción discográfica.', c1: '#191B63', c2: '#2B216D' },
+    { name: 'Óscar Acevedo', meta: 'Colombia', photo: 'uploads/oscaracevedo.jpeg', bio: 'Pianista, compositor, arreglista y docente nacido en Bucaramanga. Es considerado una de las figuras importantes de la segunda generación del jazz colombiano. Estudió en Berklee College of Music y posteriormente regresó a Colombia, donde desarrolló una extensa carrera como intérprete, compositor y formador. Ha trabajado con jazz, música colombiana, fusión y bandas sonoras.', c1: '#3a2d80', c2: '#221a5e' },
+    { name: 'Davi Fonseca', meta: 'Brasil', photo: 'uploads/davifonseca.jpg', bio: 'Pianista, compositor, arreglista y cantante nacido en Belo Horizonte, Minas Gerais. Es graduado en Composición por la Universidad Federal de Minas Gerais (UFMG) y tiene una fuerte presencia en la escena independiente de Belo Horizonte. Su propuesta combina canción brasileña, música instrumental y elementos de diferentes tradiciones musicales. Ha colaborado con artistas como Elza Soares, Letieres Leite y Lea Freire.', c1: '#241d5c', c2: '#39306e' },
+    { name: 'Cosimo Boni', meta: 'Italia', photo: 'uploads/davidfonseca.jpeg', bio: 'Trompetista, compositor y docente italiano, nacido y criado cerca de Florencia. Comenzó a tocar trompeta a los 11 años, inspirado por Miles Davis. Posteriormente estudió en el Berklee College of Music y en el Global Jazz Institute, donde trabajó con reconocidos maestros del jazz. Actualmente desarrolla su carrera entre Europa y Nueva York y ha participado en importantes festivales y clubes internacionales.', c1: '#2B216D', c2: '#191B63' },
+    { name: 'Jazz and Jam — UNIBAC', meta: 'Colombia', photo: 'uploads/unibac-3445e5ec.jpeg', bio: 'Ensamble de jazz de la Institución Universitaria Bellas Artes y Ciencias de Bolívar (UNIBAC), integrado por estudiantes del Conservatorio de Música Adolfo Mejía. El grupo es dirigido por la maestra Liliana Atencia Gil y desarrolla repertorios de jazz y grandes bandas, participando en importantes eventos culturales de Cartagena y Bolívar.', c1: '#191B63', c2: '#2B216D' },
+    { name: 'Sélène Saint-Aimé', meta: 'Francia', photo: 'uploads/salenesaint.jpeg', bio: 'Cantante, contrabajista y compositora de jazz francesa. Nació en 1994 y creció en Bois-le-Roi, cerca de París. Tiene raíces martinicanas y franco-ivorianas. Comenzó a estudiar contrabajo a los 18 años y posteriormente amplió su formación en París y Nueva York, donde tuvo contacto con importantes figuras del jazz. Su música combina jazz con influencias afrocaribeñas y otras tradiciones musicales.', c1: '#3a2d80', c2: '#221a5e' },
+    { name: 'Flora Martínez', meta: 'Colombia · Canadá', photo: 'uploads/floramartinez.jpeg', bio: 'Actriz y cantante nacida en Montreal, hija de madre canadiense y padre colombiano. Es ampliamente conocida por su trayectoria en cine y televisión, especialmente por protagonizar Rosario Tijeras. Además de la actuación, ha desarrollado una carrera musical y ha publicado trabajos discográficos relacionados con la música latinoamericana y el jazz.', c1: '#241d5c', c2: '#39306e' },
   ],
   en: [
-    { name: 'Orquesta del Río Magdalena', country: 'Colombia', genre: 'Afro-Caribbean jazz', c1: '#2B216D', c2: '#191B63' },
-    { name: 'Trío Farol de Bronce', country: 'Colombia', genre: 'Contemporary jazz', c1: '#191B63', c2: '#2B216D' },
-    { name: 'Elena Vidales', country: 'Cuba', genre: 'Vocal jazz', c1: '#3a2d80', c2: '#221a5e' },
-    { name: 'Ensamble Mompox Big Band', country: 'Colombia', genre: 'Big band', c1: '#241d5c', c2: '#39306e' },
-    { name: 'Sexteto Filigrana', country: 'Colombia', genre: 'Jazz fusion', c1: '#2B216D', c2: '#191B63' },
-    { name: 'Marco Ferreira Trio', country: 'Brazil', genre: 'Bossa jazz', c1: '#191B63', c2: '#2B216D' },
-    { name: 'Amanda Reyes', country: 'Panama', genre: 'Vocal jazz', c1: '#3a2d80', c2: '#221a5e' },
-    { name: 'Cuarteto del Caribe', country: 'Colombia', genre: 'Caribbean jazz', c1: '#241d5c', c2: '#39306e' },
+    { name: 'Victoria Sur', meta: 'Colombia', photo: 'uploads/victoriasurynicolasospina.jpeg', bio: 'Singer and songwriter born in Armenia, Quindío. She began her music career at age 10 with the duo Sombra y Luz, winning the Mono Núñez Festival in 1994. As a soloist she blends Andean and Latin American music with jazz, rock and other genres. She has released several albums and was nominated for a Latin Grammy for Nanas consentidoras.', c1: '#2B216D', c2: '#191B63' },
+    { name: 'Nicolás Ospina', meta: 'Colombia', photo: 'uploads/nicolasospina.jpeg', bio: 'Colombian pianist, composer, arranger, producer, singer and teacher. He is known for his versatility within jazz and Latin American music. He has worked in different countries and international venues, combining jazz, Colombian rhythms and contemporary music. He has also developed creative projects for theater, concerts and record production.', c1: '#191B63', c2: '#2B216D' },
+    { name: 'Óscar Acevedo', meta: 'Colombia', photo: 'uploads/oscaracevedo.jpeg', bio: 'Pianist, composer, arranger and teacher born in Bucaramanga. He is considered one of the key figures of the second generation of Colombian jazz. He studied at Berklee College of Music and later returned to Colombia, where he built an extensive career as performer, composer and educator. He has worked across jazz, Colombian music, fusion and soundtracks.', c1: '#3a2d80', c2: '#221a5e' },
+    { name: 'Davi Fonseca', meta: 'Brazil', photo: 'uploads/davifonseca.jpg', bio: 'Pianist, composer, arranger and singer born in Belo Horizonte, Minas Gerais. He holds a degree in Composition from the Federal University of Minas Gerais (UFMG) and is a strong presence in the independent scene of Belo Horizonte. His work combines Brazilian song, instrumental music and elements of different musical traditions. He has collaborated with artists such as Elza Soares, Letieres Leite and Lea Freire.', c1: '#241d5c', c2: '#39306e' },
+    { name: 'Cosimo Boni', meta: 'Italy', photo: 'uploads/davidfonseca.jpeg', bio: 'Italian trumpeter, composer and teacher, born and raised near Florence. He started playing trumpet at 11, inspired by Miles Davis. He later studied at Berklee College of Music and the Global Jazz Institute, working with renowned jazz masters. He currently divides his career between Europe and New York and has played major international festivals and clubs.', c1: '#2B216D', c2: '#191B63' },
+    { name: 'Jazz and Jam — UNIBAC', meta: 'Colombia', photo: 'uploads/unibac-3445e5ec.jpeg', bio: 'Jazz ensemble of the Institución Universitaria Bellas Artes y Ciencias de Bolívar (UNIBAC), made up of students from the Adolfo Mejía Conservatory of Music. The group is directed by maestra Liliana Atencia Gil and performs jazz and big band repertoire at major cultural events in Cartagena and Bolívar.', c1: '#191B63', c2: '#2B216D' },
+    { name: 'Sélène Saint-Aimé', meta: 'France', photo: 'uploads/salenesaint.jpeg', bio: 'French jazz singer, double bassist and composer. Born in 1994, she grew up in Bois-le-Roi, near Paris. She has Martinican and Franco-Ivorian roots. She began studying double bass at 18 and later continued her training in Paris and New York, where she connected with major jazz figures. Her music combines jazz with Afro-Caribbean and other musical influences.', c1: '#3a2d80', c2: '#221a5e' },
+    { name: 'Flora Martínez', meta: 'Colombia · Canada', photo: 'uploads/floramartinez.jpeg', bio: 'Actress and singer born in Montreal to a Canadian mother and a Colombian father. She is widely known for her work in film and television, especially for starring in Rosario Tijeras. Alongside acting she has built a musical career and released recordings connected to Latin American music and jazz.', c1: '#241d5c', c2: '#39306e' },
   ],
 };
 
@@ -856,11 +880,11 @@ const MOMPOX_ICON_DEFS = {
       desc: 'Iglesias, balcones de madera y calles empedradas definen el paisaje momposino.',
       more: 'Templos como Santa Bárbara, con su torre octogonal única en Colombia, y las fachadas encaladas del centro histórico reflejan tres siglos de historia colonial junto al Magdalena.',
       buttonMore: 'Ver más', buttonLess: 'Ver menos' },
-    { label: 'Gastronomía', slotId: 'mompox-gastronomia',
+    { label: 'Gastronomía', src: 'uploads/gastronimia.jpeg',
       desc: 'Pescado de río, dulces de leche y platos ribereños con siglos de tradición.',
       more: 'La cocina momposina gira en torno al bocachico y otros pescados del Magdalena, acompañados de dulces artesanales como el queso de capa y las bolas de tamarindo.',
       buttonMore: 'Ver más', buttonLess: 'Ver menos' },
-    { label: 'Artesanías', slotId: 'mompox-artesanias',
+    { label: 'Artesanías', src: 'uploads/artesanias.jpeg',
       desc: 'La filigrana en oro y plata es un oficio momposino transmitido por generaciones.',
       more: 'Los orfebres de Mompox trabajan finos hilos de oro y plata para crear joyería de filigrana, un oficio patrimonial que ha distinguido al pueblo desde la época colonial.',
       buttonMore: 'Ver más', buttonLess: 'Ver menos' },
@@ -874,11 +898,11 @@ const MOMPOX_ICON_DEFS = {
       desc: 'Churches, wooden balconies and cobblestone streets define the Mompox landscape.',
       more: 'Churches like Santa Bárbara, with its octagonal tower unique in Colombia, and the whitewashed façades of the historic center reflect three centuries of colonial history along the Magdalena.',
       buttonMore: 'Read more', buttonLess: 'Show less' },
-    { label: 'Cuisine', slotId: 'mompox-gastronomia',
+    { label: 'Cuisine', src: 'uploads/gastronimia.jpeg',
       desc: 'River fish, milk sweets and riverside dishes with centuries of tradition.',
       more: 'Mompox cuisine centers on bocachico and other Magdalena river fish, paired with handmade sweets like queso de capa and tamarind balls.',
       buttonMore: 'Read more', buttonLess: 'Show less' },
-    { label: 'Crafts', slotId: 'mompox-artesanias',
+    { label: 'Crafts', src: 'uploads/artesanias.jpeg',
       desc: 'Gold and silver filigree is a Mompox craft passed down through generations.',
       more: 'Mompox goldsmiths work fine threads of gold and silver into filigree jewelry, a heritage craft that has set the town apart since colonial times.',
       buttonMore: 'Read more', buttonLess: 'Show less' },
@@ -901,9 +925,6 @@ class Component extends DCLogic {
     panoHover: false,
     panoX: 0,
     panoY: 0,
-    itemsPerPage: 4,
-    sponsorPage: 0,
-    sponsorsPaused: false,
     lang: (typeof localStorage !== 'undefined' && localStorage.getItem('festijazzLang')) || 'es',
     showLangPrompt: false,
   };
@@ -919,6 +940,8 @@ class Component extends DCLogic {
     this._onScroll = () => {
       const scrolled = window.scrollY > 60;
       if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+      const showBackToTop = window.scrollY > 700;
+      if (showBackToTop !== this.state.showBackToTop) this.setState({ showBackToTop });
     };
     window.addEventListener('scroll', this._onScroll);
 
@@ -930,14 +953,6 @@ class Component extends DCLogic {
     };
     window.addEventListener('keydown', this._onKeyDown);
 
-    this._setItemsPerPage = () => {
-      const w = window.innerWidth;
-      const n = w < 600 ? 1 : w < 640 ? 2 : w < 1000 ? 3 : 4;
-      if (n !== this.state.itemsPerPage) this.setState({ itemsPerPage: n, sponsorPage: 0 });
-    };
-    this._setItemsPerPage();
-    window.addEventListener('resize', this._setItemsPerPage);
-    this._startSponsorAutoplay();
 
     // Background parallax is driven by CSS keyframes only (see filigreeDriftA/B/C in
     // <helmet>) — no JS polling loop. An earlier rAF-driven version caused a recurring
@@ -976,54 +991,61 @@ class Component extends DCLogic {
   componentWillUnmount() {
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('keydown', this._onKeyDown);
-    window.removeEventListener('resize', this._setItemsPerPage);
-    clearInterval(this._sponsorTimer);
     cancelAnimationFrame(this._splashRaf);
   }
 
-  _startSponsorAutoplay() {
-    clearInterval(this._sponsorTimer);
-    this._sponsorTimer = setInterval(() => {
-      if (this.state.sponsorsPaused) return;
-      this.sponsorsNext();
-    }, 3500);
-  }
-
-  _sponsorPageCount() {
-    const total = this._sponsorList().length;
-    return Math.max(1, Math.ceil(total / this.state.itemsPerPage));
-  }
-
-  sponsorsNext = () => {
-    const count = this._sponsorPageCount();
-    this.setState(s => ({ sponsorPage: (s.sponsorPage + 1) % count }));
-  };
-  sponsorsPrev = () => {
-    const count = this._sponsorPageCount();
-    this.setState(s => ({ sponsorPage: (s.sponsorPage - 1 + count) % count }));
-  };
-  sponsorsPause = () => this.setState({ sponsorsPaused: true });
-  sponsorsResume = () => this.setState({ sponsorsPaused: false });
-
-  _sponsorList() {
+  _sponsorGroupDefs() {
     return [
-      { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/LOGO CULTURAS VIOLETA.png' },
-      { name: 'Gobernación de Bolívar', src: 'uploads/gob-sponsor.png' },
-      { name: 'Icultur', src: 'uploads/icultur-sponsor.png' },
-      { name: 'Alcaldía Distrital de Santa Cruz de Mompox', src: 'uploads/alcaldiamompox.png' },
-      { name: 'Caribe Afirmativo', src: 'uploads/caforiginalcaribeh-esp-67dafcdf.svg' },
-      { name: 'ANDI Más País — Seccional Bolívar', src: 'uploads/Logo a color y en alta.jpg' },
-      { name: 'EMMAT — Berklee Global Partners', src: 'uploads/LOGOS_EMMAT-Berklee_Fondo_Claro.png' },
-      { name: 'Cámara de Comercio de Cartagena — Tejiendo Progreso en Bolívar', src: 'uploads/Logo_1.png' },
-      { name: 'Ambassade de France en Colombie', src: 'uploads/Logo Ambassade de France en Colombie.png' },
-      { name: 'Universidad del Magdalena', src: 'uploads/WhatsApp Image 2026-08-05 at 08.54.41.jpeg' },
-      { name: 'Hidra Tao', src: 'uploads/hidra.png' },
-      { name: 'Aguardiente Antioqueño', src: 'uploads/aguardiente.png' },
-      { name: 'Patrocinador oficial', slotId: 'sponsor-extra' },
+      { key: 'organiza', title: { es: 'Organiza', en: 'Organized by' }, featured: true, items: [
+        { name: 'Gobernación de Bolívar', src: 'uploads/gob-sponsor.png', url: 'https://www.bolivar.gov.co/' },
+        { name: 'Icultur — Instituto de Cultura y Turismo de Bolívar', src: 'uploads/icultur-sponsor.png', url: 'https://icultur.gov.co/' },
+        { name: 'Alcaldía Distrital de Santa Cruz de Mompox', src: 'uploads/alcaldiamompox.png' },
+      ]},
+      { key: 'patrocinadorOficial', title: { es: 'Patrocinador oficial', en: 'Official sponsor' }, featured: true, items: [
+        { name: 'Club Colombia — Bavaria', src: 'uploads/bavaria.png' },
+        { name: 'AV Villas', src: 'uploads/logos-1787414476179-7iw4.png' },
+        { name: 'FND — Federación Nacional de Departamentos', src: 'uploads/federacionnacionaldedepartamentos.jpeg' },
+      ]},
+      { key: 'aliadoOficial', title: { es: 'Aliado oficial', en: 'Official ally' }, featured: false, items: [
+        { name: 'CAF — Banco de Desarrollo de América Latina y el Caribe', src: 'uploads/caforiginalcaribeh-esp-67dafcdf.svg' },
+        { name: 'FLA — Fábrica de Licores de Antioquia', src: 'uploads/aguardiente.png', tight: true },
+        { name: 'Cámara de Comercio de Cartagena', src: 'uploads/Logo_1.png', url: 'https://cccartagena.org.co/' },
+        { name: 'Comfenalco', src: 'uploads/comfenalco.png' },
+        { name: 'Grupo Puerto de Cartagena', src: 'uploads/logos-1787414476060-eipm.png' },
+        { name: 'Satena', src: 'uploads/satena.png' },
+        { name: 'Pasquín — ACODRES', src: 'uploads/logos-1787414476062-t5ko.png' },
+        { name: 'Acodrés — Capítulo Cartagena · Bolívar', src: 'uploads/acodres.png' },
+        { name: 'Expreso Brasilia', src: 'uploads/logos-1787414482851-ka1g.png' },
+        { name: 'Cormagdalena', src: 'uploads/logos-1787414482734-ao8d.png' },
+      ]},
+      { key: 'aliadosInstitucionales', title: { es: 'Aliados institucionales', en: 'Institutional allies' }, featured: false, items: [
+        { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/LOGO CULTURAS VIOLETA.png', url: 'https://www.mincultura.gov.co/' },
+        { name: 'UNIBAC — Institución Universitaria Bellas Artes y Ciencias de Bolívar', src: 'uploads/unibac.jpeg', tight: true },
+        { name: 'CNA — Centro Nacional de las Artes Delia Zapata Olivella', src: 'uploads/cna.png' },
+      ]},
+      { key: 'aliadosAcademicos', title: { es: 'Aliados académicos', en: 'Academic allies' }, featured: false, items: [
+        { name: 'Fundación Salvi — EMMAT / Berklee Global Partners', src: 'uploads/fundacionsalvi.png' },
+        { name: 'Universidad del Magdalena', src: 'uploads/logos-1787414476034-ao1v.jpeg', url: 'https://www.unimagdalena.edu.co/' },
+      ]},
+      { key: 'apoyoDe', title: { es: 'Con el apoyo de', en: 'With the support of' }, featured: false, items: [
+        { name: 'Davivienda', src: 'uploads/davivienda.png' },
+        { name: 'ANDI', src: 'uploads/Logo a color y en alta.jpg', url: 'https://www.andi.com.co/' },
+        { name: 'Istituto Italiano di Cultura di Bogotá', src: 'uploads/logos-1787414481733-hnud.jpg' },
+        { name: 'Oficina Cultural Embajada de Italia', src: 'uploads/logos-1787414476117-on77.png', tight: true },
+        { name: 'E.S.E Hospital Universitario del Caribe', src: 'uploads/hospitaluniversitario.png' },
+        { name: 'Surtigas', src: 'uploads/logos-1787414476049-167g.png' },
+        { name: 'Artesanías de Colombia', src: 'uploads/artesaniasdecolombia.png' },
+        { name: 'Aguas de Bolívar', src: 'uploads/logos-1787414483822-fv9k.png' },
+        { name: 'Embajada de Francia en Colombia', src: 'uploads/Logo Ambassade de France en Colombie.png' },
+        { name: 'Vueltabajero', src: 'uploads/logos-1787414477091-zfd9.png' },
+        { name: 'Supergiros', src: 'uploads/supergiros.png', tight: true },
+        { name: 'Iderbol', src: 'uploads/iderbol.png' },
+      ]},
     ];
   }
 
   toggleMenu = () => this.setState(s => ({ mobileMenuOpen: !s.mobileMenuOpen }));
+  scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   closeMenu = () => this.setState({ mobileMenuOpen: false });
   stopProp = (e) => e.stopPropagation();
 
@@ -1077,12 +1099,21 @@ class Component extends DCLogic {
     // avoids a rendering stall (many simultaneous drag-drop slots + the
     // header logo slots is too much at once). The rest show a monogram
     // card in the same visual language.
-    const MAX_ARTIST_SLOTS = 3;
     const artists = artistDefs.map((a, i) => ({
       ...a,
-      hasSlot: i < MAX_ARTIST_SLOTS,
-      noSlot: i >= MAX_ARTIST_SLOTS,
+      photo: a.photo || '',
+      hasPhoto: !!a.photo,
+      hasSlot: !a.photo,
+      noSlot: false,
+      meta: a.meta || '',
+      hasMeta: !!a.meta,
+      bio: a.bio || '',
+      hasBio: !!a.bio,
       initial: a.name.charAt(0),
+      bioOpen: !!this.state['artistBio' + i],
+      bioMaxHeight: this.state['artistBio' + i] ? 'none' : '0px',
+      bioLabel: this.state['artistBio' + i] ? (lang === 'en' ? 'Show less' : 'Ver menos') : (lang === 'en' ? 'Information' : 'Información'),
+      toggleBio: () => this.setState({ ['artistBio' + i]: !this.state['artistBio' + i] }),
     }));
 
     const news = NEWS_DEFS[lang];
@@ -1111,9 +1142,9 @@ class Component extends DCLogic {
       { src: 'uploads/foto2-sm.jpg', alt: 'Embarcación turística sobre el río Magdalena', h: 240 },
       { src: 'uploads/foto3-sm.jpg', alt: 'Cuarteto de saxofones en tarima', h: 280 },
       { src: 'uploads/foto4-sm.jpg', alt: 'Filigrana de Mompox en vitrina', h: 220 },
-      { src: 'uploads/foto5-sm.jpg', alt: 'Artesana trabajando la filigrana', h: 300 },
+      { src: 'uploads/concierto.jpeg', alt: 'Vista aérea del Parque del Jazz durante el concierto nocturno', h: 300 },
       { src: 'uploads/foto6-sm.jpg', alt: 'Bailarinas con faldas coloridas al atardecer', h: 260 },
-      { src: 'uploads/foto7-sm.jpg', alt: 'Recorrido nocturno por el Claustro San Agustín', h: 240 },
+      { src: 'uploads/jazz.jpeg', alt: 'Ensamble de saxofones en la tarima del festival', h: 240 },
       { src: 'uploads/foto8-sm.jpg', alt: 'Fachada colonial de Mompox', h: 300 },
       { src: 'uploads/foto9-sm.jpg', alt: 'Plaza de la Libertad con estatua y arboleda', h: 220 },
     ];
@@ -1151,27 +1182,29 @@ class Component extends DCLogic {
       ? '0 24px 60px rgba(0,0,0,.45), 0 0 0 2px rgba(244,197,66,.6), 0 0 26px 3px rgba(244,197,66,.3)'
       : '0 20px 60px rgba(0,0,0,.4)';
 
-    const itemsPerPage = this.state.itemsPerPage;
-    const rawSponsors = this._sponsorList();
-    const sponsors = rawSponsors.map((s, i) => ({
-      ...s,
-      hasImg: !!s.src,
-      needsSlot: !s.src,
-      slotId: s.slotId || '',
-    }));
-    const pageCount = Math.max(1, Math.ceil(sponsors.length / itemsPerPage));
-    const sponsorPages = Array.from({ length: pageCount }, (_, p) => ({
-      width: (100 / pageCount) + '%',
-      items: sponsors.slice(p * itemsPerPage, p * itemsPerPage + itemsPerPage),
-    }));
-    const sponsorPage = Math.min(this.state.sponsorPage, pageCount - 1);
-    const sponsorsTrackWidth = (pageCount * 100) + '%';
-    const sponsorsTrackTransform = `translateX(-${(sponsorPage * (100 / pageCount)).toFixed(4)}%)`;
-    const sponsorDots = Array.from({ length: pageCount }, (_, p) => ({
-      n: p + 1,
-      select: () => this.setState({ sponsorPage: p }),
-      size: p === sponsorPage ? '26px' : '9px',
-      color: p === sponsorPage ? '#F4C542' : 'rgba(244,197,66,.3)',
+    const sponsorGroups = this._sponsorGroupDefs().map(g => ({
+      key: g.key,
+      title: g.title[lang] || g.title.es,
+      titleSize: g.featured ? '15px' : '13px',
+      ruleWidth: g.featured ? '110px' : '80px',
+      columns: g.featured ? 'repeat(auto-fit, minmax(260px, 330px))' : 'repeat(auto-fit, minmax(215px, 270px))',
+      gap: g.featured ? '28px' : '20px',
+      maxWidth: g.featured ? '1080px' : '940px',
+      items: g.items.map(it => ({
+        name: it.name,
+        src: it.src || '',
+        hasImg: !!it.src,
+        pending: !it.src,
+        cardBg: it.src ? '#FFFFFF' : 'rgba(255,255,255,.05)',
+        cardBorder: it.src ? 'rgba(244,197,66,.28)' : 'rgba(244,197,66,.22)',
+        href: it.url || undefined,
+        cursor: it.url ? 'pointer' : 'default',
+        note: it.note || '',
+        hasNote: !!it.note,
+        cardHeight: g.featured ? '250px' : '195px',
+        logoHeight: g.featured ? '170px' : '135px',
+        padding: it.tight ? '8px 8px' : (g.featured ? '28px 22px' : '20px 14px'),
+      })),
     }));
 
     const sp = this.state.splashProgress || 0;
@@ -1258,15 +1291,7 @@ class Component extends DCLogic {
       bgLayer2Transform: 'translate(0px, 0px)',
       bgLayer3Transform: 'translate(0px, 0px)',
       bgLayer4Transform: 'translate(0px, 0px)',
-      itemsPerPage,
-      sponsorPages,
-      sponsorDots,
-      sponsorsTrackWidth,
-      sponsorsTrackTransform,
-      sponsorsNext: this.sponsorsNext,
-      sponsorsPrev: this.sponsorsPrev,
-      sponsorsPause: this.sponsorsPause,
-      sponsorsResume: this.sponsorsResume,
+      sponsorGroups,
       panoTransform,
       panoFilter,
       panoShadow,
@@ -1284,6 +1309,8 @@ class Component extends DCLogic {
       headerBg: 'transparent',
       headerBlur: this.state.scrolled ? 'blur(8px)' : 'none',
       mobileMenuOpen: this.state.mobileMenuOpen,
+      showBackToTop: this.state.showBackToTop,
+      scrollToTop: this.scrollToTop,
       toggleMenu: this.toggleMenu,
       closeMenu: this.closeMenu,
       stopProp: this.stopProp,
