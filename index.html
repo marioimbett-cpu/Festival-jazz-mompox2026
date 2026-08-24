@@ -1013,8 +1013,8 @@ class Component extends DCLogic {
   _sponsorGroupDefs() {
     return [
       { key: 'organiza', title: { es: 'Organiza', en: 'Organized by' }, featured: true, items: [
-        { name: 'Gobernación de Bolívar', src: 'uploads/gob-sponsor.png', url: 'https://www.bolivar.gov.co/' },
-        { name: 'Icultur — Instituto de Cultura y Turismo de Bolívar', src: 'uploads/icultur-sponsor.png', url: 'https://icultur.gov.co/' },
+        { name: 'Gobernación de Bolívar', src: 'uploads/logo gobernacion.png', url: 'https://www.bolivar.gov.co/', big: true },
+        { name: 'Icultur — Instituto de Cultura y Turismo de Bolívar', src: 'uploads/logo icultur.png', url: 'https://icultur.gov.co/' },
         { name: 'Alcaldía Distrital de Santa Cruz de Mompox', src: 'uploads/alcaldiamompox.png' },
       ]},
       { key: 'patrocinadorOficial', title: { es: 'Patrocinador oficial', en: 'Official sponsor' }, featured: true, items: [
@@ -1219,8 +1219,8 @@ class Component extends DCLogic {
         note: it.note || '',
         hasNote: !!it.note,
         cardHeight: g.featured ? '250px' : '195px',
-        logoHeight: g.featured ? '170px' : '135px',
-        padding: it.tight ? '8px 8px' : (g.featured ? '28px 22px' : '20px 14px'),
+        logoHeight: it.big ? '205px' : (g.featured ? '170px' : '135px'),
+        padding: it.big ? '12px 14px' : (it.tight ? '8px 8px' : (g.featured ? '28px 22px' : '20px 14px')),
       })),
     }));
 
