@@ -597,7 +597,7 @@
             <sc-for list="{{ group.items }}" as="sp" hint-placeholder-count="3">
               <a href="{{ sp.href }}" target="_blank" rel="noopener" title="{{ sp.name }}" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-decoration:none; background:{{ sp.cardBg }}; border:1px solid {{ sp.cardBorder }}; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.28); box-sizing:border-box; padding:{{ sp.padding }}; height:{{ sp.cardHeight }}; cursor:{{ sp.cursor }}; transition:transform .35s cubic-bezier(.22,.8,.36,1), box-shadow .35s ease, border-color .35s ease;" class="sponsor-tile" style-hover="transform:translateY(-6px); border-color:rgba(244,197,66,.75); box-shadow:0 18px 42px rgba(0,0,0,.4), 0 0 30px 2px rgba(244,197,66,.28);">
                 <sc-if value="{{ sp.hasImg }}" hint-placeholder-val="{{ true }}">
-                  <img src="{{ sp.src }}" alt="{{ sp.name }}" loading="lazy" style="flex:1 1 auto; width:100%; height:100%; min-height:0; max-height:100%; object-fit:contain; display:block; transition:transform .35s ease, filter .35s ease;" class="sponsor-logo" style-hover="transform:scale(1.05); filter:brightness(1.05);"/>
+                  <img src="{{ sp.src }}" alt="{{ sp.name }}" loading="lazy" style="flex:1 1 auto; width:100%; height:100%; min-height:0; max-height:100%; object-fit:contain; display:block; filter:{{ sp.filter }}; transition:transform .35s ease;" class="sponsor-logo" style-hover="transform:scale(1.05);"/>
                 </sc-if>
                 <sc-if value="{{ sp.pending }}" hint-placeholder-val="{{ false }}">
                   <span style="font-family:'Playfair Display',serif; font-size:14px; line-height:1.5; color:#F4C542; text-align:center; opacity:.85;">{{ sp.name }}</span>
@@ -750,6 +750,7 @@ const DAY_DEFS = {
       { time: '3:00 pm - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
       { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 p.m. - 7:00 p.m.', title: 'Desfile cultural y folclórico Río de Gente — Homenaje a Gilberto Márquez', place: 'Desde la Bomba Gilmar hacia la Plaza Santa Bárbara' },
+      { time: '6:30 pm - 7:30 pm', title: 'Concierto didáctico Jazz al descubierto — Maestros EMMAT · Berklee Global Partner', place: 'Salón Principal Claustro San Agustín' },
       { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
     ]},
     { label: 'Vie 4 Sep', events: [
@@ -764,6 +765,7 @@ const DAY_DEFS = {
       { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: 'Plaza Santa Bárbara' },
       { time: '6:00 p.m.', title: 'Animeros — Corporación Cultural Atabaques', place: 'Plaza Santa Bárbara' },
+      { time: '6:30 pm - 7:30 pm', title: 'Concierto didáctico Jazz al descubierto — Maestros EMMAT · Berklee Global Partner', place: 'Salón Principal Claustro San Agustín' },
       { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
     ]},
     { label: 'Sáb 5 Sep', events: [
@@ -777,6 +779,7 @@ const DAY_DEFS = {
       { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: 'Calle de atrás — Sede Universidad de Cartagena' },
       { time: '6:00 p.m.', title: 'Marca Bolívar — Pasarela Elar, Canto de Palma', place: 'Plaza de La Concepción' },
+      { time: '6:30 pm - 7:30 pm', title: 'Concierto de Clausura Campamento de Jazz — abierto al público', place: 'Claustro San Agustín' },
       { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
     ]},
   ],
@@ -797,6 +800,7 @@ const DAY_DEFS = {
       { time: '3:00 pm - 8:00 pm', title: 'Craft and Food Fair', place: 'Albarrada, Plaza Santa Bárbara' },
       { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 pm - 7:00 pm', title: 'Río de Gente cultural and folk parade — Tribute to Gilberto Márquez', place: 'From Bomba Gilmar to Plaza Santa Bárbara' },
+      { time: '6:30 pm - 7:30 pm', title: 'Jazz al Descubierto didactic concert — EMMAT · Berklee Global Partner faculty', place: 'Main Hall, Claustro San Agustín' },
       { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
     ]},
     { label: 'Fri Sep 4', events: [
@@ -811,6 +815,7 @@ const DAY_DEFS = {
       { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 pm', title: 'UNIBAC al Parque Concert', place: 'Plaza Santa Bárbara' },
       { time: '6:00 pm', title: 'Animeros — Atabaques Cultural Corporation', place: 'Plaza Santa Bárbara' },
+      { time: '6:30 pm - 7:30 pm', title: 'Jazz al Descubierto didactic concert — EMMAT · Berklee Global Partner faculty', place: 'Main Hall, Claustro San Agustín' },
       { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
     ]},
     { label: 'Sat Sep 5', events: [
@@ -824,6 +829,7 @@ const DAY_DEFS = {
       { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '2:00 pm', title: 'UNIBAC Mural Launch', place: 'Back street — Universidad de Cartagena campus' },
       { time: '6:00 pm', title: 'Marca Bolívar — Elar Runway, Canto de Palma', place: 'Plaza de La Concepción' },
+      { time: '6:30 pm - 7:30 pm', title: 'Jazz Camp Closing Concert — open to the public', place: 'Claustro San Agustín' },
       { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
     ]},
   ],
@@ -1020,42 +1026,60 @@ class Component extends DCLogic {
       { key: 'patrocinadorOficial', title: { es: 'Patrocinador oficial', en: 'Official sponsor' }, featured: true, items: [
         { name: 'Club Colombia — Bavaria', src: 'uploads/bavaria.png' },
         { name: 'AV Villas', src: 'uploads/logos-1787414476179-7iw4.png' },
-        { name: 'FND — Federación Nacional de Departamentos', src: 'uploads/federacionnacionaldedepartamentos.jpeg' },
       ]},
       { key: 'aliadoOficial', title: { es: 'Aliado oficial', en: 'Official ally' }, featured: false, items: [
         { name: 'CAF — Banco de Desarrollo de América Latina y el Caribe', src: 'uploads/caforiginalcaribeh-esp-67dafcdf.svg' },
         { name: 'FLA — Fábrica de Licores de Antioquia', src: 'uploads/aguardiente.png', tight: true },
+        { name: 'Hidra Tao', src: 'uploads/hidratao.png' },
         { name: 'Cámara de Comercio de Cartagena', src: 'uploads/Logo_1.png', url: 'https://cccartagena.org.co/' },
         { name: 'Comfenalco', src: 'uploads/comfenalco.png' },
         { name: 'Grupo Puerto de Cartagena', src: 'uploads/logos-1787414476060-eipm.png' },
+        { name: 'Fundación Puerto de Cartagena', src: 'uploads/fundacionpuerto-crop.png' },
         { name: 'Satena', src: 'uploads/satena.png' },
         { name: 'Pasquín — ACODRES', src: 'uploads/logos-1787414476062-t5ko.png' },
         { name: 'Acodrés — Capítulo Cartagena · Bolívar', src: 'uploads/acodres.png' },
         { name: 'Expreso Brasilia', src: 'uploads/logos-1787414482851-ka1g.png' },
-        { name: 'Cormagdalena', src: 'uploads/logos-1787414482734-ao8d.png' },
+        { name: 'Unitransco S.A.', src: 'uploads/unitransco-crop.png', tight: true },
+        { name: 'Cormagdalena', src: 'uploads/cormagdalena-negro.png' },
+        { name: 'Istituto Italiano di Cultura di Bogotá', src: 'uploads/logos-1787414481733-hnud.jpg' },
+        { name: 'Oficina Cultural Embajada de Italia', src: 'uploads/logos-1787414476117-on77.png', tight: true },
       ]},
       { key: 'aliadosInstitucionales', title: { es: 'Aliados institucionales', en: 'Institutional allies' }, featured: false, items: [
         { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/LOGO CULTURAS VIOLETA.png', url: 'https://www.mincultura.gov.co/' },
         { name: 'UNIBAC — Institución Universitaria Bellas Artes y Ciencias de Bolívar', src: 'uploads/unibac.jpeg', tight: true },
-        { name: 'CNA — Centro Nacional de las Artes Delia Zapata Olivella', src: 'uploads/cna.png' },
+        { name: 'CNA — Centro Nacional de las Artes Delia Zapata Olivella', src: 'uploads/delia.png', span: 2, tight: true },
+        { name: 'FND — Federación Nacional de Departamentos', src: 'uploads/federacionnacionaldedepartamentos.jpeg' },
       ]},
       { key: 'aliadosAcademicos', title: { es: 'Aliados académicos', en: 'Academic allies' }, featured: false, items: [
-        { name: 'Fundación Salvi — EMMAT / Berklee Global Partners', src: 'uploads/fundacionsalvi.png' },
+        { name: 'Fundación Salvi', src: 'uploads/fundacionsalvi.jpeg' },
+        { name: 'EMMAT — Berklee Global Partners', src: 'uploads/emmatberklee.png' },
         { name: 'Universidad del Magdalena', src: 'uploads/logos-1787414476034-ao1v.jpeg', url: 'https://www.unimagdalena.edu.co/' },
       ]},
+      { key: 'mediosAliados', title: { es: 'Medios aliados', en: 'Media partners' }, featured: false, items: [
+        { name: 'Telecaribe', src: 'uploads/telecaribe.png' },
+        { name: 'Caracol Televisión', src: 'uploads/caracoltv.png' },
+        { name: 'Canal RCN', src: 'uploads/rcn-negro.png', tight: true },
+        { name: 'Caracol Radio', src: 'uploads/caracolradio-crop.png', tight: true },
+        { name: 'El Universal', src: 'uploads/eluniversal.png', tight: true },
+        { name: 'El Bolivarense', src: 'uploads/elbolivarense.png', tight: true },
+      ]},
       { key: 'apoyoDe', title: { es: 'Con el apoyo de', en: 'With the support of' }, featured: false, items: [
-        { name: 'Davivienda', src: 'uploads/davivienda.png' },
+        { name: 'Davivienda', src: 'uploads/davivienda-8902e4af.png' },
         { name: 'ANDI', src: 'uploads/Logo a color y en alta.jpg', url: 'https://www.andi.com.co/' },
-        { name: 'Istituto Italiano di Cultura di Bogotá', src: 'uploads/logos-1787414481733-hnud.jpg' },
-        { name: 'Oficina Cultural Embajada de Italia', src: 'uploads/logos-1787414476117-on77.png', tight: true },
-        { name: 'E.S.E Hospital Universitario del Caribe', src: 'uploads/hospitaluniversitario.png' },
-        { name: 'Surtigas', src: 'uploads/logos-1787414476049-167g.png' },
+        { name: 'E.S.E Hospital Universitario del Caribe', src: 'uploads/hospitaluniversitario.PNG', invert: true },
+        { name: 'Surtigas', src: 'uploads/surtigas-crop.png', tight: true },
         { name: 'Artesanías de Colombia', src: 'uploads/artesaniasdecolombia.png' },
-        { name: 'Aguas de Bolívar', src: 'uploads/logos-1787414483822-fv9k.png' },
+        { name: 'Aguas de Bolívar', src: 'uploads/aguasdebolivar.png' },
         { name: 'Embajada de Francia en Colombia', src: 'uploads/Logo Ambassade de France en Colombie.png' },
+        { name: 'Alianza Francesa Colombia', src: 'uploads/alianzafrancesacolombia.png', tight: true },
+        { name: 'Alianza Francesa Cartagena de las Indias', src: 'uploads/alianzafrancesacartagena-crop.png', tight: true },
         { name: 'Vueltabajero', src: 'uploads/logos-1787414477091-zfd9.png' },
-        { name: 'Supergiros', src: 'uploads/supergiros.png', tight: true },
+        { name: 'Supergiros', src: 'uploads/supergiros-690315f1.png', tight: true },
         { name: 'Iderbol', src: 'uploads/iderbol.png' },
+        { name: 'Marca Bolívar', src: 'uploads/marcabolivar-crop.png', big: true, tight: true, span: 2 },
+        { name: 'Cámara de Comercio de Magangué', src: 'uploads/camaramagangue.PNG' },
+        { name: 'Universidad de La Guajira', src: 'uploads/universidadguajira.png' },
+        { name: 'Secretaría de Desarrollo Económico de Bolívar', src: 'uploads/secretariadesarrollo-negro.png', span: 2, tight: true },
       ]},
     ];
   }
@@ -1219,8 +1243,11 @@ class Component extends DCLogic {
         note: it.note || '',
         hasNote: !!it.note,
         cardHeight: g.featured ? '250px' : '195px',
-        logoHeight: it.big ? '205px' : (g.featured ? '170px' : '135px'),
-        padding: it.big ? '12px 14px' : (it.tight ? '8px 8px' : (g.featured ? '28px 22px' : '20px 14px')),
+        logoHeight: it.big ? '238px' : (g.featured ? '170px' : '135px'),
+        bg: 'linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,246,240,.9))',
+        filter: it.invert ? 'invert(1)' : 'none',
+        span: it.span === 2 ? 'span 2' : 'auto',
+        padding: it.big ? '4px 10px' : (it.tight ? '8px 8px' : (g.featured ? '28px 22px' : '20px 14px')),
       })),
     }));
 
