@@ -3,6 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XII Festival de Jazz de Mompox — 3 al 5 de septiembre de 2026</title>
+<meta name="description" content="Evento gratuito y abierto al público en Santa Cruz de Mompox. Organizan la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Festival de Jazz de Mompox">
+<meta property="og:locale" content="es_CO">
+<meta property="og:url" content="https://festival-jazz-mompox2026.vercel.app/">
+<meta property="og:title" content="XII Festival de Jazz de Mompox — 3 al 5 de septiembre de 2026">
+<meta property="og:description" content="Evento gratuito y abierto al público en Santa Cruz de Mompox. Organizan la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas.">
+<meta property="og:image" content="https://festival-jazz-mompox2026.vercel.app/uploads/og-flyer.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Afiche del XII Festival de Jazz de Mompox 2026">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="XII Festival de Jazz de Mompox — 3 al 5 de septiembre de 2026">
+<meta name="twitter:description" content="Evento gratuito y abierto al público en Santa Cruz de Mompox. Organizan la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas.">
+<meta name="twitter:image" content="https://festival-jazz-mompox2026.vercel.app/uploads/og-flyer.png">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -104,6 +120,7 @@
     }
     @media (max-width:640px) {
       .sponsor-grid { grid-template-columns:repeat(3,1fr) !important; gap:10px !important; }
+      .sponsor-group-patrocinadorOficial .sponsor-grid { grid-template-columns:repeat(2,1fr) !important; max-width:340px !important; }
       .sponsor-tile { min-height:112px !important; padding:10px 8px !important; border-radius:14px !important; }
       .sponsor-logo { max-height:84px !important; }
     }
@@ -668,7 +685,7 @@
 
     <div style="position:relative; max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:76px;">
       <sc-for list="{{ sponsorGroups }}" as="group" hint-placeholder-count="6">
-        <div style="animation:revealUp .8s cubic-bezier(.22,.8,.36,1) both;">
+        <div class="sponsor-group sponsor-group-{{ group.key }}" style="animation:revealUp .8s cubic-bezier(.22,.8,.36,1) both;">
           <div style="display:flex; align-items:center; justify-content:center; gap:18px; margin-bottom:34px;">
             <div style="height:1px; width:{{ group.ruleWidth }}; max-width:22vw; background:linear-gradient(90deg, transparent, rgba(244,197,66,.55));"></div>
             <span style="flex:none; color:#F4C542; font-size:11px; opacity:.75;">✦</span>
