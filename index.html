@@ -103,7 +103,9 @@
       .artist-name { font-size:27px !important; }
     }
     @media (max-width:640px) {
-      .sponsor-grid { gap:14px !important; }
+      .sponsor-grid { grid-template-columns:repeat(3,1fr) !important; gap:10px !important; }
+      .sponsor-tile { min-height:112px !important; padding:10px 8px !important; border-radius:14px !important; }
+      .sponsor-logo { max-height:84px !important; }
     }
     @media (max-width:900px) {
       .emergency-grid { grid-template-columns:1fr !important; gap:34px !important; }
