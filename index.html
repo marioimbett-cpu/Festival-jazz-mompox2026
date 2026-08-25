@@ -490,8 +490,8 @@
   <section data-screen-label="Mompox" style="padding:100px 5%; background:#191B63;">
     <div style="border-radius: 24px; overflow: hidden; margin-bottom: 50px; animation: revealUp .9s cubic-bezier(.22,.8,.36,1) both">
       <div onMouseEnter="{{ panoEnter }}" onMouseMove="{{ panoMove }}" onMouseLeave="{{ panoLeave }}" style="position:relative; aspect-ratio:21/7; cursor:pointer; border:1.5px solid rgba(244,197,66,.15); box-shadow:{{ panoShadow }}; transition:box-shadow .6s ease, border-color .6s ease;">
-        <img src="uploads/panoramica-enhanced-jpg.jpg" alt="Vista panorámica de Santa Cruz de Mompox al atardecer sobre el río Magdalena" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ panoTransform }}; filter:{{ panoFilter }}; transition:transform .6s cubic-bezier(.22,.8,.36,1), filter .6s ease;">
-        <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,14,51,.35) 0%, rgba(15,14,51,0) 20%, rgba(15,14,51,0) 70%, rgba(15,14,51,.55) 100%); pointer-events:none;"></div>
+        <img src="uploads/mompox2.jpg" alt="Plaza de la Concepción y Casa de la Cultura, Santa Cruz de Mompox" style="width:100%; height:100%; object-fit:cover; object-position:center 58%; display:block; transform:{{ panoTransform }}; filter:{{ panoFilter }}; transition:transform .6s cubic-bezier(.22,.8,.36,1), filter .6s ease;">
+        <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,14,51,.16) 0%, rgba(15,14,51,0) 18%, rgba(15,14,51,0) 74%, rgba(15,14,51,.3) 100%); pointer-events:none;"></div>
       </div>
     </div>
     <div style="text-align:center; max-width:720px; margin:0 auto 50px;">
@@ -1364,7 +1364,7 @@ class Component extends DCLogic {
     const panoPanX = panoHover ? this.state.panoX * -10 : 0;
     const panoPanY = panoHover ? this.state.panoY * -6 : 0;
     const panoTransform = `translate(${panoPanX.toFixed(1)}px, ${panoPanY.toFixed(1)}px) scale(${panoScale})`;
-    const panoFilter = panoHover ? 'brightness(1.07) saturate(1.12)' : 'brightness(1) saturate(1)';
+    const panoFilter = panoHover ? 'brightness(1.1) saturate(1.2) contrast(1.06)' : 'brightness(1.04) saturate(1.1) contrast(1.03)';
     const panoShadow = panoHover
       ? '0 24px 60px rgba(0,0,0,.45), 0 0 0 2px rgba(244,197,66,.6), 0 0 26px 3px rgba(244,197,66,.3)'
       : '0 20px 60px rgba(0,0,0,.4)';
