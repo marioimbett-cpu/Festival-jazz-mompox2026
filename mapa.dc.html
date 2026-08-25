@@ -21,6 +21,13 @@
       .footer-grid { grid-template-columns:1fr !important; }
       .legend-grid { grid-template-columns:1fr 1fr !important; }
     }
+    @media (max-width:640px) {
+      .portal-qr { width:120px !important; height:120px !important; }
+    }
+    @media (max-width:640px) {
+      .portal-strip { flex-direction:column !important; align-items:flex-start !important; gap:16px !important; padding:20px 20px !important; }
+      .portal-strip .portal-cta { align-self:flex-start !important; margin-left:0 !important; }
+    }
   </style>
 </helmet>
 
@@ -29,36 +36,32 @@
   <header data-screen-label="Header" style="position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:14px 5%; transition:background .35s ease, backdrop-filter .35s ease; background:{{ headerBg }}; backdrop-filter:{{ headerBlur }};">
     <div style="display:flex; align-items:center; gap:16px;">
       <a href="https://www.mincultura.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
-        <img src="uploads/cultura-white.png" alt="Ministerio de las Culturas, las Artes y los Saberes de Colombia" style="height:70px; width:88px; object-fit:contain; display:block;"/>
+        <img src="uploads/cultura-white.png" alt="Ministerio de las Culturas, las Artes y los Saberes de Colombia" style="height:43px; width:auto; object-fit:contain; display:block;" class="navbar-logos-img"/>
       </a>
       <div style="width:1px; height:28px; background:rgba(244,197,66,.4);"></div>
       <a href="https://www.bolivar.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
-        <img src="uploads/gob-transparent.png" alt="Gobernación de Bolívar" style="height:73px; width:70px; object-fit:contain; display:block;"/>
+        <img src="uploads/logo-gobernacion-bolivar.png" alt="Gobernación de Bolívar" loading="eager" style="height:43px; width:auto; object-fit:contain; display:block;" class="navbar-logos-img gob-logo"/>
       </a>
       <div style="width:1px; height:28px; background:rgba(244,197,66,.4);"></div>
       <a href="https://icultur.gov.co/" target="_blank" rel="noopener" style="display:flex; align-items:center; height:40px;">
-        <img src="uploads/icultur-white.png" alt="Icultur — Instituto de Cultura y Turismo de Bolívar" style="height:88px; width:101px; object-fit:contain; display:block;"/>
+        <img src="uploads/icultur-white.png" alt="Icultur — Instituto de Cultura y Turismo de Bolívar" style="height:110px; width:auto; object-fit:contain; display:block;" class="icultur-logo"/>
       </a>
     </div>
 
     <nav style="display:flex; align-items:center; gap:28px;" class="desktop-nav">
-      <a href="index.html#inicio" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navHome }}</a>
+      <a href="index.html?skip=1#inicio" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navHome }}</a>
       <a href="index.html#programacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navProgram }}</a>
       <a href="index.html#artistas" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navArtists }}</a>
       <a href="index.html#noticias" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navNews }}</a>
       <a href="index.html#galeria" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navGallery }}</a>
       <a href="index.html#informacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:20px; font-weight:600; letter-spacing:.02em; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navInfo }}</a>
       <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">{{ t.navGetThere }}</a>
-      <div style="display:flex; gap:6px;">
-        <button onClick="{{ setLangEs }}" style="border:1.5px solid rgba(244,197,66,.5); background:{{ esBg }}; color:{{ esColor }}; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">Español</button>
-        <button onClick="{{ setLangEn }}" style="border:1.5px solid rgba(244,197,66,.5); background:{{ enBg }}; color:{{ enColor }}; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">English</button>
-      </div>
+      <button onClick="{{ toggleLang }}" aria-label="Cambiar idioma / Switch language" style="border:1.5px solid rgba(244,197,66,.5); background:none; color:#F4C542; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:.05em; cursor:pointer; font-family:'Poppins',sans-serif;">{{ langButtonLabel }}</button>
     </nav>
 
     <div style="display:flex; align-items:center; gap:8px;">
-      <button onClick="{{ setLangEs }}" class="mobile-toggle" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:{{ esBg }}; color:{{ esColor }}; padding:6px 10px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">ES</button>
-      <button onClick="{{ setLangEn }}" class="mobile-toggle" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:{{ enBg }}; color:{{ enColor }}; padding:6px 10px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">EN</button>
-      <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">☰</button>
+      <button onClick="{{ toggleLang }}" class="mobile-toggle" aria-label="Cambiar idioma / Switch language" style="display:none; border:1.5px solid rgba(244,197,66,.5); background:none; color:#F4C542; padding:6px 12px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif;">{{ langButtonLabel }}</button>
+      <button onClick="{{ toggleMenu }}" class="mobile-toggle" style="display:none; background:none; border:none; color:#F4C542; font-size:34px; line-height:1; cursor:pointer; padding:4px;">☰</button>
     </div>
   </header>
 
@@ -66,7 +69,7 @@
     <div style="position:fixed; inset:0; z-index:200; background:rgba(15,14,45,.6); backdrop-filter:blur(4px);" onClick="{{ closeMenu }}">
       <div onClick="{{ stopProp }}" style="position:absolute; top:0; right:0; bottom:0; width:78%; max-width:320px; background:linear-gradient(180deg,#191B63,#2B216D); padding:28px 26px; display:flex; flex-direction:column; gap:26px; box-shadow:-8px 0 40px rgba(0,0,0,.4);">
         <button onClick="{{ closeMenu }}" style="align-self:flex-end; background:none; border:none; color:#F4C542; font-size:26px; cursor:pointer;">✕</button>
-        <a href="index.html#inicio" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navHome }}</a>
+        <a href="index.html?skip=1#inicio" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navHome }}</a>
         <a href="index.html#programacion" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navProgram }}</a>
         <a href="index.html#artistas" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navArtists }}</a>
         <a href="index.html#noticias" style="font-family:'Dancing Script',cursive; color:#F4C542; text-decoration:none; font-size:19px; font-weight:600; text-shadow:0 0 8px rgba(244,197,66,.25);">{{ t.navNews }}</a>
@@ -78,13 +81,25 @@
   </sc-if>
 
   <section data-screen-label="Mapa — Encabezado" style="padding:150px 5% 50px; background:radial-gradient(ellipse at 30% 0%, #2B216D 0%, #191B63 50%, #0f0e33 100%);">
-    <a href="index.html" style="display:inline-flex; align-items:center; gap:8px; color:#F4C542; text-decoration:none; font-size:13px; font-weight:600; margin-bottom:26px;">{{ t.backHome }}</a>
+    <a href="index.html?skip=1" style="display:inline-flex; align-items:center; gap:8px; color:#F4C542; text-decoration:none; font-size:13px; font-weight:600; margin-bottom:26px;">{{ t.backHome }}</a>
     <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.practicalTag }}</p>
     <h1 style="font-family:'Dancing Script',cursive; font-size:clamp(38px,5.5vw,58px); font-weight:700; margin:0 0 16px; color:#FFD447; text-shadow:0 0 18px rgba(255,212,71,.35);">{{ t.heading }}</h1>
     <p style="font-size:16px; line-height:1.8; color:#D9D5F5; max-width:640px; margin:0;">{{ t.subheading }}</p>
   </section>
 
   <section data-screen-label="Mapa — Interactivo" style="padding:20px 5% 100px; background:#191B63;">
+    <div style="max-width:1100px; margin:0 auto 24px;">
+      <div class="portal-strip" style="display:flex; align-items:center; gap:22px; flex-wrap:wrap; box-sizing:border-box; padding:26px 30px; border-radius:18px; background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.22); transition:border-color .35s ease;" style-hover="border-color:rgba(244,197,66,.4);">
+      <span class="portal-qr" style="flex:none; display:flex; align-items:center; justify-content:center; width:148px; height:148px; padding:10px; border-radius:14px; background:#FFFFFF; box-shadow:0 6px 18px rgba(0,0,0,.3);">
+        <img src="uploads/qrmompoxinteligente.jpeg" alt="Código QR — Portal oficial de Mompox Inteligente" loading="lazy" style="width:100%; height:100%; object-fit:contain; display:block;"/>
+      </span>
+      <span style="flex:1 1 260px; display:flex; flex-direction:column; gap:6px;">
+        <span style="font-family:'Poppins',sans-serif; font-size:16px; font-weight:600; color:#FFFFFF;">{{ t.portalTitle }}</span>
+        <span style="font-family:'Poppins',sans-serif; font-size:13.5px; line-height:1.6; color:#D9D5F5;">{{ t.portalText }}</span>
+      </span>
+      <span class="portal-cta" style="flex:none; margin-left:auto; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; letter-spacing:.04em; color:#F4C542;">{{ t.portalCta }}</span>
+    </div>
+    </div>
     <div style="max-width:1100px; margin:0 auto;">
       <div style="border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.4); border:1.5px solid rgba(244,197,66,.2);">
         <iframe
@@ -100,14 +115,6 @@
 
       <p style="font-size:13px; color:#B9B3E8; margin:16px 0 30px; line-height:1.7;">{{ t.mapNote }}</p>
 
-      <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:16px;" class="legend-grid">
-        <sc-for list="{{ legend }}" as="item" hint-placeholder-count="5">
-          <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:12px; padding:18px; text-align:center;">
-            <div style="font-size:22px; margin-bottom:8px;">{{ item.emoji }}</div>
-            <div style="font-size:12.5px; color:#EDEAFF; font-weight:500;">{{ item.label }}</div>
-          </div>
-        </sc-for>
-      </div>
     </div>
   </section>
 
@@ -119,17 +126,18 @@
       </div>
       <div>
         <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerContact }}</div>
-        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">info@icultur.gov.co<br/>+57 (5) 660 0000<br/>Mompox, Bolívar, Colombia</p>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">info@icultur.gov.co<br/>Mompox, Bolívar, Colombia</p>
       </div>
       <div>
         <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerSocial }}</div>
-        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">Instagram<br/>Facebook<br/>YouTube</p>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;"><a href="https://www.instagram.com/iculturbolivar?igsi=MTJ6em9oaDR1dTdlaQ==" target="_blank" rel="noopener" style="color:#D9D5F5; text-decoration:none;">Instagram</a><br/><a href="https://www.facebook.com/share/1Bfi1TYVtN/?mibextid=wwXIfr" target="_blank" rel="noopener" style="color:#D9D5F5; text-decoration:none;">Facebook</a></p>
       </div>
       <div>
         <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerLocation }}</div>
-        <a href="mapa.dc.html" style="display:block; aspect-ratio:4/3; border-radius:12px; background:repeating-linear-gradient(115deg,#2B216D 0 14px,#1c1652 14px 28px); display:flex; align-items:center; justify-content:center; text-decoration:none;">
-          <span style="font-family:monospace; font-size:10.5px; color:#F4C542;">{{ t.footerMap }}</span>
-        </a>
+        <div style="border-radius:12px; overflow:hidden; border:1px solid rgba(244,197,66,.25); aspect-ratio:4/3;">
+          <iframe title="Mapa de Santa Cruz de Mompox" src="https://www.google.com/maps?q=Santa+Cruz+de+Mompox,+Bol%C3%ADvar,+Colombia&amp;output=embed" width="100%" height="100%" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <a href="mapa.dc.html" style="display:inline-block; margin-top:10px; font-size:12.5px; color:#F4C542; text-decoration:none; font-weight:600;">{{ t.footerMap }}</a>
       </div>
     </div>
     <div style="text-align:center; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); font-size:12.5px; color:#8983c2;">{{ t.footerCopyright }}</div>
@@ -147,7 +155,10 @@ const TRANSLATIONS = {
     heading: 'Mapa de Mompox',
     subheading: 'Ubica el centro histórico de Santa Cruz de Mompox, donde se concentran los escenarios, hospedajes y puntos de interés del festival.',
     mapNote: 'El mapa está centrado en el centro histórico de Mompox. Usa los controles de Google Maps para hacer zoom y explorar el malecón, las plazas y las calles donde se desarrolla el festival.',
-    footerTagline: 'Un evento gratuito de Icultur, la Gobernación de Bolívar y el Ministerio de las Culturas de Colombia.',
+    footerTagline: 'Un evento gratuito de la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas de Colombia.',
+    portalTitle: 'Portal oficial de Mompox Inteligente',
+    portalText: 'Consulta los sitios de interés, hoteles y restaurantes ubicados en el municipio.',
+    portalCta: '← Escanea aquí',
     footerContact: 'Contacto', footerSocial: 'Redes sociales', footerLocation: 'Ubicación',
     footerMap: '[ ver mapa ]',
     footerCopyright: '© 2026 Icultur — Instituto de Cultura y Turismo de Bolívar. Todos los derechos reservados.',
@@ -159,7 +170,10 @@ const TRANSLATIONS = {
     heading: 'Map of Mompox',
     subheading: 'Find the historic center of Santa Cruz de Mompox, where the festival\u2019s venues, lodging, and points of interest are concentrated.',
     mapNote: 'The map is centered on the historic center of Mompox. Use the Google Maps controls to zoom in and explore the riverside walk, squares, and streets where the festival takes place.',
-    footerTagline: 'A free event by Icultur, the Government of Bolívar, and Colombia\u2019s Ministry of Culture.',
+    footerTagline: 'A free event by the Government of Bolívar, Icultur and Colombia\u2019s Ministry of Culture.',
+    portalTitle: 'Mompox Inteligente official portal',
+    portalText: 'Find points of interest, hotels and restaurants across the town.',
+    portalCta: '← Scan here',
     footerContact: 'Contact', footerSocial: 'Social media', footerLocation: 'Location',
     footerMap: '[ view map ]',
     footerCopyright: '© 2026 Icultur — Institute of Culture and Tourism of Bolívar. All rights reserved.',
@@ -205,6 +219,7 @@ class Component extends DCLogic {
   };
   setLangEs = () => this.setLang('es');
   setLangEn = () => this.setLang('en');
+  toggleLang = () => this.setLang(this.state.lang === 'en' ? 'es' : 'en');
   renderVals() {
     const lang = this.state.lang === 'en' ? 'en' : 'es';
     const t = TRANSLATIONS[lang];
@@ -215,6 +230,8 @@ class Component extends DCLogic {
     const legend = LEGEND_DEFS[lang];
     return {
       t, setLangEs: this.setLangEs, setLangEn: this.setLangEn, esBg, esColor, enBg, enColor,
+      toggleLang: this.toggleLang,
+      langButtonLabel: lang === 'en' ? 'ES' : 'EN',
       legend,
       headerBg: this.state.scrolled ? 'rgba(25,27,99,.85)' : 'transparent',
       headerBlur: this.state.scrolled ? 'blur(12px)' : 'none',

@@ -476,7 +476,6 @@
             <span style="font-family:monospace; font-size:11px; color:rgba(255,255,255,.65);">[ imagen ]</span>
           </div>
           <div style="padding:22px;">
-            <div style="font-size:12px; color:#F4C542; letter-spacing:.06em; margin-bottom:8px;">{{ n.date }}</div>
             <div style="font-family:'Dancing Script',cursive; font-size:36px; font-weight:700; letter-spacing:0; color:#FFFFFF; margin-bottom:10px; line-height:1.15; text-shadow:0 2px 8px rgba(0,0,0,.35);" class="news-title">{{ n.title }}</div>
             <div style="font-size:14px; color:#D9D5F5; line-height:1.6; margin-bottom:14px;">{{ n.summary }}</div>
             <a href="#" style="font-size:13px; color:#F4C542; text-decoration:none; font-weight:600;">{{ t.readMore }}</a>
@@ -571,9 +570,10 @@
 
   <!-- INFORMACIÓN -->
   <section id="informacion" data-screen-label="Información" style="padding:100px 5%; background:#221a5e;">
-    <div style="text-align:center; margin-bottom:50px;">
+    <div style="text-align:center; margin-bottom:50px; max-width:1200px; margin-left:auto; margin-right:auto;">
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.infoTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.infoHeading }}</h2>
+      <p style="font-family:'Poppins',sans-serif; font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:22px auto 0; max-width:1200px; text-align:justify; text-justify:inter-word;">{{ t.infoIntro }}</p>
     </div>
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1200px; margin:0 auto;" class="info-grid">
       <sc-for list="{{ infoCards }}" as="ic" hint-placeholder-count="6">
@@ -708,7 +708,7 @@
       </div>
       <div>
         <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerSocial }}</div>
-        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;">Instagram<br>Facebook</p>
+        <p style="font-size:13.5px; color:#D9D5F5; line-height:2;"><a href="https://www.instagram.com/iculturbolivar?igsi=MTJ6em9oaDR1dTdlaQ==" target="_blank" rel="noopener" style="color:#D9D5F5; text-decoration:none;">Instagram</a><br><a href="https://www.facebook.com/share/1Bfi1TYVtN/?mibextid=wwXIfr" target="_blank" rel="noopener" style="color:#D9D5F5; text-decoration:none;">Facebook</a></p>
       </div>
       <div>
         <div style="font-size:14px; font-weight:600; color:#F4C542; margin-bottom:14px;">{{ t.footerLocation }}</div>
@@ -784,6 +784,7 @@ const TRANSLATIONS = {
     parkingHint: 'Abre el mapa con todos los puntos de parqueo en tu teléfono.',
     parkingNote: 'El Centro Histórico es peatonal durante el festival. Deja el vehículo en el punto más cercano y camina: nada queda a más de diez minutos.',
     infoTag: 'Práctica', infoHeading: 'Información',
+    infoIntro: 'Aquí encontrarás toda la información de Mompox en un solo lugar. A través de la aplicación Mompox Inteligente podrás consultar información de interés, conocer los servicios disponibles, explorar lugares y acceder a contenidos importantes de nuestro municipio de manera rápida, fácil y desde cualquier dispositivo. Ingresa aquí, escanea el código QR que se encuentra en cada sección y descubre todo lo que Mompox tiene para ofrecerte.',
     sponsorsTag: 'Aliados', sponsorsHeading: 'Patrocinadores',
     footerTagline: 'Un evento gratuito de la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas de Colombia.',
     footerContact: 'Contacto', footerSocial: 'Redes sociales', footerLocation: 'Ubicación',
@@ -816,6 +817,7 @@ const TRANSLATIONS = {
     parkingHint: 'Opens the map with every parking spot on your phone.',
     parkingNote: 'The Historic Center is pedestrian-only during the festival. Leave your car at the nearest spot and walk — nothing is more than ten minutes away.',
     infoTag: 'Practical', infoHeading: 'Information',
+    infoIntro: 'Here you will find all the information about Mompox in one place. Through the Mompox Inteligente app you can look up useful information, see the services available, explore places and reach important content about our municipality quickly, easily and from any device. Come in, scan the QR code in each section and discover everything Mompox has to offer you.',
     sponsorsTag: 'Partners', sponsorsHeading: 'Sponsors',
     footerTagline: 'A free event by the Government of Bolívar, Icultur and Colombia\u2019s Ministry of Culture.',
     footerContact: 'Contact', footerSocial: 'Social media', footerLocation: 'Location',
