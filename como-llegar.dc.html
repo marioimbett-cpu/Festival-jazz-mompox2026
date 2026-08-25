@@ -17,9 +17,15 @@
       .desktop-nav { display:none !important; }
       .mobile-toggle { display:block !important; }
     }
+    @media (max-width:1000px) {
+      .airport-grid { grid-template-columns:repeat(2,1fr) !important; }
+    }
+    @media (max-width:760px) {
+      .route-grid { grid-template-columns:1fr !important; }
+    }
     @media (max-width:640px) {
       .footer-grid { grid-template-columns:1fr !important; }
-      .route-grid { grid-template-columns:1fr !important; }
+      .airport-grid { grid-template-columns:1fr !important; }
     }
     @media (max-width:640px) {
       .portal-qr { width:120px !important; height:120px !important; }
@@ -104,23 +110,82 @@
       <span class="portal-cta" style="flex:none; margin-left:auto; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; letter-spacing:.04em; color:#F4C542;">{{ t.portalCta }}</span>
     </div>
     </div>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1100px; margin:0 auto;" class="route-grid">
-      <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px;">
-        <div style="font-size:28px; margin-bottom:14px;">🚗</div>
-        <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px;">{{ t.roadTitle }}</div>
-        <p style="font-size:14px; color:#D9D5F5; line-height:1.7; margin:0;">{{ t.roadText }}</p>
+    <div style="max-width:1100px; margin:48px auto 0; display:flex; flex-direction:column; gap:56px;">
+
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:26px;">
+          <span style="font-size:22px;">✈️</span>
+          <h2 style="margin:0; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#F4C542;">{{ t.airHeading }}</h2>
+          <div style="flex:1; height:1px; background:linear-gradient(90deg, rgba(244,197,66,.45), transparent);"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;" class="route-grid">
+          <div style="background:rgba(255,255,255,.05); border:1px solid rgba(244,197,66,.28); border-radius:16px; padding:28px 30px;">
+            <div style="font-family:'Poppins',sans-serif; font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:12px;">{{ t.directTitle }}</div>
+            <p style="font-size:14px; color:#D9D5F5; line-height:1.75; margin:0 0 14px; text-wrap:pretty;">{{ t.directText }}</p>
+            <div style="display:inline-flex; align-items:center; gap:9px; padding:8px 14px; border-radius:20px; background:rgba(244,197,66,.12); border:1px solid rgba(244,197,66,.3);">
+              <span style="width:6px; height:6px; border-radius:50%; background:#F4C542;"></span>
+              <span style="font-size:12.5px; font-weight:600; color:#FFD447;">{{ t.directFreq }}</span>
+            </div>
+          </div>
+
+          <div style="background:rgba(255,255,255,.03); border:1px dashed rgba(244,197,66,.3); border-radius:16px; padding:28px 30px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <span style="font-family:'Poppins',sans-serif; font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#191B63; background:#F4C542; padding:4px 10px; border-radius:12px;">{{ t.soonBadge }}</span>
+              <span style="font-family:'Poppins',sans-serif; font-size:17px; font-weight:600; color:#FFFFFF;">{{ t.soonTitle }}</span>
+            </div>
+            <p style="font-size:14px; color:#D9D5F5; line-height:1.75; margin:0; text-wrap:pretty;">{{ t.soonText }}</p>
+          </div>
+        </div>
+
+        <div style="margin-top:30px;">
+          <div style="font-family:'Poppins',sans-serif; font-size:14.5px; font-weight:600; color:#FFFFFF; margin-bottom:16px;">{{ t.nearbyTitle }}</div>
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px;" class="airport-grid">
+            <sc-for list="{{ airports }}" as="ap" hint-placeholder-count="4">
+              <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:14px; padding:22px 20px; display:flex; flex-direction:column; gap:10px; transition:border-color .35s ease, background .35s ease, transform .35s ease;" style-hover="border-color:rgba(244,197,66,.5); background:rgba(244,197,66,.07); transform:translateY(-3px);">
+                <div style="font-family:'Poppins',sans-serif; font-size:15px; font-weight:600; color:#FFD447; line-height:1.35;">{{ ap.name }}</div>
+                <div style="font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:#B9B3E8;">{{ ap.city }}</div>
+                <div style="height:1px; background:rgba(244,197,66,.16);"></div>
+                <div style="font-size:13px; color:#D9D5F5; line-height:1.6;">{{ ap.airlines }}</div>
+                <div style="margin-top:auto; padding-top:8px; display:flex; align-items:baseline; gap:7px;">
+                  <span style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#8983c2;">{{ t.byRoad }}</span>
+                  <span style="font-family:'Poppins',sans-serif; font-size:15px; font-weight:600; color:#FFFFFF;">{{ ap.time }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <p style="font-size:12.5px; color:#8983c2; line-height:1.7; margin:14px 0 0; font-style:italic;">{{ t.airportsNote }}</p>
+        </div>
       </div>
-      <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px;">
-        <div style="font-size:28px; margin-bottom:14px;">✈️</div>
-        <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px;">{{ t.airTitle }}</div>
-        <p style="font-size:14px; color:#D9D5F5; line-height:1.7; margin:0;">{{ t.airText }}</p>
+
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:26px;">
+          <span style="font-size:22px;">🚌</span>
+          <h2 style="margin:0; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#F4C542;">{{ t.landHeading }}</h2>
+          <div style="flex:1; height:1px; background:linear-gradient(90deg, rgba(244,197,66,.45), transparent);"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;" class="route-grid">
+          <sc-for list="{{ busLines }}" as="bl" hint-placeholder-count="3">
+            <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:26px 26px; transition:border-color .35s ease, background .35s ease, transform .35s ease;" style-hover="border-color:rgba(244,197,66,.5); background:rgba(244,197,66,.07); transform:translateY(-3px);">
+              <div style="font-family:'Poppins',sans-serif; font-size:16px; font-weight:600; color:#FFD447; margin-bottom:6px;">{{ bl.name }}</div>
+              <div style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8983c2; margin-bottom:14px;">{{ t.originLabel }}</div>
+              <p style="font-size:13.5px; color:#D9D5F5; line-height:1.8; margin:0; text-wrap:pretty;">{{ bl.origins }}</p>
+            </div>
+          </sc-for>
+        </div>
       </div>
-      <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:30px;">
-        <div style="font-size:28px; margin-bottom:14px;">🚤</div>
-        <div style="font-size:17px; font-weight:600; color:#FFFFFF; margin-bottom:10px;">{{ t.riverTitle }}</div>
-        <p style="font-size:14px; color:#D9D5F5; line-height:1.7; margin:0;">{{ t.riverText }}</p>
+
+      <div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; padding:26px 30px; border-radius:18px; background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.22);">
+        <span style="flex:none; font-size:26px;">🛺</span>
+        <div style="flex:1 1 280px; display:flex; flex-direction:column; gap:8px;">
+          <span style="font-family:'Poppins',sans-serif; font-size:16px; font-weight:600; color:#FFFFFF;">{{ t.localTitle }}</span>
+          <span style="font-size:13.5px; line-height:1.75; color:#D9D5F5; text-wrap:pretty;">{{ t.localText }}</span>
+        </div>
       </div>
+
     </div>
+
     <div style="max-width:1100px; margin:40px auto 0; text-align:center;">
       <a href="mapa.dc.html" style="display:inline-block; border:1.5px solid #F4C542; color:#F4C542; padding:13px 28px; border-radius:30px; font-size:14px; font-weight:600; text-decoration:none;">{{ t.mapCta }}</a>
     </div>
@@ -163,12 +228,20 @@ const TRANSLATIONS = {
     backHome: '← Volver al inicio', practicalTag: 'Información práctica',
     heading: 'Cómo llegar a Mompox',
     subheading: 'Santa Cruz de Mompox está a orillas del río Magdalena, en el sur de Bolívar. Estas son las rutas más comunes para llegar durante el festival.',
-    roadTitle: 'Por carretera',
-    roadText: 'Desde Cartagena: aprox. 4 horas por la Transversal de las Américas hasta El Banco/Magangué y luego ramal a Mompox. Desde Barranquilla, ruta similar vía Plato.',
-    airTitle: 'Por avión + tierra',
-    airText: 'Vuelo hasta el aeropuerto de Corozal (Las Brujas) y luego 2 horas por vía terrestre, o vuelo a Cartagena/Barranquilla y trayecto por carretera.',
-    riverTitle: 'Por río',
-    riverText: 'Chalupas y planchones cruzan el Magdalena desde Bodega y otros embarcaderos cercanos hacia el malecón de Mompox — la forma más pintoresca de llegar.',
+    airHeading: 'Conectividad aérea',
+    directTitle: 'Vuelo directo a Mompox',
+    directText: 'SATENA opera el único vuelo directo a Mompox: la ruta Medellín (Aeropuerto Olaya Herrera) ↔ Mompox (Aeropuerto San Bernardo), con una duración aproximada de 60 minutos.',
+    directFreq: 'Lunes, miércoles y viernes · verificado en satena.com',
+    soonBadge: 'Próximamente',
+    soonTitle: 'Hidroaviones ALMA',
+    soonText: 'La aerolínea ALMA —especializada en hidroaviones— proyecta operar rutas hacia Mompox desde Cartagena (y eventualmente Barranquilla), con un tiempo de vuelo estimado de solo 49 minutos desde Cartagena. Actualmente se encuentra en fase de pruebas técnicas sobre el río Magdalena, por lo que aún no tiene fecha oficial de inicio.',
+    nearbyTitle: 'Aeropuertos cercanos con vuelos comerciales',
+    byRoad: 'Hasta Mompox',
+    airportsNote: 'Nota: los tiempos son aproximados y dependen del tráfico en la zona.',
+    landHeading: 'Conectividad terrestre',
+    originLabel: 'Origen',
+    localTitle: 'Movilidad dentro de Mompox',
+    localText: 'Los emblemáticos motocarros son la forma más pintoresca de recorrer la ciudad y sus alrededores. Los horarios exactos día por día pueden cambiar con frecuencia según la temporada.',
     mapCta: 'Ver mapa interactivo →',
     footerTagline: 'Un evento gratuito de la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas de Colombia.',
     portalTitle: 'Portal oficial de Mompox Inteligente',
@@ -184,12 +257,20 @@ const TRANSLATIONS = {
     backHome: '← Back to home', practicalTag: 'Practical info',
     heading: 'Getting to Mompox',
     subheading: 'Santa Cruz de Mompox sits on the banks of the Magdalena River, in southern Bolívar. Here are the most common ways to get there during the festival.',
-    roadTitle: 'By road',
-    roadText: 'From Cartagena: about 4 hours via the Transversal de las Américas to El Banco/Magangué, then a branch road to Mompox. From Barranquilla, a similar route via Plato.',
-    airTitle: 'By air + land',
-    airText: 'Fly to Corozal airport (Las Brujas) and then 2 hours by road, or fly to Cartagena/Barranquilla and continue by road.',
-    riverTitle: 'By river',
-    riverText: 'Boats and ferries cross the Magdalena from Bodega and other nearby docks to the Mompox riverside walk — the most scenic way to arrive.',
+    airHeading: 'Air connections',
+    directTitle: 'Direct flight to Mompox',
+    directText: 'SATENA operates the only direct flight to Mompox: Medellín (Olaya Herrera Airport) ↔ Mompox (San Bernardo Airport), with a flight time of about 60 minutes.',
+    directFreq: 'Monday, Wednesday and Friday · verified at satena.com',
+    soonBadge: 'Coming soon',
+    soonTitle: 'ALMA seaplanes',
+    soonText: 'ALMA — a seaplane airline — plans to operate routes to Mompox from Cartagena (and eventually Barranquilla), with an estimated flight time of just 49 minutes from Cartagena. It is currently in technical testing over the Magdalena River, so there is no official start date yet.',
+    nearbyTitle: 'Nearby airports with commercial flights',
+    byRoad: 'To Mompox',
+    airportsNote: 'Note: times are approximate and depend on traffic in the area.',
+    landHeading: 'Land connections',
+    originLabel: 'Departs from',
+    localTitle: 'Getting around Mompox',
+    localText: 'The emblematic motocarros are the most picturesque way to explore the town and its surroundings. Exact daily schedules may change often depending on the season.',
     mapCta: 'View interactive map →',
     footerTagline: 'A free event by the Government of Bolívar, Icultur and Colombia\u2019s Ministry of Culture.',
     portalTitle: 'Mompox Inteligente official portal',
@@ -200,6 +281,19 @@ const TRANSLATIONS = {
     footerCopyright: '© 2026 Icultur — Institute of Culture and Tourism of Bolívar. All rights reserved.',
   },
 };
+
+const AIRPORTS = [
+  { name: 'Las Brujas', city: { es: 'Corozal (Sincelejo)', en: 'Corozal (Sincelejo)' }, airlines: 'SATENA, Clic', time: '2h 30min' },
+  { name: 'Alfonso López Pumarejo', city: { es: 'Valledupar', en: 'Valledupar' }, airlines: 'Avianca', time: '3h 30min' },
+  { name: 'Los Garzones', city: { es: 'Montería', en: 'Montería' }, airlines: 'Avianca, Clic', time: '4h' },
+  { name: 'Rafael Núñez', city: { es: 'Cartagena', en: 'Cartagena' }, airlines: 'Avianca, LATAM, Wingo, JetSMART', time: '5h 30min – 6h' },
+];
+
+const BUS_LINES = [
+  { name: 'Coopetram', origins: 'Bogotá, Medellín, Tunja, Bucaramanga, Cúcuta, Honda, Puerto Berrío, Pamplona, El Banco' },
+  { name: 'Omega', origins: 'Bogotá, Medellín, Bucaramanga, Pamplona' },
+  { name: 'Brasilia Exprés – Unitransco', origins: 'Cartagena, Barranquilla, Medellín' },
+];
 
 class Component extends DCLogic {
   state = {
@@ -236,7 +330,9 @@ class Component extends DCLogic {
     const esColor = lang === 'es' ? '#191B63' : '#F4C542';
     const enBg = lang === 'en' ? 'linear-gradient(135deg,#F4C542,#FFD447)' : 'none';
     const enColor = lang === 'en' ? '#191B63' : '#F4C542';
+    const airports = AIRPORTS.map(a => ({ name: a.name, city: a.city[lang], airlines: a.airlines, time: a.time }));
     return {
+      airports, busLines: BUS_LINES,
       t, setLangEs: this.setLangEs, setLangEn: this.setLangEn, esBg, esColor, enBg, enColor,
       toggleLang: this.toggleLang,
       langButtonLabel: lang === 'en' ? 'ES' : 'EN',
