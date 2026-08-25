@@ -577,7 +577,7 @@
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.galleryHeading }}</h2>
     </div>
     <div style="columns:4; column-gap:18px; max-width:1280px; margin:0 auto;" class="masonry">
-      <sc-for list="{{ galleryImages }}" as="gi" hint-placeholder-count="9">
+      <sc-for list="{{ galleryImages }}" as="gi" hint-placeholder-count="8">
         <div onClick="{{ gi.open }}" style="position:relative; break-inside:avoid; margin-bottom:18px; border-radius:14px; overflow:hidden; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,.3); border:1px solid rgba(244,197,66,.15);" class="gallery-card">
           <img src="{{ gi.src }}" alt="{{ gi.alt }}" style="width:100%; height:{{ gi.h }}px; object-fit:cover; display:block; transition:transform .5s ease, filter .5s ease;" class="gallery-img">
           <div style="position:absolute; inset:0; background:rgba(15,14,45,0); display:flex; align-items:center; justify-content:center; transition:background .35s ease;" class="gallery-overlay">
@@ -1468,15 +1468,14 @@ class Component extends DCLogic {
     });
 
     const galleryDefs = [
-      { src: 'uploads/foto1-sm.jpg', alt: 'Saxofonista en concierto nocturno', h: 320 },
-      { src: 'uploads/foto2-sm.jpg', alt: 'Embarcación turística sobre el río Magdalena', h: 240 },
-      { src: 'uploads/foto3-sm.jpg', alt: 'Cuarteto de saxofones en tarima', h: 280 },
-      { src: 'uploads/foto4-sm.jpg', alt: 'Filigrana de Mompox en vitrina', h: 220 },
-      { src: 'uploads/concierto.jpeg', alt: 'Vista aérea del Parque del Jazz durante el concierto nocturno', h: 300 },
-      { src: 'uploads/foto6-sm.jpg', alt: 'Bailarinas con faldas coloridas al atardecer', h: 260 },
-      { src: 'uploads/jazz.jpeg', alt: 'Ensamble de saxofones en la tarima del festival', h: 240 },
-      { src: 'uploads/foto8-sm.jpg', alt: 'Fachada colonial de Mompox', h: 300 },
-      { src: 'uploads/foto9-sm.jpg', alt: 'Plaza de la Libertad con estatua y arboleda', h: 220 },
+      { src: 'uploads/foto1.jpeg', alt: 'Concierto nocturno frente a la iglesia de Santa Bárbara', h: 300 },
+      { src: 'uploads/foto2.jpeg', alt: 'Feria artesanal y gastronómica Malibú', h: 260 },
+      { src: 'uploads/foto3.jpeg', alt: 'Presentación de danza en la plaza al anochecer', h: 300 },
+      { src: 'uploads/foto4.jpeg', alt: 'Vinos artesanales de Santa Cruz de Mompox', h: 340 },
+      { src: 'uploads/foto5.jpeg', alt: 'La carreta literaria recorriendo la sala de exposición', h: 250 },
+      { src: 'uploads/foto6.jpeg', alt: 'Público con luces en alto durante el concierto', h: 290 },
+      { src: 'uploads/foto7.jpeg', alt: 'Saxofonista tocando entre los puestos de la feria', h: 270 },
+      { src: 'uploads/foto10.jpeg', alt: 'Pianista y bajista en tarima', h: 300 },
     ];
     const galleryImages = galleryDefs.map((g, i) => ({
       ...g, n: i + 1,
