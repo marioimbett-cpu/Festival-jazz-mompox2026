@@ -579,7 +579,7 @@
     <div style="columns:4; column-gap:18px; max-width:1280px; margin:0 auto;" class="masonry">
       <sc-for list="{{ galleryImages }}" as="gi" hint-placeholder-count="8">
         <div onClick="{{ gi.open }}" style="position:relative; break-inside:avoid; margin-bottom:18px; border-radius:14px; overflow:hidden; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,.3); border:1px solid rgba(244,197,66,.15);" class="gallery-card">
-          <img src="{{ gi.src }}" alt="{{ gi.alt }}" style="width:100%; height:{{ gi.h }}px; object-fit:cover; display:block; transition:transform .5s ease, filter .5s ease;" class="gallery-img">
+          <img src="{{ gi.src }}" alt="{{ gi.alt }}" loading="lazy" decoding="async" style="width:100%; height:{{ gi.h }}px; object-fit:cover; display:block; transition:transform .5s ease, filter .5s ease;" class="gallery-img">
           <div style="position:absolute; inset:0; background:rgba(15,14,45,0); display:flex; align-items:center; justify-content:center; transition:background .35s ease;" class="gallery-overlay">
             <div style="width:50px; height:50px; border-radius:50%; border:1.5px solid #F4C542; background:rgba(15,14,45,.55); display:flex; align-items:center; justify-content:center; font-size:20px; color:#F4C542; opacity:0; transform:scale(.8); transition:opacity .35s ease, transform .35s ease;" class="gallery-icon">🔍</div>
           </div>
@@ -1083,7 +1083,7 @@ const EMERGENCY_DEFS = {
       { label: 'Ambulancia', phone: '311 278 4891' },
       { label: 'Ambulancia Urgencias — Hospital Santa María', phone: '314 617 8011' },
     ]},
-    { title: 'Transporte', note: 'Si necesitas movilizarte dentro del casco urbano, puedes comunicarte con las cooperativas de Mototaxis:', items: [
+    { title: 'Transporte', note: 'Si necesitas movilizarte dentro del casco urbano, puedes comunicarte con las cooperativas de Motocarros:', items: [
       { label: 'Asotuktuk Mompox', phone: '320 531 1800' },
       { label: 'CootraMompox', phone: '320 834 1043' },
     ]},
@@ -1102,7 +1102,7 @@ const EMERGENCY_DEFS = {
       { label: 'Ambulance', phone: '311 278 4891' },
       { label: 'Emergency Ambulance — Hospital Santa María', phone: '314 617 8011' },
     ]},
-    { title: 'Transport', note: 'To get around the town, you can contact the Mototaxi cooperatives:', items: [
+    { title: 'Transport', note: 'To get around the town, you can contact the Motocarro cooperatives:', items: [
       { label: 'Asotuktuk Mompox', phone: '320 531 1800' },
       { label: 'CootraMompox', phone: '320 834 1043' },
     ]},
@@ -1469,12 +1469,12 @@ class Component extends DCLogic {
 
     const galleryDefs = [
       { src: 'uploads/foto1.jpeg', alt: 'Concierto nocturno frente a la iglesia de Santa Bárbara', h: 300 },
-      { src: 'uploads/foto2.jpeg', alt: 'Feria artesanal y gastronómica Malibú', h: 260 },
+      { src: 'uploads/foto12.jpeg', alt: 'Comparsa y tamboras recorriendo las calles del centro histórico', h: 260 },
       { src: 'uploads/foto3.jpeg', alt: 'Presentación de danza en la plaza al anochecer', h: 300 },
       { src: 'uploads/foto4.jpeg', alt: 'Vinos artesanales de Santa Cruz de Mompox', h: 340 },
       { src: 'uploads/foto5.jpeg', alt: 'La carreta literaria recorriendo la sala de exposición', h: 250 },
       { src: 'uploads/foto6.jpeg', alt: 'Público con luces en alto durante el concierto', h: 290 },
-      { src: 'uploads/foto7.jpeg', alt: 'Saxofonista tocando entre los puestos de la feria', h: 270 },
+      { src: 'uploads/foto13.jpeg', alt: 'Papayera y faroles encendidos en el desfile por las calles', h: 270 },
       { src: 'uploads/foto10.jpeg', alt: 'Pianista y bajista en tarima', h: 300 },
     ];
     const galleryImages = galleryDefs.map((g, i) => ({
