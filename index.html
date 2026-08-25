@@ -105,6 +105,18 @@
     @media (max-width:640px) {
       .sponsor-grid { gap:14px !important; }
     }
+    @media (max-width:900px) {
+      .emergency-grid { grid-template-columns:1fr !important; gap:34px !important; }
+    }
+    @media (max-width:640px) {
+      .emergency-bar { padding:18px 18px !important; gap:10px !important; }
+      .emergency-bar-title { font-size:26px !important; }
+      .emergency-bar-sub { display:none !important; }
+      .emergency-bar-cta { font-size:20px !important; }
+      .emergency-grid { padding:4px 18px 30px !important; gap:28px !important; }
+      .parking-qr { width:200px !important; height:200px !important; }
+      .parking-qr-card { padding:16px !important; border-radius:20px !important; }
+    }
     @media (max-width:860px) {
       .parking-grid { grid-template-columns:1fr !important; gap:40px !important; text-align:center; justify-items:center; }
       .parking-grid p, .parking-grid h2 { text-align:center; }
@@ -514,36 +526,6 @@
     </div>
   </section>
 
-  <!-- PARQUEADEROS -->
-  <section id="parqueaderos" data-screen-label="Parqueaderos" style="position:relative; padding:110px 5%; background:#191B63; overflow:hidden;">
-    <svg width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#F4C542; opacity:.04; pointer-events:none;">
-      <use href="#filigreeMotif" x="-40" y="440" width="420" height="420"></use>
-      <use href="#filigreeMotif" x="1280" y="-60" width="380" height="380"></use>
-    </svg>
-
-    <div style="position:relative; max-width:1120px; margin:0 auto; display:grid; grid-template-columns:1.05fr .95fr; gap:64px; align-items:center;" class="parking-grid">
-      <div>
-        <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.parkingTag }}</p>
-        <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0 0 22px; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.parkingHeading }}</h2>
-        <p style="font-family:'Poppins',sans-serif; font-size:16px; line-height:1.75; color:rgba(255,255,255,.82); margin:0 0 18px; max-width:44ch; text-wrap:pretty;">{{ t.parkingLead }}</p>
-        <div style="display:flex; gap:14px; align-items:flex-start; padding:18px 20px; border-left:2px solid rgba(244,197,66,.55); background:rgba(255,255,255,.03); border-radius:0 12px 12px 0; max-width:46ch;">
-          <span style="flex:none; color:#F4C542; font-size:13px; line-height:1.6;">✦</span>
-          <p style="font-family:'Poppins',sans-serif; font-size:14px; line-height:1.7; color:rgba(255,255,255,.66); margin:0; text-wrap:pretty;">{{ t.parkingNote }}</p>
-        </div>
-      </div>
-
-      <div style="display:flex; flex-direction:column; align-items:center; gap:20px;">
-        <div style="position:relative; padding:22px; border-radius:26px; background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,243,236,.94)); border:1px solid rgba(244,197,66,.4); box-shadow:0 24px 60px rgba(0,0,0,.42), 0 0 0 1px rgba(244,197,66,.12); transition:transform .45s cubic-bezier(.22,.8,.36,1), box-shadow .45s ease;" style-hover="transform:translateY(-8px) scale(1.02); box-shadow:0 32px 80px rgba(0,0,0,.5), 0 0 40px 2px rgba(244,197,66,.28);">
-          <img src="uploads/qr-parqueaderos.png" alt="Código QR — ubicación de parqueaderos" loading="lazy" style="display:block; width:260px; height:260px; max-width:56vw; object-fit:contain;"/>
-        </div>
-        <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
-          <span style="font-family:'Poppins',sans-serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#F4C542;">{{ t.parkingScan }}</span>
-          <span style="font-family:'Poppins',sans-serif; font-size:13px; line-height:1.6; color:rgba(255,255,255,.6); text-align:center; max-width:34ch;">{{ t.parkingHint }}</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- GALERÍA -->
   <section id="galeria" data-screen-label="Galería" style="padding:100px 5%; background:#221a5e;">
     <div style="text-align:center; margin-bottom:50px;">
@@ -601,6 +583,71 @@
           <div style="font-size:13.5px; color:#D9D5F5; line-height:1.6;">{{ ic.desc }}</div>
         </a>
       </sc-for>
+    </div>
+
+    <div style="max-width:1200px; margin:64px auto 0; border-radius:22px; background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid rgba(244,197,66,.22); overflow:hidden;">
+      <button onClick="{{ toggleEmergency }}" aria-expanded="{{ emergencyOpen }}" class="emergency-bar" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:26px 30px; background:none; border:none; cursor:pointer; text-align:left; transition:background .35s ease, box-shadow .35s ease;" style-hover="background:rgba(244,197,66,.12); box-shadow:inset 0 0 0 1px rgba(244,197,66,.45), 0 0 34px rgba(244,197,66,.22);">
+        <span style="display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;">
+          <span style="font-size:22px;">📞</span>
+          <span class="emergency-bar-title" style="font-family:'Dancing Script',cursive; font-size:34px; font-weight:700; color:#FFD447; text-shadow:0 2px 14px rgba(0,0,0,.35);">{{ emergencyTitle }}</span>
+          <span class="emergency-bar-sub" style="font-family:'Poppins',sans-serif; font-size:13px; letter-spacing:.1em; color:rgba(255,255,255,.55);">{{ emergencySub }}</span>
+        </span>
+        <span style="flex:none; display:flex; align-items:center; gap:12px;">
+          <span class="emergency-bar-cta" style="font-family:'Dancing Script',cursive; font-size:26px; font-weight:700; color:#FFD447; text-shadow:0 2px 14px rgba(0,0,0,.35);">{{ emergencyCta }}</span>
+        </span>
+        <span style="flex:none; display:flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%; border:1.5px solid rgba(244,197,66,.4); color:#F4C542; font-size:15px; transform:{{ emergencyChevron }}; transition:transform .35s cubic-bezier(.22,.8,.36,1);">▾</span>
+      </button>
+
+      <div style="max-height:{{ emergencyMaxHeight }}; opacity:{{ emergencyOpacity }}; overflow:hidden; transition:max-height .5s cubic-bezier(.22,.8,.36,1), opacity .4s ease;">
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:26px; padding:6px 30px 38px;" class="emergency-grid">
+        <sc-for list="{{ emergencyGroups }}" as="eg" hint-placeholder-count="3">
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <h4 style="margin:0; font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#F4C542;">{{ eg.title }}</h4>
+            <sc-if value="{{ eg.hasNote }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0; font-family:'Poppins',sans-serif; font-size:13px; line-height:1.65; color:rgba(255,255,255,.6); text-wrap:pretty;">{{ eg.note }}</p>
+            </sc-if>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <sc-for list="{{ eg.items }}" as="ei" hint-placeholder-count="3">
+                <a href="{{ ei.tel }}" style="display:flex; align-items:baseline; justify-content:space-between; gap:14px; padding:11px 14px; border-radius:11px; background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.14); text-decoration:none; transition:background .3s ease, border-color .3s ease, transform .3s ease;" style-hover="background:rgba(244,197,66,.09); border-color:rgba(244,197,66,.5); transform:translateX(3px);">
+                  <span style="font-family:'Poppins',sans-serif; font-size:13.5px; line-height:1.5; color:#EDEAFB;">{{ ei.label }}</span>
+                  <span style="flex:none; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; letter-spacing:.02em; color:#FFD447; white-space:nowrap;">{{ ei.phone }}</span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARQUEADEROS -->
+  <section id="parqueaderos" data-screen-label="Parqueaderos" style="position:relative; padding:110px 5%; background:#191B63; overflow:hidden;">
+    <svg width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#F4C542; opacity:.04; pointer-events:none;">
+      <use href="#filigreeMotif" x="-40" y="440" width="420" height="420"></use>
+      <use href="#filigreeMotif" x="1280" y="-60" width="380" height="380"></use>
+    </svg>
+
+    <div style="position:relative; max-width:1120px; margin:0 auto; display:grid; grid-template-columns:1.05fr .95fr; gap:64px; align-items:center;" class="parking-grid">
+      <div>
+        <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.parkingTag }}</p>
+        <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0 0 22px; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.parkingHeading }}</h2>
+        <p style="font-family:'Poppins',sans-serif; font-size:16px; line-height:1.75; color:rgba(255,255,255,.82); margin:0 0 18px; max-width:44ch; text-wrap:pretty;">{{ t.parkingLead }}</p>
+        <div style="display:flex; gap:14px; align-items:flex-start; padding:18px 20px; border-left:2px solid rgba(244,197,66,.55); background:rgba(255,255,255,.03); border-radius:0 12px 12px 0; max-width:46ch;">
+          <span style="flex:none; color:#F4C542; font-size:13px; line-height:1.6;">✦</span>
+          <p style="font-family:'Poppins',sans-serif; font-size:14px; line-height:1.7; color:rgba(255,255,255,.66); margin:0; text-wrap:pretty;">{{ t.parkingNote }}</p>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:20px;">
+        <div class="parking-qr-card" style="position:relative; padding:22px; border-radius:26px; background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,243,236,.94)); border:1px solid rgba(244,197,66,.4); box-shadow:0 24px 60px rgba(0,0,0,.42), 0 0 0 1px rgba(244,197,66,.12); transition:transform .45s cubic-bezier(.22,.8,.36,1), box-shadow .45s ease;" style-hover="transform:translateY(-8px) scale(1.02); box-shadow:0 32px 80px rgba(0,0,0,.5), 0 0 40px 2px rgba(244,197,66,.28);">
+          <img src="uploads/qr-parqueaderos.png" alt="Código QR — ubicación de parqueaderos" loading="lazy" class="parking-qr" style="display:block; width:260px; height:260px; max-width:56vw; object-fit:contain;"/>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+          <span style="font-family:'Poppins',sans-serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#F4C542;">{{ t.parkingScan }}</span>
+          <span style="font-family:'Poppins',sans-serif; font-size:13px; line-height:1.6; color:rgba(255,255,255,.6); text-align:center; max-width:34ch;">{{ t.parkingHint }}</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -880,6 +927,50 @@ const DAY_DEFS = {
   ],
 };
 
+const EMERGENCY_DEFS = {
+  es: [
+    { title: 'Seguridad', items: [
+      { label: 'Estación de Policía', phone: '310 647 3825' },
+      { label: 'Cuadrante Policía', phone: '317 465 4243' },
+      { label: 'Gaula Bolívar', phone: '321 394 2771' },
+      { label: 'Defensa Civil', phone: '310 827 0301' },
+      { label: 'Tránsito', phone: '310 706 3424' },
+      { label: 'Secretaría de Seguridad', phone: '316 380 6559' },
+    ]},
+    { title: 'Emergencias médicas', items: [
+      { label: 'Bomberos', phone: '322 506 1677' },
+      { label: 'Ambulancia', phone: '311 278 4891' },
+      { label: 'Ambulancia Urgencias — Hospital Santa María', phone: '314 617 8011' },
+    ]},
+    { title: 'Transporte', note: 'Si necesitas movilizarte dentro del casco urbano, puedes comunicarte con las cooperativas de Mototaxis:', items: [
+      { label: 'Asotuktuk Mompox', phone: '320 531 1800' },
+      { label: 'CootraMompox', phone: '320 834 1043' },
+    ]},
+  ],
+  en: [
+    { title: 'Security', items: [
+      { label: 'Police Station', phone: '310 647 3825' },
+      { label: 'Police Quadrant', phone: '317 465 4243' },
+      { label: 'Gaula Bolívar', phone: '321 394 2771' },
+      { label: 'Civil Defense', phone: '310 827 0301' },
+      { label: 'Traffic Authority', phone: '310 706 3424' },
+      { label: 'Secretariat of Security', phone: '316 380 6559' },
+    ]},
+    { title: 'Medical emergencies', items: [
+      { label: 'Fire Department', phone: '322 506 1677' },
+      { label: 'Ambulance', phone: '311 278 4891' },
+      { label: 'Emergency Ambulance — Hospital Santa María', phone: '314 617 8011' },
+    ]},
+    { title: 'Transport', note: 'To get around the town, you can contact the Mototaxi cooperatives:', items: [
+      { label: 'Asotuktuk Mompox', phone: '320 531 1800' },
+      { label: 'CootraMompox', phone: '320 834 1043' },
+    ]},
+  ],
+};
+
+const EMERGENCY_TITLES = { es: 'Líneas de Emergencia', en: 'Emergency Lines' };
+const EMERGENCY_SUBS = { es: 'Festival de Jazz de Mompox', en: 'Mompox Jazz Festival' };
+
 const ARTIST_DEFS = {
   es: [
     { name: 'Victoria Sur', meta: 'Colombia', photo: 'uploads/victoriasurynicolasospina.jpeg', bio: 'Cantante y compositora nacida en Armenia, Quindío. Comenzó su carrera musical desde los 10 años con el dúo Sombra y Luz, con el que ganó el Festival Mono Núñez en 1994. Como solista ha desarrollado una propuesta que mezcla música andina y latinoamericana con jazz, rock y otros géneros. Ha publicado varios álbumes y fue nominada al Latin Grammy por Nanas consentidoras.', c1: '#2B216D', c2: '#191B63' },
@@ -980,6 +1071,7 @@ class Component extends DCLogic {
     mobileMenuOpen: false,
     lightboxIndex: null,
     artistPhotoIndex: null,
+    emergencyOpen: false,
     activeDayIndex: 0,
     mompoxHover: false,
     mompoxX: 0,
@@ -1205,6 +1297,15 @@ class Component extends DCLogic {
     const news = NEWS_DEFS[lang];
     const infoCards = INFO_CARD_DEFS[lang];
 
+    const emergencyGroups = EMERGENCY_DEFS[lang].map(g => ({
+      title: g.title,
+      note: g.note || '',
+      hasNote: !!g.note,
+      items: g.items.map(it => ({ label: it.label, phone: it.phone, tel: 'tel:+57' + it.phone.replace(/\s/g, '') })),
+    }));
+    const emergencyTitle = EMERGENCY_TITLES[lang];
+    const emergencySub = EMERGENCY_SUBS[lang];
+
     const mompoxIconDefs = MOMPOX_ICON_DEFS[lang];
     const mompoxIcons = mompoxIconDefs.map((m, i) => {
       const hover = !!this.state['mompoxCardHover' + i];
@@ -1408,6 +1509,15 @@ class Component extends DCLogic {
       artists,
       news,
       infoCards,
+      emergencyGroups,
+      emergencyOpen: this.state.emergencyOpen,
+      emergencyCta: this.state.emergencyOpen ? (lang === 'en' ? 'Close' : 'Cerrar') : (lang === 'en' ? 'Click here' : 'Click aquí'),
+      emergencyChevron: this.state.emergencyOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+      emergencyMaxHeight: this.state.emergencyOpen ? '1600px' : '0px',
+      emergencyOpacity: this.state.emergencyOpen ? 1 : 0,
+      toggleEmergency: () => this.setState(s => ({ emergencyOpen: !s.emergencyOpen })),
+      emergencyTitle,
+      emergencySub,
       mompoxIcons,
       galleryImages,
       artistPhotoOpen: this.state.artistPhotoIndex !== null && this.state.artistPhotoIndex !== undefined,
