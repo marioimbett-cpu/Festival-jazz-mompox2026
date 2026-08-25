@@ -124,6 +124,25 @@
       .sponsor-tile { min-height:112px !important; padding:10px 8px !important; border-radius:14px !important; }
       .sponsor-logo { max-height:84px !important; }
     }
+    @media (max-width:980px) {
+      .mb-pillars { grid-template-columns:1fr 1fr !important; }
+    }
+    @media (max-width:820px) {
+      .info-qr { grid-template-columns:1fr !important; justify-items:center; text-align:center; gap:26px !important; padding:30px 24px !important; }
+      .info-qr > div:last-child { align-items:center; }
+      .info-qr-title { font-size:34px !important; }
+      .info-qr-img { width:150px !important; height:150px !important; }
+    }
+    @media (max-width:700px) {
+      #marca-bolivar { padding:80px 5% 86px !important; }
+      .mb-store-left { flex-direction:column; align-items:center !important; text-align:center; gap:16px !important; }
+      .mb-store { flex-direction:column; align-items:stretch !important; text-align:center; gap:22px !important; }
+      .mb-store > a { text-align:center; padding:15px 24px !important; }
+    }
+    @media (max-width:660px) {
+      .mb-pillars { grid-template-columns:1fr !important; }
+      .mb-fest { grid-template-columns:1fr !important; }
+    }
     @media (max-width:900px) {
       .emergency-grid { grid-template-columns:1fr !important; gap:34px !important; }
     }
@@ -311,7 +330,9 @@
       <a href="#inicio" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navHome }}</a>
       <a href="#programacion" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navProgram }}</a>
       <a href="#artistas" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navArtists }}</a>
+      <sc-if value="{{ showNews }}" hint-placeholder-val="{{ false }}">
       <a href="#noticias" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navNews }}</a>
+      </sc-if>
       <a href="#galeria" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navGallery }}</a>
       <a href="#informacion" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navInfo }}</a>
       <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">{{ t.navGetThere }}</a>
@@ -332,7 +353,9 @@
         <a href="#inicio" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navHome }}</a>
         <a href="#programacion" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navProgram }}</a>
         <a href="#artistas" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navArtists }}</a>
+        <sc-if value="{{ showNews }}" hint-placeholder-val="{{ false }}">
         <a href="#noticias" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navNews }}</a>
+        </sc-if>
         <a href="#galeria" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navGallery }}</a>
         <a href="#informacion" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navInfo }}</a>
         <a href="como-llegar.dc.html" onClick="{{ closeMenu }}" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:12px 20px; border-radius:30px; font-weight:600; font-size:14px; text-decoration:none; text-align:center;">{{ t.navGetThere }}</a>
@@ -395,12 +418,12 @@
   </section>
 
   <!-- FESTIVAL INTRO -->
-  <section data-screen-label="Sobre el festival" style="padding:100px 5%; background:#191B63; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;" class="two-col">
+  <section data-screen-label="Sobre el festival" style="padding:70px 5%; background:#191B63; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;" class="two-col">
     <div>
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 14px;">{{ t.introTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0 0 20px; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.introHeading }}</h2>
-      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0 0 16px;">{{ t.introP1 }}</p>
-      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0;">{{ t.introP2 }}</p>
+      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0 0 16px; text-align:justify; hyphens:auto; text-wrap:pretty;">{{ t.introP1 }}</p>
+      <p style="font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:0; text-align:justify; hyphens:auto; text-wrap:pretty;">{{ t.introP2 }}</p>
     </div>
     <div onMouseEnter="{{ mompoxEnter }}" onMouseMove="{{ mompoxMove }}" onMouseLeave="{{ mompoxLeave }}" style="position:relative; border-radius:20px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; border:1.5px solid rgba(244,197,66,.15); box-shadow:{{ mompoxShadow }}; transition:box-shadow .6s ease, border-color .6s ease;">
       <img src="uploads/mompox.jpeg" alt="Iglesia de Santa Bárbara iluminada de noche, Mompox" style="width:100%; height:100%; object-fit:cover; display:block; transform:{{ mompoxTransform }}; filter:{{ mompoxFilter }}; transition:transform .65s cubic-bezier(.22,.8,.36,1), filter .65s ease;">
@@ -415,7 +438,7 @@
   </section>
 
   <!-- PROGRAMACIÓN -->
-  <section id="programacion" data-screen-label="Programación" style="padding:100px 5%; background:linear-gradient(180deg,#191B63,#221a5e);">
+  <section id="programacion" data-screen-label="Programación" style="padding:70px 5%; background:linear-gradient(180deg,#191B63,#221a5e);">
     <div style="text-align: center; margin-bottom: 44px; font-family: Dancing Script; font-size: 25px">
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.agendaTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.agendaHeading }}</h2>
@@ -443,7 +466,7 @@
   </section>
 
   <!-- ARTISTAS -->
-  <section id="artistas" data-screen-label="Artistas" style="padding:100px 5%; background:#221a5e;">
+  <section id="artistas" data-screen-label="Artistas" style="padding:70px 5%; background:#221a5e;">
     <div style="text-align:center; margin-bottom:50px;">
       <p style="font-size: 20px; letter-spacing: .18em; text-transform: uppercase; color: #F4C542; margin: 0 0 12px; font-family: Dancing Script">{{ t.lineupTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.artistsHeading }}</h2>
@@ -483,7 +506,8 @@
         </div>
       </sc-for>
     </div>
-  <section id="noticias" data-screen-label="Noticias" style="padding:100px 5%; background:#191B63;">
+  <sc-if value="{{ showNews }}" hint-placeholder-val="{{ false }}">
+  <section id="noticias" data-screen-label="Noticias" style="padding:70px 5%; background:#191B63;">
     <div style="text-align:center; margin-bottom:50px;">
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.newsTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.newsHeading }}</h2>
@@ -502,10 +526,12 @@
         </div>
       </sc-for>
     </div>
-  </section></section>
+  </section>
+  </sc-if>
+  </section>
 
   <!-- MOMPOX TURISMO -->
-  <section data-screen-label="Mompox" style="padding:100px 5%; background:#191B63;">
+  <section data-screen-label="Mompox" style="padding:70px 5%; background:#191B63;">
     <div style="border-radius: 24px; overflow: hidden; margin-bottom: 50px; animation: revealUp .9s cubic-bezier(.22,.8,.36,1) both">
       <div onMouseEnter="{{ panoEnter }}" onMouseMove="{{ panoMove }}" onMouseLeave="{{ panoLeave }}" style="position:relative; aspect-ratio:21/7; cursor:pointer; border:1.5px solid rgba(244,197,66,.15); box-shadow:{{ panoShadow }}; transition:box-shadow .6s ease, border-color .6s ease;">
         <img src="uploads/mompox2.jpg" alt="Plaza de la Concepción y Casa de la Cultura, Santa Cruz de Mompox" style="width:100%; height:100%; object-fit:cover; object-position:center 58%; display:block; transform:{{ panoTransform }}; filter:{{ panoFilter }}; transition:transform .6s cubic-bezier(.22,.8,.36,1), filter .6s ease;">
@@ -545,7 +571,7 @@
   </section>
 
   <!-- GALERÍA -->
-  <section id="galeria" data-screen-label="Galería" style="padding:100px 5%; background:#221a5e;">
+  <section id="galeria" data-screen-label="Galería" style="padding:70px 5%; background:#221a5e;">
     <div style="text-align:center; margin-bottom:50px;">
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.galleryTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.galleryHeading }}</h2>
@@ -588,12 +614,24 @@
   
 
   <!-- INFORMACIÓN -->
-  <section id="informacion" data-screen-label="Información" style="padding:100px 5%; background:#221a5e;">
+  <section id="informacion" data-screen-label="Información" style="padding:70px 5%; background:#221a5e;">
     <div style="text-align:center; margin-bottom:50px; max-width:1200px; margin-left:auto; margin-right:auto;">
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.infoTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.infoHeading }}</h2>
       <p style="font-family:'Poppins',sans-serif; font-size:15.5px; line-height:1.8; color:#D9D5F5; margin:22px auto 0; max-width:1200px; text-align:justify; text-justify:inter-word;">{{ t.infoIntro }}</p>
     </div>
+    <div class="info-qr" style="position:relative; box-sizing:border-box; width:100%; max-width:1200px; margin:0 auto 44px; display:grid; grid-template-columns:auto minmax(0,1fr); gap:38px; align-items:center; padding:34px 38px; border-radius:24px; background:linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.025)); border:1px solid rgba(244,197,66,.26); box-shadow:0 18px 44px rgba(0,0,0,.28); transition:background .4s ease, border-color .4s ease, box-shadow .4s ease, transform .4s cubic-bezier(.22,.8,.36,1);" style-hover="background:linear-gradient(135deg, rgba(244,197,66,.16), rgba(244,197,66,.05)); border-color:rgba(244,197,66,.85); box-shadow:0 28px 62px rgba(0,0,0,.42), 0 0 52px 3px rgba(244,197,66,.34), inset 0 0 0 1px rgba(244,197,66,.3); transform:translateY(-4px);">
+      <div class="info-qr-card" style="flex:none; padding:16px; border-radius:20px; background:#FFFFFF; border:1px solid rgba(244,197,66,.32); box-shadow:0 16px 38px rgba(0,0,0,.34);">
+        <img src="uploads/qrmompoxinteligente.jpeg" alt="Código QR — Mompox Inteligente" loading="lazy" class="info-qr-img" style="display:block; width:172px; height:172px; object-fit:contain;"/>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <span style="font-family:'Poppins',sans-serif; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:#F4C542;">{{ t.infoQrTag }}</span>
+        <span class="info-qr-title" style="font-family:'Dancing Script',cursive; font-size:40px; font-weight:700; line-height:1.1; color:#FFFFFF; text-shadow:0 2px 14px rgba(0,0,0,.35);">{{ t.infoQrTitle }}</span>
+        <span style="font-family:'Poppins',sans-serif; font-size:14.5px; line-height:1.75; color:#D9D5F5; max-width:56ch;">{{ t.infoQrText }}</span>
+        <span style="display:inline-flex; align-items:center; gap:9px; margin-top:6px; font-family:'Poppins',sans-serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#FFD447;"><span style="font-size:15px;">↙</span>{{ t.infoQrScan }}</span>
+      </div>
+    </div>
+
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1200px; margin:0 auto;" class="info-grid">
       <sc-for list="{{ infoCards }}" as="ic" hint-placeholder-count="6">
         <a href="{{ ic.href }}" style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.18); border-radius:16px; padding:26px; text-decoration:none; display:block; transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;" class="info-card" style-hover="transform:translateY(-6px); box-shadow:0 16px 34px rgba(0,0,0,.35); border-color:rgba(244,197,66,.5);">
@@ -641,7 +679,7 @@
   </section>
 
   <!-- PARQUEADEROS -->
-  <section id="parqueaderos" data-screen-label="Parqueaderos" style="position:relative; padding:110px 5%; background:#191B63; overflow:hidden;">
+  <section id="parqueaderos" data-screen-label="Parqueaderos" style="position:relative; padding:74px 5%; background:#191B63; overflow:hidden;">
     <svg width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#F4C542; opacity:.04; pointer-events:none;">
       <use href="#filigreeMotif" x="-40" y="440" width="420" height="420"></use>
       <use href="#filigreeMotif" x="1280" y="-60" width="380" height="380"></use>
@@ -670,8 +708,51 @@
     </div>
   </section>
 
+  <!-- MARCA BOLÍVAR -->
+  <section id="marca-bolivar" data-screen-label="Marca Bolívar" style="position:relative; padding:74px 5% 78px; background:linear-gradient(180deg,#191B63 0%,#15174F 55%,#191B63 100%); overflow:hidden;">
+    <svg width="100%" height="100%" viewBox="0 0 1600 1100" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#F4C542; opacity:.038; pointer-events:none;">
+      <use href="#filigreeMotif" x="-70" y="90" width="460" height="460"></use>
+      <use href="#filigreeMotif" x="1230" y="560" width="420" height="420"></use>
+    </svg>
+
+    <div style="position:relative; max-width:1180px; margin:0 auto;">
+      <div style="display:grid; grid-template-columns:1fr; gap:0;" class="mb-head">
+        <div>
+          <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.mbTag }}</p>
+          <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0 0 20px; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.mbHeading }}</h2>
+          <p style="font-family:'Poppins',sans-serif; font-size:15.5px; line-height:1.85; color:#D9D5F5; margin:0 0 28px; text-align:justify; hyphens:auto; text-wrap:pretty;">{{ t.mbLead }}</p>
+          <div style="display:flex; gap:44px; flex-wrap:wrap;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <span style="font-family:'Dancing Script',cursive; font-size:44px; font-weight:700; line-height:1; color:#FFD447;">{{ t.mbStat1 }}</span>
+              <span style="font-family:'Poppins',sans-serif; font-size:12.5px; line-height:1.5; color:rgba(255,255,255,.58); max-width:22ch;">{{ t.mbStat1Label }}</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <span style="font-family:'Dancing Script',cursive; font-size:44px; font-weight:700; line-height:1; color:#FFD447;">{{ t.mbStat2 }}</span>
+              <span style="font-family:'Poppins',sans-serif; font-size:12.5px; line-height:1.5; color:rgba(255,255,255,.58); max-width:22ch;">{{ t.mbStat2Label }}</span>
+            </div>
+          </div>
+        <div style="margin-top:34px; padding:26px 30px; border-radius:22px; background:rgba(255,255,255,.045); border:1px solid rgba(244,197,66,.22); transition:background .4s ease, border-color .4s ease, box-shadow .4s ease, transform .4s cubic-bezier(.22,.8,.36,1);" style-hover="background:rgba(244,197,66,.08); border-color:rgba(244,197,66,.6); box-shadow:0 20px 46px rgba(0,0,0,.38), 0 0 34px 1px rgba(244,197,66,.22); transform:translateY(-3px);">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:26px; flex-wrap:wrap;" class="mb-store">
+            <div style="display:flex; align-items:center; gap:22px; flex:1 1 320px;" class="mb-store-left">
+              <div style="flex:none; display:flex; align-items:center; justify-content:center; padding:14px 18px; border-radius:14px; background:linear-gradient(180deg, rgba(255,255,255,.97), rgba(246,243,236,.92)); border:1px solid rgba(244,197,66,.3); box-shadow:0 10px 24px rgba(0,0,0,.3);">
+                <img src="uploads/marcabolivar-nitido.png" alt="Marca Bolívar" style="display:block; width:158px; height:auto; object-fit:contain;"/>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+              <span style="font-family:'Poppins',sans-serif; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:#F4C542;">{{ t.mbStoreTag }}</span>
+              <span style="font-family:'Poppins',sans-serif; font-size:13.5px; line-height:1.6; color:#D9D5F5;">{{ t.mbStoreText }}</span>
+              </div>
+            </div>
+            <a href="https://www.marcabolivar.com/" target="_blank" rel="noopener" style="flex:none; padding:14px 30px; border-radius:999px; background:#F4C542; color:#191B63; font-family:'Poppins',sans-serif; font-size:13.5px; font-weight:600; letter-spacing:.03em; text-decoration:none; box-shadow:0 12px 30px rgba(244,197,66,.28); transition:transform .3s ease, box-shadow .3s ease, background .3s ease;" style-hover="transform:translateY(-3px); background:#FFD447; box-shadow:0 18px 40px rgba(244,197,66,.42);">{{ t.mbCta }}</a>
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- PATROCINADORES -->
-  <section data-screen-label="Patrocinadores" style="position:relative; padding:100px 5% 110px; background:#191B63; overflow:hidden;">
+  <section data-screen-label="Patrocinadores" style="position:relative; padding:70px 5% 80px; background:#191B63; overflow:hidden;">
     <svg width="100%" height="100%" viewBox="0 0 1600 1200" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; color:#F4C542; opacity:.035; pointer-events:none;">
       <use href="#filigreeMotif" x="-60" y="60" width="440" height="440"></use>
       <use href="#filigreeMotif" x="1240" y="420" width="400" height="400"></use>
@@ -744,6 +825,7 @@
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{
+  &quot;showNews&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;},
   &quot;navFontFamily&quot;: {&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;'Dancing Script',cursive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
   &quot;navFontSize&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:20,&quot;min&quot;:12,&quot;max&quot;:32,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
   &quot;navFontWeight&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:600,&quot;options&quot;:[400,500,600,700,800,900],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
@@ -797,12 +879,28 @@ const TRANSLATIONS = {
     destinationTag: 'Destino', mompoxHeading: 'Santa Cruz de Mompox',
     mompoxText: 'Un pueblo ribereño detenido en el tiempo, con calles empedradas, orfebrería en filigrana y el Magdalena como testigo eterno de su historia.',
     galleryTag: 'Momentos', galleryHeading: 'Galería',
+    mbTag: 'Aliado del territorio', mbHeading: 'Marca Bolívar',
+    mbLead: 'Un proyecto artesanal de Bolívar, nacido en 2024 con el apoyo de la Gobernación de Bolívar. Impulsa los oficios artesanales y la gastronomía local para promover el orgullo por lo nuestro, preservar la cultura y generar oportunidades económicas para las comunidades.',
+    mbStat1: '120+', mbStat1Label: 'artesanos venden sin intermediarios',
+    mbStat2: '2024', mbStat2Label: 'año de fundación',
+    mbP1Title: 'Artesanías', mbP1Text: 'Piezas únicas hechas a mano por artesanos del departamento, que honran saberes ancestrales reinventados con creatividad contemporánea.',
+    mbP2Title: 'Gastronomía', mbP2Text: 'Productos autóctonos —queso de capa de Mompox, chocolate de Montes de María, café y cacao de Santa Rosa del Sur— que celebran la riqueza culinaria del Caribe bolivarense.',
+    mbP3Title: 'ELAR', mbP3Text: 'El proyecto de moda con propósito de Marca Bolívar: colecciones que traducen el tejido y la filigrana del territorio en piezas de autor.',
+    mbFestTag: 'En el festival',
+    mbFest1Title: 'Casa Marca Bolívar', mbFest1Time: '1:00 p.m. – 6:00 p.m. · 10, 11 y 12 de septiembre', mbFest1Place: 'Casa Alhambra — Callejón de la Municipalidad',
+    mbFest2Title: 'Pasarela ELAR · Canto de Palma', mbFest2Time: '6:00 p.m. · 12 de septiembre', mbFest2Place: 'Plaza de La Concepción',
+    mbStoreTag: 'Tienda', mbStoreText: 'Palacio de la Proclamación, Cartagena · Lunes a sábado, 10:00 a.m. – 7:00 p.m.',
+    mbCta: 'Visitar marcabolivar.com →',
     parkingTag: 'Movilidad', parkingHeading: 'Parqueaderos',
     parkingLead: 'Ubicación de los parqueaderos en los alrededores del Centro Histórico, de norte a sur.',
     parkingScan: 'Escanea el código',
     parkingHint: 'Abre el mapa con todos los puntos de parqueo en tu teléfono.',
     parkingNote: 'El Centro Histórico es peatonal durante el festival. Deja el vehículo en el punto más cercano y camina: nada queda a más de diez minutos.',
     infoTag: 'Práctica', infoHeading: 'Información',
+    infoQrTag: 'Mompox Inteligente',
+    infoQrTitle: 'Toda Mompox en tu teléfono',
+    infoQrText: 'Sitios de interés, hoteles, restaurantes, rutas, trámites y servicios del municipio, reunidos en un solo lugar.',
+    infoQrScan: 'Escanea el código',
     infoIntro: 'Aquí encontrarás toda la información de Mompox en un solo lugar. A través de la aplicación Mompox Inteligente podrás consultar información de interés, conocer los servicios disponibles, explorar lugares y acceder a contenidos importantes de nuestro municipio de manera rápida, fácil y desde cualquier dispositivo. Ingresa aquí, escanea el código QR que se encuentra en cada sección y descubre todo lo que Mompox tiene para ofrecerte.',
     sponsorsTag: 'Aliados', sponsorsHeading: 'Patrocinadores',
     footerTagline: 'Un evento gratuito de la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas de Colombia.',
@@ -830,12 +928,28 @@ const TRANSLATIONS = {
     destinationTag: 'Destination', mompoxHeading: 'Santa Cruz de Mompox',
     mompoxText: 'A riverside town frozen in time, with cobblestone streets, filigree goldsmithing, and the Magdalena River as the eternal witness to its history.',
     galleryTag: 'Moments', galleryHeading: 'Gallery',
+    mbTag: 'Territory partner', mbHeading: 'Marca Bolívar',
+    mbLead: 'An artisan project from Bolívar, born in 2024 with the support of the Government of Bolívar. It champions craft trades and local gastronomy to build pride in what is ours, preserve local culture and create economic opportunity for its communities.',
+    mbStat1: '120+', mbStat1Label: 'artisans selling with no middlemen',
+    mbStat2: '2024', mbStat2Label: 'founded',
+    mbP1Title: 'Crafts', mbP1Text: 'One-of-a-kind pieces handmade by artisans across the department, honouring ancestral knowledge reimagined with contemporary creativity.',
+    mbP2Title: 'Gastronomy', mbP2Text: 'Native products — Mompox layered cheese, Montes de María chocolate, coffee and cacao from Santa Rosa del Sur — celebrating the culinary wealth of the Bolívar Caribbean.',
+    mbP3Title: 'ELAR', mbP3Text: 'Marca Bolívar’s fashion-with-purpose project: collections that translate the region’s weaving and filigree into designer pieces.',
+    mbFestTag: 'At the festival',
+    mbFest1Title: 'Casa Marca Bolívar', mbFest1Time: '1:00 pm – 6:00 pm · September 10, 11 and 12', mbFest1Place: 'Casa Alhambra — Callejón de la Municipalidad',
+    mbFest2Title: 'ELAR Runway · Canto de Palma', mbFest2Time: '6:00 pm · September 12', mbFest2Place: 'Plaza de La Concepción',
+    mbStoreTag: 'Store', mbStoreText: 'Palacio de la Proclamación, Cartagena · Monday to Saturday, 10:00 am – 7:00 pm',
+    mbCta: 'Visit marcabolivar.com →',
     parkingTag: 'Mobility', parkingHeading: 'Parking',
     parkingLead: 'Parking locations around the Historic Center, from north to south.',
     parkingScan: 'Scan the code',
     parkingHint: 'Opens the map with every parking spot on your phone.',
     parkingNote: 'The Historic Center is pedestrian-only during the festival. Leave your car at the nearest spot and walk — nothing is more than ten minutes away.',
     infoTag: 'Practical', infoHeading: 'Information',
+    infoQrTag: 'Mompox Inteligente',
+    infoQrTitle: 'All of Mompox on your phone',
+    infoQrText: 'Points of interest, hotels, restaurants, routes, services and municipal procedures, gathered in one place.',
+    infoQrScan: 'Scan the code',
     infoIntro: 'Here you will find all the information about Mompox in one place. Through the Mompox Inteligente app you can look up useful information, see the services available, explore places and reach important content about our municipality quickly, easily and from any device. Come in, scan the QR code in each section and discover everything Mompox has to offer you.',
     sponsorsTag: 'Partners', sponsorsHeading: 'Sponsors',
     footerTagline: 'A free event by the Government of Bolívar, Icultur and Colombia\u2019s Ministry of Culture.',
@@ -890,7 +1004,7 @@ const DAY_DEFS = {
       { time: '2:00 p.m. - 4:00 p.m.', title: 'Taller de promoción de lectura La Carreta Literaria', place: 'Barrio Primero de Mayo, Mompox' },
       { time: '3:00 pm - 8:00 pm', title: 'Feria Artesanal y Gastronómica', place: 'Albarrada Plaza Santa Bárbara' },
       { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
-      { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: 'Calle de atrás — Sede Universidad de Cartagena' },
+      { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: 'Calle Cuarta — Sede Universidad de Cartagena' },
       { time: '6:00 p.m.', title: 'Marca Bolívar — Pasarela Elar, Canto de Palma', place: 'Plaza de La Concepción' },
       { time: '6:30 pm - 7:30 pm', title: 'Concierto de Clausura Campamento de Jazz — abierto al público', place: 'Claustro San Agustín' },
       { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
@@ -940,7 +1054,7 @@ const DAY_DEFS = {
       { time: '2:00 pm - 4:00 pm', title: 'La Carreta Literaria reading promotion workshop', place: 'Primero de Mayo neighborhood, Mompox' },
       { time: '3:00 pm - 8:00 pm', title: 'Craft and Food Fair', place: 'Albarrada, Plaza Santa Bárbara' },
       { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
-      { time: '2:00 pm', title: 'UNIBAC Mural Launch', place: 'Back street — Universidad de Cartagena campus' },
+      { time: '2:00 pm', title: 'UNIBAC Mural Launch', place: 'Calle Cuarta — Universidad de Cartagena campus' },
       { time: '6:00 pm', title: 'Marca Bolívar — Elar Runway, Canto de Palma', place: 'Plaza de La Concepción' },
       { time: '6:30 pm - 7:30 pm', title: 'Jazz Camp Closing Concert — open to the public', place: 'Claustro San Agustín' },
       { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
@@ -1529,6 +1643,7 @@ class Component extends DCLogic {
       activeDay,
       artists,
       news,
+      showNews: this.props.showNews ?? false,
       infoCards,
       emergencyGroups,
       emergencyOpen: this.state.emergencyOpen,
