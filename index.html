@@ -129,6 +129,12 @@
       .artist-name { font-size:27px !important; }
     }
     @media (max-width:640px) {
+      .acad-panel { padding:26px 16px !important; margin-top:22px !important; }
+      .acad-row { grid-template-columns:1fr !important; gap:6px !important; padding:16px 16px !important; }
+      .acad-btn { width:100%; justify-content:center; padding:13px 18px !important; font-size:13px !important; }
+      .day-row { gap:10px !important; }
+    }
+    @media (max-width:640px) {
       .sponsor-grid { grid-template-columns:repeat(3,1fr) !important; gap:10px !important; }
       .sponsor-group-patrocinadorOficial .sponsor-grid { grid-template-columns:repeat(2,1fr) !important; max-width:340px !important; }
       .sponsor-tile { min-height:112px !important; padding:10px 8px !important; border-radius:14px !important; }
@@ -453,10 +459,14 @@
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.agendaTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.agendaHeading }}</h2>
     </div>
-    <div style="display:flex; justify-content:center; gap:14px; margin-bottom:44px; flex-wrap:wrap;">
+    <div style="display:flex; justify-content:center; gap:14px; margin-bottom:44px; flex-wrap:wrap;" class="day-row">
       <sc-for list="{{ days }}" as="day" hint-placeholder-count="3">
         <button onClick="{{ day.select }}" style="border:1.5px solid {{ day.borderColor }}; background:{{ day.bg }}; color:{{ day.textColor }}; padding:13px 26px; border-radius:30px; font-weight:600; font-size:14px; cursor:pointer; font-family:'Poppins',sans-serif;">{{ day.label }}</button>
       </sc-for>
+      <button onClick="{{ toggleAcademic }}" class="acad-btn" style="display:inline-flex; align-items:center; gap:9px; border:1.5px solid rgba(244,197,66,.55); background:rgba(244,197,66,.06); color:#F4C542; padding:13px 26px; border-radius:30px; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; cursor:pointer; transition:background .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease;" style-hover="background:rgba(244,197,66,.18); border-color:#F4C542; box-shadow:0 0 34px 4px rgba(244,197,66,.4); transform:translateY(-2px);">
+        <span style="font-size:15px;">🎓</span>
+        <span>{{ t.acadBtn }}</span>
+      </button>
     </div>
     <div style="max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
       <sc-for list="{{ activeDay.events }}" as="ev" hint-placeholder-count="3">
@@ -473,6 +483,44 @@
         </div>
       </sc-for>
     </div>
+
+
+    <sc-if value="{{ academicOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:900px; margin:28px auto 0; padding:38px 34px 34px; border-radius:20px; background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.24); animation:revealUp .55s cubic-bezier(.22,.8,.36,1) both;" class="acad-panel">
+        <div style="text-align:center; margin-bottom:32px;">
+          <h3 style="margin:0 0 8px; font-family:'Dancing Script',cursive; font-size:40px; font-weight:700; color:#FFD447; text-shadow:0 2px 14px rgba(0,0,0,.35);">{{ t.acadTitle }}</h3>
+          <p style="margin:0; font-family:'Poppins',sans-serif; font-size:13px; letter-spacing:.06em; color:rgba(255,255,255,.6);">{{ t.acadVenue }}</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:32px;">
+          <sc-for list="{{ academicDays }}" as="ad" hint-placeholder-count="3">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; align-items:center; gap:14px;">
+                <h4 style="flex:none; margin:0; font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#F4C542;">{{ ad.day }}</h4>
+                <div style="flex:1; height:1px; background:linear-gradient(90deg, rgba(244,197,66,.4), transparent);"></div>
+              </div>
+              <sc-for list="{{ ad.items }}" as="ai" hint-placeholder-count="2">
+                <div style="display:grid; grid-template-columns:104px 1fr; gap:20px; padding:18px 20px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.14); transition:background .3s ease, border-color .3s ease, transform .3s ease;" class="acad-row" style-hover="background:rgba(244,197,66,.13); border-color:rgba(244,197,66,.6); transform:translateX(3px);">
+                  <div style="font-family:'Dancing Script',cursive; font-size:24px; font-weight:700; line-height:1.2; color:#F4C542;">{{ ai.time }}</div>
+                  <div style="display:flex; flex-direction:column; gap:6px;">
+                    <div style="font-family:'Poppins',sans-serif; font-size:15.5px; font-weight:600; line-height:1.45; color:#FFFFFF; text-wrap:pretty;">{{ ai.title }}</div>
+                    <sc-if value="{{ ai.hasBy }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-family:'Poppins',sans-serif; font-size:13.5px; line-height:1.6; color:#D9D5F5;">{{ ai.by }}</div>
+                    </sc-if>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:2px;">
+                      <span style="font-family:'Poppins',sans-serif; font-size:11.5px; letter-spacing:.06em; color:rgba(255,255,255,.55);">{{ ai.dur }}</span>
+                      <sc-if value="{{ ai.hasRoom }}" hint-placeholder-val="{{ false }}">
+                        <span style="padding:3px 11px; border-radius:20px; background:rgba(244,197,66,.12); border:1px solid rgba(244,197,66,.3); font-family:'Poppins',sans-serif; font-size:11px; font-weight:600; letter-spacing:.04em; color:#F4C542;">{{ ai.room }}</span>
+                      </sc-if>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
   </section>
 
   <!-- ARTISTAS -->
@@ -888,6 +936,9 @@ const TRANSLATIONS = {
     introP2: 'Cada septiembre, los faroles se encienden, los abanicos se agitan y el jazz se mezcla con porro, gaita y son para crear una experiencia que solo Mompox puede ofrecer.',
     introDiscover: 'Descubrir Mompox',
     agendaTag: 'Agenda', agendaHeading: 'Programación',
+    acadOpen: 'Ver agenda académica', acadClose: 'Ocultar agenda académica',
+    acadBtn: 'Agenda Académica Festijazz 2026',
+    acadTitle: 'Agenda Académica', acadVenue: 'Claustro de San Agustín · Santa Cruz de Mompox',
     lineupTag: 'Line-up', artistsHeading: 'Artistas', moreInfo: 'Más información →',
     newsTag: 'Actualidad', newsHeading: 'Noticias', readMore: 'Leer más →',
     destinationTag: 'Destino', mompoxHeading: 'Santa Cruz de Mompox',
@@ -938,6 +989,9 @@ const TRANSLATIONS = {
     introP2: 'Every September, the lanterns light up, fans start waving, and jazz blends with porro, gaita and son to create an experience only Mompox can offer.',
     introDiscover: 'Discover Mompox',
     agendaTag: 'Schedule', agendaHeading: 'Program',
+    acadOpen: 'View academic program', acadClose: 'Hide academic program',
+    acadBtn: 'Festijazz 2026 Academic Program',
+    acadTitle: 'Academic Program', acadVenue: 'Claustro de San Agustín · Santa Cruz de Mompox',
     lineupTag: 'Line-up', artistsHeading: 'Artists', moreInfo: 'More info →',
     newsTag: 'Latest', newsHeading: 'News', readMore: 'Read more →',
     destinationTag: 'Destination', mompoxHeading: 'Santa Cruz de Mompox',
@@ -1121,6 +1175,22 @@ const EMERGENCY_DEFS = {
 
 const EMERGENCY_TITLES = { es: 'Líneas de Emergencia', en: 'Emergency Lines' };
 const EMERGENCY_SUBS = { es: 'Festival de Jazz de Mompox', en: 'Mompox Jazz Festival' };
+
+const ACADEMIC_DEFS = [
+  { day: { es: 'Jueves 3 de septiembre', en: 'Thursday, September 3' }, items: [
+    { time: '8:00 a.m.', title: { es: 'Seminario Serigrafía I', en: 'Screen Printing Seminar I' }, by: { es: 'Institución Universitaria Bellas Artes UNIBAC', en: 'Institución Universitaria Bellas Artes UNIBAC' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+    { time: '5:30 p.m.', title: { es: 'Charla sobre industrias musicales', en: 'Talk on the music industries' }, by: { es: 'Cámara de Comercio de Cartagena', en: 'Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+  ]},
+  { day: { es: 'Viernes 4 de septiembre', en: 'Friday, September 4' }, items: [
+    { time: '8:00 a.m.', title: { es: 'Conversatorio: De las sonoridades del Caribe al formato sinfónico — diálogos e influencias del jazz', en: 'Panel: From Caribbean sonorities to the symphonic format — dialogues and influences of jazz' }, by: { es: 'Universidad del Magdalena', en: 'Universidad del Magdalena' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+    { time: '5:20 p.m.', title: { es: 'Charla sobre industrias musicales', en: 'Talk on the music industries' }, by: { es: 'Cámara de Comercio de Cartagena', en: 'Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: { es: 'Salón 2', en: 'Room 2' } },
+    { time: '5:30 p.m.', title: { es: 'Panel de CAF, Icultur y Fundación Salvi', en: 'Panel with CAF, Icultur and Fundación Salvi' }, by: '', dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+  ]},
+  { day: { es: 'Sábado 5 de septiembre', en: 'Saturday, September 5' }, items: [
+    { time: '8:00 a.m.', title: { es: 'Master Class: La composición, patrimonio e identidad', en: 'Master Class: Composition, heritage and identity' }, by: { es: 'Maestro Óscar Acevedo', en: 'Maestro Óscar Acevedo' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+    { time: '5:30 p.m.', title: { es: 'Charla sobre industrias musicales', en: 'Talk on the music industries' }, by: { es: 'Cámara de Comercio de Cartagena', en: 'Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: { es: 'Salón 2', en: 'Room 2' } },
+  ]},
+];
 
 const ARTIST_DEFS = {
   es: [
@@ -1661,6 +1731,23 @@ class Component extends DCLogic {
       artists,
       news,
       showNews: this.props.showNews ?? false,
+      academicOpen: !!this.state.academicOpen,
+      academicLabel: this.state.academicOpen ? t.acadClose : t.acadOpen,
+      academicDays: ACADEMIC_DEFS.map(d => ({
+        day: d.day[lang],
+        items: d.items.map(it => {
+          const by = it.by ? (it.by[lang] || it.by.es) : '';
+          const room = it.room ? (it.room[lang] || it.room.es) : '';
+          return {
+            time: it.time,
+            title: it.title[lang],
+            by, hasBy: !!by,
+            room, hasRoom: !!room,
+            dur: it.dur[lang],
+          };
+        }),
+      })),
+      toggleAcademic: () => this.setState(s => ({ academicOpen: !s.academicOpen })),
       infoCards,
       emergencyGroups,
       emergencyOpen: this.state.emergencyOpen,
