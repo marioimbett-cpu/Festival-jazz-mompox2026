@@ -840,7 +840,7 @@
 
           <div style="display:grid; grid-template-columns:{{ group.columns }}; gap:{{ group.gap }}; justify-content:center; max-width:{{ group.maxWidth }}; margin:0 auto;" class="sponsor-grid">
             <sc-for list="{{ group.items }}" as="sp" hint-placeholder-count="3">
-              <a href="{{ sp.href }}" target="_blank" rel="noopener" title="{{ sp.name }}" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-decoration:none; background:{{ sp.cardBg }}; border:1px solid {{ sp.cardBorder }}; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.28); box-sizing:border-box; padding:{{ sp.padding }}; height:{{ sp.cardHeight }}; cursor:{{ sp.cursor }}; transition:transform .35s cubic-bezier(.22,.8,.36,1), box-shadow .35s ease, border-color .35s ease;" class="sponsor-tile" style-hover="transform:translateY(-6px); border-color:rgba(244,197,66,.75); box-shadow:0 18px 42px rgba(0,0,0,.4), 0 0 30px 2px rgba(244,197,66,.28);">
+              <a href="{{ sp.href }}" target="_blank" rel="noopener" title="{{ sp.name }}" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-decoration:none; background:{{ sp.cardBg }}; border:1px solid {{ sp.cardBorder }}; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.28); box-sizing:border-box; padding:{{ sp.padding }}; height:{{ sp.cardHeight }}; grid-column:{{ sp.gridColumn }}; justify-self:center; width:{{ sp.tileWidth }}; max-width:100%; cursor:{{ sp.cursor }}; transition:transform .35s cubic-bezier(.22,.8,.36,1), box-shadow .35s ease, border-color .35s ease;" class="sponsor-tile" style-hover="transform:translateY(-6px); border-color:rgba(244,197,66,.75); box-shadow:0 18px 42px rgba(0,0,0,.4), 0 0 30px 2px rgba(244,197,66,.28);">
                 <sc-if value="{{ sp.hasImg }}" hint-placeholder-val="{{ true }}">
                   <img src="{{ sp.src }}" alt="{{ sp.name }}" loading="lazy" style="flex:1 1 auto; width:100%; height:100%; min-height:0; max-height:100%; object-fit:contain; display:block; filter:{{ sp.filter }}; transition:transform .35s ease;" class="sponsor-logo" style-hover="transform:scale(1.05);"/>
                 </sc-if>
@@ -1381,6 +1381,7 @@ class Component extends DCLogic {
         { name: 'Gobernación de Bolívar', src: 'uploads/logo gobernacion.png', url: 'https://www.bolivar.gov.co/', big: true },
         { name: 'Icultur — Instituto de Cultura y Turismo de Bolívar', src: 'uploads/logo icultur.png', url: 'https://icultur.gov.co/' },
         { name: 'Alcaldía Distrital de Santa Cruz de Mompox', src: 'uploads/alcaldiamompox.png' },
+        { name: 'UNIBAC — Institución Universitaria Bellas Artes y Ciencias de Bolívar', src: 'uploads/unibac.jpeg', tight: true, full: true },
       ]},
       { key: 'patrocinadorOficial', title: { es: 'Patrocinador oficial', en: 'Official sponsor' }, featured: true, items: [
         { name: 'Club Colombia — Bavaria', src: 'uploads/bavaria.png' },
@@ -1426,6 +1427,9 @@ class Component extends DCLogic {
         { name: 'Alianza Francesa', src: 'uploads/alianzafrancesa-af.png', tight: true },
         { name: 'Institut Français Colombia', src: 'uploads/institutofrances-crop.png', tight: true },
         { name: 'Alianza Francesa Cartagena de las Indias', src: 'uploads/alianzafrancesacartagena-crop.png', tight: true },
+        { name: 'Cotelco — Capítulo Cartagena y Bolívar', src: 'uploads/cotelco-crop.png', tight: true },
+        { name: 'Banco de la República', src: 'uploads/bancorepublica-crop.png', tight: true },
+        { name: 'Postobón', src: 'uploads/postobon-crop.png', tight: true },
         { name: 'Vueltabajero', src: 'uploads/logos-1787414477091-zfd9.png' },
         { name: 'Supergiros', src: 'uploads/supergiros-nuevo.png', tight: true },
         { name: 'Iderbol', src: 'uploads/iderbol.png' },
@@ -1525,7 +1529,9 @@ class Component extends DCLogic {
       title: g.title,
       note: g.note || '',
       hasNote: !!g.note,
-      items: g.items.map(it => ({ label: it.label, phone: it.phone, tel: 'tel:+57' + it.phone.replace(/\s/g, '') })),
+      items: g.items.map(it => ({
+        gridColumn: it.full ? '1 / -1' : 'auto',
+        tileWidth: it.full ? (g.featured ? '250px' : '200px') : '100%', label: it.label, phone: it.phone, tel: 'tel:+57' + it.phone.replace(/\s/g, '') })),
     }));
     const emergencyTitle = EMERGENCY_TITLES[lang];
     const emergencySub = EMERGENCY_SUBS[lang];
@@ -1601,6 +1607,8 @@ class Component extends DCLogic {
       gap: g.featured ? '28px' : '20px',
       maxWidth: g.featured ? '1080px' : '940px',
       items: g.items.map(it => ({
+        gridColumn: it.full ? '1 / -1' : 'auto',
+        tileWidth: it.full ? (g.featured ? '250px' : '200px') : '100%',
         name: it.name,
         src: it.src || '',
         hasImg: !!it.src,
