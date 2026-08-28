@@ -463,9 +463,13 @@
       <sc-for list="{{ days }}" as="day" hint-placeholder-count="3">
         <button onClick="{{ day.select }}" style="border:1.5px solid {{ day.borderColor }}; background:{{ day.bg }}; color:{{ day.textColor }}; padding:13px 26px; border-radius:30px; font-weight:600; font-size:14px; cursor:pointer; font-family:'Poppins',sans-serif;">{{ day.label }}</button>
       </sc-for>
-      <button onClick="{{ toggleAcademic }}" class="acad-btn" style="display:inline-flex; align-items:center; gap:9px; border:1.5px solid rgba(244,197,66,.55); background:rgba(244,197,66,.06); color:#F4C542; padding:13px 26px; border-radius:30px; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; cursor:pointer; transition:background .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease;" style-hover="background:rgba(244,197,66,.18); border-color:#F4C542; box-shadow:0 0 34px 4px rgba(244,197,66,.4); transform:translateY(-2px);">
+      <button onClick="{{ toggleAcademic }}" class="acad-btn" style="display:inline-flex; align-items:center; gap:9px; border:none; background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:14px 28px; border-radius:30px; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 4px 16px rgba(244,197,66,.35); transition:box-shadow .3s ease, transform .3s ease;" style-hover="box-shadow:0 8px 30px rgba(244,197,66,.6); transform:translateY(-2px);">
         <span style="font-size:15px;">🎓</span>
         <span>{{ t.acadBtn }}</span>
+      </button>
+      <button onClick="{{ toggleCircus }}" class="acad-btn" style="display:inline-flex; align-items:center; gap:9px; border:none; background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:14px 28px; border-radius:30px; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 4px 16px rgba(244,197,66,.35); transition:box-shadow .3s ease, transform .3s ease;" style-hover="box-shadow:0 8px 30px rgba(244,197,66,.6); transform:translateY(-2px);">
+        <span style="font-size:15px;">🎪</span>
+        <span>{{ t.circusBtn }}</span>
       </button>
     </div>
     <sc-if value="{{ showDayEvents }}" hint-placeholder-val="{{ true }}">
@@ -514,6 +518,36 @@
                         <span style="padding:3px 11px; border-radius:20px; background:rgba(244,197,66,.12); border:1px solid rgba(244,197,66,.3); font-family:'Poppins',sans-serif; font-size:11px; font-weight:600; letter-spacing:.04em; color:#F4C542;">{{ ai.room }}</span>
                       </sc-if>
                     </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ circusOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:900px; margin:28px auto 0; padding:38px 34px 34px; border-radius:20px; background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.24); animation:revealUp .55s cubic-bezier(.22,.8,.36,1) both;" class="acad-panel">
+        <div style="text-align:center; margin-bottom:32px;">
+          <h3 style="margin:0 0 8px; font-family:'Dancing Script',cursive; font-size:40px; font-weight:700; color:#FFD447; text-shadow:0 2px 14px rgba(0,0,0,.35);">{{ t.circusTitle }}</h3>
+          <p style="margin:0 0 10px; font-family:'Poppins',sans-serif; font-size:13px; letter-spacing:.06em; color:rgba(255,255,255,.6); text-wrap:pretty;">{{ t.circusVenue }}</p>
+          <span style="display:inline-block; padding:4px 14px; border-radius:20px; background:rgba(244,197,66,.12); border:1px solid rgba(244,197,66,.3); font-family:'Poppins',sans-serif; font-size:11.5px; font-weight:600; letter-spacing:.04em; color:#F4C542;">{{ t.circusDur }}</span>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:32px;">
+          <sc-for list="{{ circusDays }}" as="cd" hint-placeholder-count="2">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; align-items:center; gap:14px;">
+                <h4 style="flex:none; margin:0; font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#F4C542;">{{ cd.day }}</h4>
+                <div style="flex:1; height:1px; background:linear-gradient(90deg, rgba(244,197,66,.4), transparent);"></div>
+              </div>
+              <sc-for list="{{ cd.items }}" as="ci" hint-placeholder-count="2">
+                <div style="display:grid; grid-template-columns:104px 1fr; gap:20px; padding:18px 20px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.14); transition:background .3s ease, border-color .3s ease, transform .3s ease;" class="acad-row" style-hover="background:rgba(244,197,66,.13); border-color:rgba(244,197,66,.6); transform:translateX(3px);">
+                  <div style="font-family:'Dancing Script',cursive; font-size:24px; font-weight:700; line-height:1.2; color:#F4C542;">{{ ci.time }}</div>
+                  <div style="display:flex; flex-direction:column; gap:6px;">
+                    <div style="font-family:'Poppins',sans-serif; font-size:15.5px; font-weight:600; line-height:1.45; color:#FFFFFF;">{{ ci.n }}</div>
+                    <div style="font-family:'Poppins',sans-serif; font-size:13.5px; line-height:1.6; color:#D9D5F5; text-wrap:pretty;">{{ ci.place }}</div>
                   </div>
                 </div>
               </sc-for>
@@ -939,6 +973,8 @@ const TRANSLATIONS = {
     agendaTag: 'Agenda', agendaHeading: 'Programación',
     acadOpen: 'Ver agenda académica', acadClose: 'Ocultar agenda académica',
     acadBtn: 'Agenda Académica Festijazz 2026',
+    circusBtn: 'Circo Caribe',
+    circusTitle: 'Circo Caribe', circusVenue: 'Intervenciones itinerantes por las calles y plazas de Mompox', circusDur: 'Duración: 10 minutos',
     acadTitle: 'Agenda Académica', acadVenue: 'Claustro de San Agustín · Santa Cruz de Mompox',
     lineupTag: 'Line-up', artistsHeading: 'Artistas', moreInfo: 'Más información →',
     newsTag: 'Actualidad', newsHeading: 'Noticias', readMore: 'Leer más →',
@@ -992,6 +1028,8 @@ const TRANSLATIONS = {
     agendaTag: 'Schedule', agendaHeading: 'Program',
     acadOpen: 'View academic program', acadClose: 'Hide academic program',
     acadBtn: 'Festijazz 2026 Academic Program',
+    circusBtn: 'Circo Caribe',
+    circusTitle: 'Circo Caribe', circusVenue: 'Roaming performances through the streets and squares of Mompox', circusDur: 'Duration: 10 minutes',
     acadTitle: 'Academic Program', acadVenue: 'Claustro de San Agustín · Santa Cruz de Mompox',
     lineupTag: 'Line-up', artistsHeading: 'Artists', moreInfo: 'More info →',
     newsTag: 'Latest', newsHeading: 'News', readMore: 'Read more →',
@@ -1176,6 +1214,17 @@ const EMERGENCY_DEFS = {
 
 const EMERGENCY_TITLES = { es: 'Líneas de Emergencia', en: 'Emergency Lines' };
 const EMERGENCY_SUBS = { es: 'Festival de Jazz de Mompox', en: 'Mompox Jazz Festival' };
+
+const CIRCUS_DEFS = [
+  { day: { es: 'Viernes 4 de septiembre', en: 'Friday, September 4' }, items: [
+    { n: { es: 'Presentación #1', en: 'Show #1' }, time: '5:00 p.m.', place: { es: 'Calle de La Frescura', en: 'Calle de La Frescura' } },
+    { n: { es: 'Presentación #2', en: 'Show #2' }, time: '6:00 p.m.', place: { es: 'Plaza San Francisco', en: 'Plaza San Francisco' } },
+  ]},
+  { day: { es: 'Sábado 5 de septiembre', en: 'Saturday, September 5' }, items: [
+    { n: { es: 'Presentación #1', en: 'Show #1' }, time: '5:00 p.m.', place: { es: 'Calle al lado del Claustro San Agustín', en: 'Street beside Claustro San Agustín' } },
+    { n: { es: 'Presentación #2', en: 'Show #2' }, time: '6:00 p.m.', place: { es: 'Plaza el Moral', en: 'Plaza el Moral' } },
+  ]},
+];
 
 const ACADEMIC_DEFS = [
   { day: { es: 'Jueves 3 de septiembre', en: 'Thursday, September 3' }, items: [
@@ -1490,7 +1539,7 @@ class Component extends DCLogic {
 
     const days = dayDefs.map((d, i) => ({
       label: d.label,
-      select: () => this.setState({ activeDayIndex: i, academicOpen: false }),
+      select: () => this.setState({ activeDayIndex: i, academicOpen: false, circusOpen: false }),
       borderColor: i === this.state.activeDayIndex ? '#F4C542' : 'rgba(244,197,66,.25)',
       bg: i === this.state.activeDayIndex ? 'linear-gradient(135deg,#F4C542,#FFD447)' : 'transparent',
       textColor: i === this.state.activeDayIndex ? '#191B63' : '#F5F3FF',
@@ -1742,7 +1791,13 @@ class Component extends DCLogic {
       news,
       showNews: this.props.showNews ?? false,
       academicOpen: !!this.state.academicOpen,
-      showDayEvents: !this.state.academicOpen,
+      showDayEvents: !this.state.academicOpen && !this.state.circusOpen,
+      circusOpen: !!this.state.circusOpen,
+      toggleCircus: () => this.setState(s => ({ circusOpen: !s.circusOpen, academicOpen: false })),
+      circusDays: CIRCUS_DEFS.map(d => ({
+        day: d.day[lang],
+        items: d.items.map(it => ({ n: it.n[lang], time: it.time, place: it.place[lang] })),
+      })),
       academicLabel: this.state.academicOpen ? t.acadClose : t.acadOpen,
       academicDays: ACADEMIC_DEFS.map(d => ({
         day: d.day[lang],
@@ -1758,7 +1813,7 @@ class Component extends DCLogic {
           };
         }),
       })),
-      toggleAcademic: () => this.setState(s => ({ academicOpen: !s.academicOpen })),
+      toggleAcademic: () => this.setState(s => ({ academicOpen: !s.academicOpen, circusOpen: false })),
       infoCards,
       emergencyGroups,
       emergencyOpen: this.state.emergencyOpen,
