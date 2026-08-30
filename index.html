@@ -610,7 +610,7 @@
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 360px)); justify-content:center; gap:28px; max-width:1280px; margin:0 auto;" class="news-grid">
       <sc-for list="{{ news }}" as="n" hint-placeholder-count="1">
         <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
-          <div style="aspect-ratio:3/4; overflow:hidden;">
+          <div style="aspect-ratio:4/5; overflow:hidden;">
             <img onClick="{{ n.open }}" src="{{ n.image }}" alt="{{ n.title }}" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block; cursor:zoom-in; transition:transform .5s ease;" style-hover="transform:scale(1.04);"/>
           </div>
           <div style="padding:24px; display:flex; flex-direction:column; gap:12px;">
@@ -1285,7 +1285,37 @@ const ARTIST_DEFS = {
 
 const NEWS_DEFS = [
   {
-    image: 'uploads/noticia-ana-del-castillo.jpg',
+    image: 'uploads/noticia-dalmata-45.jpg',
+    badge: { es: 'Nuevo artista confirmado', en: 'New artist confirmed' },
+    title: 'Dálmata',
+    text: {
+      es: 'Uno de los grandes referentes de la música urbana llega a Mompox para poner a vibrar el Festijazz. 🎤 Dálmata será uno de los artistas protagonistas de esta gran fiesta que reúne música, cultura, patrimonio y la magia de un territorio único. Prepárate para cantar, bailar y disfrutar de una experiencia inolvidable con todo el sabor de la música urbana.',
+      en: 'One of the biggest names in urban music comes to Mompox to set Festijazz alight. 🎤 Dálmata will be one of the leading artists of this great celebration bringing together music, culture, heritage and the magic of a unique territory. Get ready to sing, dance and enjoy an unforgettable experience with all the flavour of urban music.',
+    },
+    meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
+  },
+  {
+    image: 'uploads/noticia-beto-45.jpg',
+    badge: { es: 'Nuevo artista confirmado', en: 'New artist confirmed' },
+    title: 'Beto Zabaleta',
+    text: {
+      es: 'Una de las grandes voces y leyendas del vallenato llega a Mompox para hacer historia en el Festijazz. 🎤 Beto Zabaleta. Prepárate para cantar, bailar y disfrutar de una noche inolvidable al ritmo de uno de los grandes referentes del vallenato.',
+      en: 'One of the great voices and legends of vallenato comes to Mompox to make history at Festijazz. 🎤 Beto Zabaleta. Get ready to sing, dance and enjoy an unforgettable night to the rhythm of one of vallenato’s greatest names.',
+    },
+    meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
+  },
+  {
+    image: 'uploads/noticia-greeicy-45.jpg',
+    badge: { es: 'Nueva artista confirmada', en: 'New artist confirmed' },
+    title: 'Greeicy',
+    text: {
+      es: 'Una de las artistas colombianas más queridas, poderosas y aclamadas de la actualidad llega a Mompox para hacer historia en el Festijazz. @greeicy será una de las grandes protagonistas de esta fiesta que une música, cultura, patrimonio y la magia de un territorio único.',
+      en: 'One of the most beloved, powerful and acclaimed Colombian artists today comes to Mompox to make history at Festijazz. @greeicy will be one of the leading figures of this celebration that brings together music, culture, heritage and the magic of a unique territory.',
+    },
+    meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
+  },
+  {
+    image: 'uploads/noticia-ana-45.jpg',
     badge: { es: 'Nueva artista confirmada', en: 'New artist confirmed' },
     title: 'Ana del Castillo',
     text: {
@@ -1295,7 +1325,7 @@ const NEWS_DEFS = [
     meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
   },
   {
-    image: 'uploads/noticia-pipe-bueno.png',
+    image: 'uploads/noticia-pipe-top.jpg',
     badge: { es: 'Nuevo artista confirmado', en: 'New artist confirmed' },
     title: 'Pipe Bueno',
     text: {
@@ -1305,9 +1335,9 @@ const NEWS_DEFS = [
     meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
   },
   {
-    image: 'uploads/noticia-toto-crop.jpg',
+    image: 'uploads/noticia-toto-45.jpg',
     badge: { es: 'Homenaje', en: 'Tribute' },
-    title: 'Tambores de Totó',
+    title: 'Los Tambores de Totó — El legado',
     text: {
       es: 'Este año, el #Festijazz de Mompox rinde homenaje a una mujer que convirtió el Caribe en canción, tradición y memoria: Totó La Momposina. A través de Tambores de Totó, celebraremos su legado y esa magia que permanece intacta. Porque aunque Totó nos dejó físicamente, vivirá por siempre en cada corazón bolivarense, en cada tambor, en cada voz y en cada rincón donde su música siga sonando.',
       en: 'This year, Mompox’s #Festijazz pays tribute to a woman who turned the Caribbean into song, tradition and memory: Totó La Momposina. Through Tambores de Totó, we will celebrate her legacy and that magic that remains intact. Because although Totó has left us physically, she will live forever in every heart of Bolívar, in every drum, in every voice and in every corner where her music keeps playing.',
@@ -1527,6 +1557,7 @@ class Component extends DCLogic {
         { name: 'Cámara de Comercio de Magangué', src: 'uploads/camaramagangue.PNG' },
         { name: 'Universidad de La Guajira', src: 'uploads/universidadguajira.png' },
         { name: 'Secretaría de Desarrollo Económico de Bolívar', src: 'uploads/secretariadesarrollo-negro.png', span: 2, tight: true },
+        { name: 'Tiendas ara', src: 'uploads/ara-crop.png', tight: true },
       ]},
       { key: 'mediosAliados', title: { es: 'Medios aliados', en: 'Media partners' }, featured: false, items: [
         { name: 'Telecaribe', src: 'uploads/telecaribe.png' },
