@@ -129,6 +129,7 @@
       .artist-name { font-size:27px !important; }
     }
     @media (max-width:640px) {
+      .news-name { font-size:44px !important; }
       .acad-panel { padding:26px 16px !important; margin-top:22px !important; }
       .acad-row { grid-template-columns:1fr !important; gap:6px !important; padding:16px 16px !important; }
       .acad-btn { width:100%; justify-content:center; padding:13px 18px !important; font-size:13px !important; }
@@ -599,22 +600,24 @@
         </div>
       </sc-for>
     </div>
-  <sc-if value="{{ showNews }}" hint-placeholder-val="{{ false }}">
+  <sc-if value="{{ showNews }}" hint-placeholder-val="{{ true }}">
   <section id="noticias" data-screen-label="Noticias" style="padding:70px 5%; background:#191B63;">
     <div style="text-align:center; margin-bottom:50px;">
       <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.newsTag }}</p>
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.newsHeading }}</h2>
     </div>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:28px; max-width:1200px; margin:0 auto;" class="news-grid">
-      <sc-for list="{{ news }}" as="n" hint-placeholder-count="3">
-        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden;">
-          <div style="aspect-ratio:16/10; background:linear-gradient(135deg,{{ n.c1 }},{{ n.c2 }}); display:flex; align-items:center; justify-content:center;">
-            <span style="font-family:monospace; font-size:11px; color:rgba(255,255,255,.65);">[ imagen ]</span>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 360px)); justify-content:center; gap:28px; max-width:1280px; margin:0 auto;" class="news-grid">
+      <sc-for list="{{ news }}" as="n" hint-placeholder-count="1">
+        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
+          <div style="aspect-ratio:3/4; overflow:hidden;">
+            <img onClick="{{ n.open }}" src="{{ n.image }}" alt="{{ n.title }}" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block; cursor:zoom-in; transition:transform .5s ease;" style-hover="transform:scale(1.04);"/>
           </div>
-          <div style="padding:22px;">
-            <div style="font-family:'Dancing Script',cursive; font-size:36px; font-weight:700; letter-spacing:0; color:#FFFFFF; margin-bottom:10px; line-height:1.15; text-shadow:0 2px 8px rgba(0,0,0,.35);" class="news-title">{{ n.title }}</div>
-            <div style="font-size:14px; color:#D9D5F5; line-height:1.6; margin-bottom:14px;">{{ n.summary }}</div>
-            <a href="#" style="font-size:13px; color:#F4C542; text-decoration:none; font-weight:600;">{{ t.readMore }}</a>
+          <div style="padding:24px; display:flex; flex-direction:column; gap:12px;">
+            <span style="align-self:flex-start; padding:4px 14px; border-radius:20px; background:rgba(244,197,66,.12); border:1px solid rgba(244,197,66,.32); font-family:'Poppins',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#F4C542;">{{ n.badge }}</span>
+            <div style="font-family:'Dancing Script',cursive; font-size:44px; font-weight:700; line-height:1.1; color:#FFD447; text-shadow:0 2px 12px rgba(0,0,0,.4);" class="news-title">{{ n.title }}</div>
+            <p style="margin:0; font-family:'Poppins',sans-serif; font-size:14px; line-height:1.7; color:#D9D5F5; text-wrap:pretty;">{{ n.text }}</p>
+            <span style="font-family:'Poppins',sans-serif; font-size:12.5px; letter-spacing:.05em; color:rgba(255,255,255,.55);">{{ n.meta }}</span>
           </div>
         </div>
       </sc-for>
@@ -680,6 +683,13 @@
       </sc-for>
     </div>
   </section>
+
+  <sc-if value="{{ newsPosterOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeNewsPoster }}" style="position:fixed; inset:0; z-index:300; background:rgba(10,9,30,.94); display:flex; align-items:center; justify-content:center; padding:32px; animation:revealUp .3s ease both;">
+      <img src="{{ newsPoster.image }}" alt="{{ newsPoster.title }}" style="max-width:92vw; max-height:88vh; width:auto; height:auto; object-fit:contain; border-radius:14px; box-shadow:0 30px 80px rgba(0,0,0,.6);"/>
+      <button onClick="{{ closeNewsPoster }}" style="position:absolute; top:22px; right:24px; background:none; border:none; color:#F4C542; font-size:32px; cursor:pointer;">✕</button>
+    </div>
+  </sc-if>
 
   <sc-if value="{{ artistPhotoOpen }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ closeArtistPhoto }}" style="position:fixed; inset:0; z-index:300; background:rgba(10,9,30,.93); display:flex; align-items:center; justify-content:center; padding:40px; animation:revealUp .3s ease both;">
@@ -922,7 +932,7 @@
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{
-  &quot;showNews&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;},
+  &quot;showNews&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;},
   &quot;navFontFamily&quot;: {&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;'Dancing Script',cursive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
   &quot;navFontSize&quot;: {&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:20,&quot;min&quot;:12,&quot;max&quot;:32,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
   &quot;navFontWeight&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:600,&quot;options&quot;:[400,500,600,700,800,900],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Menú de Navegación&quot;},
@@ -977,7 +987,10 @@ const TRANSLATIONS = {
     circusTitle: 'Circo Caribe', circusVenue: 'Intervenciones itinerantes por las calles y plazas de Mompox', circusDur: 'Duración: 10 minutos',
     acadTitle: 'Agenda Académica', acadVenue: 'Claustro de San Agustín · Santa Cruz de Mompox',
     lineupTag: 'Line-up', artistsHeading: 'Artistas', moreInfo: 'Más información →',
-    newsTag: 'Actualidad', newsHeading: 'Noticias', readMore: 'Leer más →',
+    newsTag: 'Actualidad', newsHeading: 'Últimas noticias', readMore: 'Leer más →',
+    newsBadge: 'Nuevo artista confirmado',
+    newsPipeText: 'Y esta vez, con un nombre que no necesita presentación: @pipebueno, uno de los grandes talentos de la música colombiana, también llega a esta celebración que hará vibrar a Mompox',
+    newsDates: 'Del 3 al 5 de septiembre de 2026', newsSoon: 'Próximamente más artistas',
     destinationTag: 'Destino', mompoxHeading: 'Santa Cruz de Mompox',
     mompoxText: 'Un pueblo ribereño detenido en el tiempo, con calles empedradas, orfebrería en filigrana y el Magdalena como testigo eterno de su historia.',
     galleryTag: 'Momentos', galleryHeading: 'Galería',
@@ -1032,7 +1045,10 @@ const TRANSLATIONS = {
     circusTitle: 'Circo Caribe', circusVenue: 'Roaming performances through the streets and squares of Mompox', circusDur: 'Duration: 10 minutes',
     acadTitle: 'Academic Program', acadVenue: 'Claustro de San Agustín · Santa Cruz de Mompox',
     lineupTag: 'Line-up', artistsHeading: 'Artists', moreInfo: 'More info →',
-    newsTag: 'Latest', newsHeading: 'News', readMore: 'Read more →',
+    newsTag: 'Latest', newsHeading: 'Latest news', readMore: 'Read more →',
+    newsBadge: 'New artist confirmed',
+    newsPipeText: 'And this time, a name that needs no introduction: @pipebueno, one of the great talents of Colombian music, also joins this celebration that will make Mompox come alive',
+    newsDates: 'September 3–5, 2026', newsSoon: 'More artists coming soon',
     destinationTag: 'Destination', mompoxHeading: 'Santa Cruz de Mompox',
     mompoxText: 'A riverside town frozen in time, with cobblestone streets, filigree goldsmithing, and the Magdalena River as the eternal witness to its history.',
     galleryTag: 'Moments', galleryHeading: 'Gallery',
@@ -1228,17 +1244,17 @@ const CIRCUS_DEFS = [
 
 const ACADEMIC_DEFS = [
   { day: { es: 'Jueves 3 de septiembre', en: 'Thursday, September 3' }, items: [
-    { time: '8:00 a.m.', title: { es: 'Seminario Serigrafía I', en: 'Screen Printing Seminar I' }, by: { es: 'Institución Universitaria Bellas Artes UNIBAC', en: 'Institución Universitaria Bellas Artes UNIBAC' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
-    { time: '5:30 p.m.', title: { es: 'Charla sobre industrias musicales', en: 'Talk on the music industries' }, by: { es: 'Cámara de Comercio de Cartagena', en: 'Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+    { time: '8:00 a.m.', title: { es: 'Taller de Serigrafía', en: 'Screen Printing Workshop' }, by: { es: 'Maestro Julio Segundo Escalona Mejía — UNIBAC, Institución Universitaria Bellas Artes y Ciencias de Bolívar', en: 'Maestro Julio Segundo Escalona Mejía — UNIBAC, Institución Universitaria Bellas Artes y Ciencias de Bolívar' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+    { time: '5:30 p.m.', title: { es: 'Taller: De la idea al impacto — competitividad, sostenibilidad y desarrollo empresarial del sector cultural y creativo', en: 'Workshop: From idea to impact — competitiveness, sustainability and business development in the cultural and creative sector' }, by: { es: 'Tallerista José Levi Barrios Flórez, Fundación Caribe Jazz Kids — Cámara de Comercio de Cartagena', en: 'Facilitator José Levi Barrios Flórez, Fundación Caribe Jazz Kids — Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
   ]},
   { day: { es: 'Viernes 4 de septiembre', en: 'Friday, September 4' }, items: [
-    { time: '8:00 a.m.', title: { es: 'Conversatorio: De las sonoridades del Caribe al formato sinfónico — diálogos e influencias del jazz', en: 'Panel: From Caribbean sonorities to the symphonic format — dialogues and influences of jazz' }, by: { es: 'Universidad del Magdalena', en: 'Universidad del Magdalena' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
-    { time: '5:20 p.m.', title: { es: 'Charla sobre industrias musicales', en: 'Talk on the music industries' }, by: { es: 'Cámara de Comercio de Cartagena', en: 'Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: { es: 'Salón 2', en: 'Room 2' } },
-    { time: '5:30 p.m.', title: { es: 'Panel de CAF, Icultur y Fundación Salvi', en: 'Panel with CAF, Icultur and Fundación Salvi' }, by: '', dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+    { time: '8:00 a.m.', title: { es: 'Conversatorio: De las sonoridades del Caribe al formato sinfónico — diálogos e influencias del jazz', en: 'Panel: From Caribbean sonorities to the symphonic format — dialogues and influences of jazz' }, by: { es: 'Maestros Erasmo de Jesús Casalins Vargas y Jorge Armando Forero Fernández de Castro — Universidad del Magdalena', en: 'Maestros Erasmo de Jesús Casalins Vargas and Jorge Armando Forero Fernández de Castro — Universidad del Magdalena' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+    { time: '5:20 p.m.', title: { es: 'Taller: ADN de tu proyecto — descubre tu esencia, fortalece tu propuesta y hazla crecer', en: 'Workshop: Your project’s DNA — find your essence, strengthen your proposal and grow it' }, by: { es: 'Tallerista Beatriz Elena Tuirán Hernández, Bazurto Music SAS — Cámara de Comercio de Cartagena', en: 'Facilitator Beatriz Elena Tuirán Hernández, Bazurto Music SAS — Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: { es: 'Salón 2', en: 'Room 2' } },
+    { time: '5:30 p.m.', title: { es: 'Panel «Festival de Jazz Mompox»', en: 'Panel “Mompox Jazz Festival”' }, by: { es: 'CAF, Icultur y Fundación Salvi', en: 'CAF, Icultur and Fundación Salvi' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
   ]},
   { day: { es: 'Sábado 5 de septiembre', en: 'Saturday, September 5' }, items: [
-    { time: '8:00 a.m.', title: { es: 'Master Class: La composición, patrimonio e identidad', en: 'Master Class: Composition, heritage and identity' }, by: { es: 'Maestro Óscar Acevedo', en: 'Maestro Óscar Acevedo' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
-    { time: '5:30 p.m.', title: { es: 'Charla sobre industrias musicales', en: 'Talk on the music industries' }, by: { es: 'Cámara de Comercio de Cartagena', en: 'Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: { es: 'Salón 2', en: 'Room 2' } },
+    { time: '8:00 a.m.', title: { es: 'Masterclass: La composición, patrimonio e identidad', en: 'Masterclass: Composition, heritage and identity' }, by: { es: 'Maestro Óscar Acevedo', en: 'Maestro Óscar Acevedo' }, dur: { es: '40 minutos', en: '40 minutes' }, room: '' },
+    { time: '5:30 p.m.', title: { es: 'Taller: Del territorio al proyecto — diseño de metodologías para la innovación cultural situada en narrativas creativas bioculturales', en: 'Workshop: From territory to project — designing methodologies for cultural innovation rooted in biocultural creative narratives' }, by: { es: 'Tallerista Rodrigo Alejandro Paredes Rodríguez, Fundación Desarrollo Social y Humano Albenco — Cámara de Comercio de Cartagena', en: 'Facilitator Rodrigo Alejandro Paredes Rodríguez, Fundación Desarrollo Social y Humano Albenco — Cartagena Chamber of Commerce' }, dur: { es: '40 minutos', en: '40 minutes' }, room: { es: 'Salón 2', en: 'Room 2' } },
   ]},
 ];
 
@@ -1265,18 +1281,18 @@ const ARTIST_DEFS = {
   ],
 };
 
-const NEWS_DEFS = {
-  es: [
-    { date: '10 JUL 2026', title: 'Anunciado el line-up completo del Festival 2026', summary: 'Doce agrupaciones nacionales e internacionales confirmadas para tres noches de jazz.', c1: '#2B216D', c2: '#191B63' },
-    { date: '02 JUL 2026', title: 'Mompox se prepara para recibir a miles de visitantes', summary: 'Hospedaje, transporte fluvial y gastronomía listos para la temporada del festival.', c1: '#241d5c', c2: '#39306e' },
-    { date: '20 JUN 2026', title: 'Convocatoria abierta para la Jam Session', summary: 'Músicos locales pueden inscribirse para el espacio de improvisación libre.', c1: '#191B63', c2: '#2B216D' },
-  ],
-  en: [
-    { date: 'JUL 10, 2026', title: 'Full 2026 Festival line-up announced', summary: 'Twelve national and international acts confirmed for three nights of jazz.', c1: '#2B216D', c2: '#191B63' },
-    { date: 'JUL 2, 2026', title: 'Mompox gets ready to welcome thousands of visitors', summary: 'Lodging, river transport and food all set for the festival season.', c1: '#241d5c', c2: '#39306e' },
-    { date: 'JUN 20, 2026', title: 'Open call for the Jam Session', summary: 'Local musicians can sign up for the free improvisation space.', c1: '#191B63', c2: '#2B216D' },
-  ],
-};
+const NEWS_DEFS = [
+  {
+    image: 'uploads/noticia-pipe-bueno.png',
+    badge: { es: 'Nuevo artista confirmado', en: 'New artist confirmed' },
+    title: 'Pipe Bueno',
+    text: {
+      es: 'Y esta vez, con un nombre que no necesita presentación: @pipebueno, uno de los grandes talentos de la música colombiana, también llega a esta celebración que hará vibrar a Mompox',
+      en: 'And this time, a name that needs no introduction: @pipebueno, one of the great talents of Colombian music, also joins this celebration that will make Mompox come alive',
+    },
+    meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
+  },
+];
 
 const INFO_CARD_DEFS = {
   es: [
@@ -1341,6 +1357,7 @@ class Component extends DCLogic {
     scrolled: false,
     mobileMenuOpen: false,
     lightboxIndex: null,
+    newsPosterIndex: null,
     artistPhotoIndex: null,
     emergencyOpen: false,
     activeDayIndex: 0,
@@ -1434,10 +1451,9 @@ class Component extends DCLogic {
       ]},
       { key: 'patrocinadorOficial', title: { es: 'Patrocinador oficial', en: 'Official sponsor' }, featured: true, items: [
         { name: 'Club Colombia — Bavaria', src: 'uploads/bavaria.png' },
-        { name: 'AV Villas', src: 'uploads/logos-1787414476179-7iw4.png' },
+        { name: 'AV Villas', src: 'uploads/avvillas-negro.png' },
       ]},
       { key: 'aliadoOficial', title: { es: 'Aliado oficial', en: 'Official ally' }, featured: false, items: [
-        { name: 'CAF — Banco de Desarrollo de América Latina y el Caribe', src: 'uploads/caforiginalcaribeh-esp-67dafcdf.svg' },
         { name: 'FLA — Fábrica de Licores de Antioquia', src: 'uploads/aguardiente.png', tight: true },
         { name: 'Hidra Tao', src: 'uploads/hidratao.png' },
         { name: 'Cámara de Comercio de Cartagena', src: 'uploads/Logo_1.png', url: 'https://cccartagena.org.co/' },
@@ -1457,9 +1473,11 @@ class Component extends DCLogic {
         { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/LOGO CULTURAS VIOLETA.png', url: 'https://www.mincultura.gov.co/' },
         { name: 'UNIBAC — Institución Universitaria Bellas Artes y Ciencias de Bolívar', src: 'uploads/unibac.jpeg', tight: true },
         { name: 'CNA — Centro Nacional de las Artes Delia Zapata Olivella', src: 'uploads/delia.png', span: 2, tight: true },
-        { name: 'FND — Federación Nacional de Departamentos', src: 'uploads/federacionnacionaldedepartamentos.jpeg' },
+        { name: 'Programa Anticontrabando — Federación Nacional de Departamentos', src: 'uploads/anticontrabando-fnd.png', span: 2, tight: true },
       ]},
       { key: 'aliadosAcademicos', title: { es: 'Aliados académicos', en: 'Academic allies' }, featured: false, items: [
+        { name: 'Clúster Experiencias Culturales — Cartagena de Indias & Bolívar', src: 'uploads/cluster-crop.png', span: 2, tight: true },
+        { name: 'CAF — Banco de Desarrollo de América Latina y el Caribe', src: 'uploads/caforiginalcaribeh-esp-67dafcdf.svg' },
         { name: 'Fundación Salvi', src: 'uploads/fundacionsalvi.jpeg' },
         { name: 'EMMAT — Berklee Global Partners', src: 'uploads/emmatberklee.png' },
         { name: 'Universidad del Magdalena', src: 'uploads/logos-1787414476034-ao1v.jpeg', url: 'https://www.unimagdalena.edu.co/' },
@@ -1479,7 +1497,7 @@ class Component extends DCLogic {
         { name: 'Alianza Francesa Cartagena de las Indias', src: 'uploads/alianzafrancesacartagena-crop.png', tight: true },
         { name: 'Cotelco — Capítulo Cartagena y Bolívar', src: 'uploads/cotelco-crop.png', tight: true },
         { name: 'Banco de la República', src: 'uploads/bancorepublica-crop.png', tight: true },
-        { name: 'Postobón', src: 'uploads/postobon-crop.png', tight: true },
+        { name: 'Postobón', src: 'uploads/postobon-azul.png', tight: true },
         { name: 'Vueltabajero', src: 'uploads/logos-1787414477091-zfd9.png' },
         { name: 'Supergiros', src: 'uploads/supergiros-nuevo.png', tight: true },
         { name: 'Iderbol', src: 'uploads/iderbol.png' },
@@ -1492,7 +1510,7 @@ class Component extends DCLogic {
         { name: 'Telecaribe', src: 'uploads/telecaribe.png' },
         { name: 'Caracol Televisión', src: 'uploads/caracoltv.png' },
         { name: 'Canal RCN', src: 'uploads/rcn-negro.png', tight: true },
-        { name: 'Caracol Radio', src: 'uploads/caracolradio-crop.png', tight: true },
+        { name: 'Caracol Radio', src: 'uploads/caracolradio-negro.png', tight: true },
         { name: 'El Universal', src: 'uploads/eluniversal.png', tight: true },
         { name: 'El Bolivarense', src: 'uploads/elbolivarense.png', tight: true },
       ]},
@@ -1572,7 +1590,15 @@ class Component extends DCLogic {
       openPhoto: () => this.setState({ artistPhotoIndex: i }),
     }));
 
-    const news = NEWS_DEFS[lang];
+    const newsPosterIdx = this.state.newsPosterIndex;
+    const news = NEWS_DEFS.map((n, i) => ({
+      image: n.image,
+      badge: n.badge[lang],
+      title: n.title,
+      text: n.text[lang],
+      meta: n.meta[lang],
+      open: () => this.setState({ newsPosterIndex: i }),
+    }));
     const infoCards = INFO_CARD_DEFS[lang];
 
     const emergencyGroups = EMERGENCY_DEFS[lang].map(g => ({
@@ -1789,7 +1815,10 @@ class Component extends DCLogic {
       activeDay,
       artists,
       news,
-      showNews: this.props.showNews ?? false,
+      showNews: this.props.showNews ?? true,
+      newsPosterOpen: newsPosterIdx !== null && newsPosterIdx !== undefined,
+      newsPoster: (newsPosterIdx !== null && newsPosterIdx !== undefined) ? news[newsPosterIdx] : { image: '', title: '' },
+      closeNewsPoster: () => this.setState({ newsPosterIndex: null }),
       academicOpen: !!this.state.academicOpen,
       showDayEvents: !this.state.academicOpen && !this.state.circusOpen,
       circusOpen: !!this.state.circusOpen,
