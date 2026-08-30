@@ -132,6 +132,8 @@
       .news-name { font-size:44px !important; }
       .acad-panel { padding:26px 16px !important; margin-top:22px !important; }
       .acad-row { grid-template-columns:1fr !important; gap:6px !important; padding:16px 16px !important; }
+      .acad-form { padding:22px 20px !important; gap:18px !important; }
+      .acad-form-cta { width:100%; justify-content:center; }
       .acad-btn { width:100%; justify-content:center; padding:13px 18px !important; font-size:13px !important; }
       .day-row { gap:10px !important; }
     }
@@ -473,6 +475,19 @@
         <span>{{ t.circusBtn }}</span>
       </button>
     </div>
+
+    <a href="https://forms.gle/W4PLSD7m2gach9dU9" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:24px; flex-wrap:wrap; max-width:900px; margin:0 auto 40px; padding:24px 28px; border-radius:16px; background:linear-gradient(135deg, rgba(244,197,66,.14), rgba(244,197,66,.05)); border:1px solid rgba(244,197,66,.42); text-decoration:none; transition:background .35s ease, border-color .35s ease, box-shadow .35s ease, transform .35s ease;" style-hover="background:linear-gradient(135deg, rgba(244,197,66,.24), rgba(244,197,66,.1)); border-color:#F4C542; box-shadow:0 0 38px 4px rgba(244,197,66,.28); transform:translateY(-3px);" class="acad-form">
+      <span style="flex:1 1 280px; display:flex; flex-direction:column; gap:7px;">
+        <span style="font-family:'Poppins',sans-serif; font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#F4C542;">{{ t.acadFormTag }}</span>
+        <span style="font-family:'Poppins',sans-serif; font-size:17px; font-weight:600; line-height:1.4; color:#FFFFFF;">{{ t.acadFormTitle }}</span>
+        <span style="font-family:'Poppins',sans-serif; font-size:13.5px; line-height:1.6; color:#D9D5F5; text-wrap:pretty;">{{ t.acadFormText }}</span>
+      </span>
+      <span style="flex:none; display:inline-flex; align-items:center; gap:9px; background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:14px 28px; border-radius:30px; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; box-shadow:0 4px 16px rgba(244,197,66,.35);" class="acad-form-cta">
+        <span>{{ t.acadFormCta }}</span>
+        <span>→</span>
+      </span>
+    </a>
+
     <sc-if value="{{ showDayEvents }}" hint-placeholder-val="{{ true }}">
     <div style="max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
       <sc-for list="{{ activeDay.events }}" as="ev" hint-placeholder-count="3">
@@ -497,6 +512,7 @@
           <h3 style="margin:0 0 8px; font-family:'Dancing Script',cursive; font-size:40px; font-weight:700; color:#FFD447; text-shadow:0 2px 14px rgba(0,0,0,.35);">{{ t.acadTitle }}</h3>
           <p style="margin:0; font-family:'Poppins',sans-serif; font-size:13px; letter-spacing:.06em; color:rgba(255,255,255,.6);">{{ t.acadVenue }}</p>
         </div>
+
 
         <div style="display:flex; flex-direction:column; gap:32px;">
           <sc-for list="{{ academicDays }}" as="ad" hint-placeholder-count="3">
@@ -988,6 +1004,7 @@ const TRANSLATIONS = {
     circusBtn: 'Circo Caribe',
     circusTitle: 'Circo Caribe', circusVenue: 'Intervenciones itinerantes por las calles y plazas de Mompox', circusDur: 'Duración: 10 minutos',
     acadTitle: 'Agenda Académica', acadVenue: 'Claustro de San Agustín · Santa Cruz de Mompox',
+    acadFormTag: 'Cupos limitados', acadFormTitle: 'Regístrate a la Agenda Académica', acadFormText: 'Talleres, conversatorios y masterclass con entrada libre previa inscripción.', acadFormCta: 'Inscríbete aquí',
     lineupTag: 'Line-up', artistsHeading: 'Artistas', moreInfo: 'Más información →',
     newsTag: 'Actualidad', newsHeading: 'Últimas noticias', readMore: 'Leer más →',
     newsBadge: 'Nuevo artista confirmado',
@@ -1046,6 +1063,7 @@ const TRANSLATIONS = {
     circusBtn: 'Circo Caribe',
     circusTitle: 'Circo Caribe', circusVenue: 'Roaming performances through the streets and squares of Mompox', circusDur: 'Duration: 10 minutes',
     acadTitle: 'Academic Program', acadVenue: 'Claustro de San Agustín · Santa Cruz de Mompox',
+    acadFormTag: 'Limited seats', acadFormTitle: 'Register for the Academic Program', acadFormText: 'Workshops, panels and masterclasses — free admission with prior registration.', acadFormCta: 'Sign up here',
     lineupTag: 'Line-up', artistsHeading: 'Artists', moreInfo: 'More info →',
     newsTag: 'Latest', newsHeading: 'Latest news', readMore: 'Read more →',
     newsBadge: 'New artist confirmed',
@@ -1262,6 +1280,7 @@ const ACADEMIC_DEFS = [
 
 const ARTIST_DEFS = {
   es: [
+    { name: 'Long Play Band', meta: 'Colombia', photo: 'uploads/longplayband.jpg', bio: 'Desde Montería, Córdoba, Long Play Band se ha consolidado como una de las agrupaciones más versátiles y representativas del Caribe colombiano. Con más de una década de trayectoria, su propuesta combina los sonidos tradicionales del Caribe con ritmos tropicales, urbanos y contemporáneos como porro, cumbia, salsa, merengue, champeta y bachata.', c1: '#2B216D', c2: '#191B63' },
     { name: 'Victoria Sur', meta: 'Colombia', photo: 'uploads/victoriasurynicolasospina.jpeg', bio: 'Cantante y compositora nacida en Armenia, Quindío. Comenzó su carrera musical desde los 10 años con el dúo Sombra y Luz, con el que ganó el Festival Mono Núñez en 1994. Como solista ha desarrollado una propuesta que mezcla música andina y latinoamericana con jazz, rock y otros géneros. Ha publicado varios álbumes y fue nominada al Latin Grammy por Nanas consentidoras.', c1: '#2B216D', c2: '#191B63' },
     { name: 'Nicolás Ospina', meta: 'Colombia', photo: 'uploads/nicolasospina.jpeg', bio: 'Pianista, compositor, arreglista, productor, cantante y docente colombiano. Es reconocido por su versatilidad dentro del jazz y la música latinoamericana. Ha trabajado en diferentes países y escenarios internacionales, combinando jazz, ritmos colombianos y música contemporánea. También ha desarrollado proyectos de creación para teatro, conciertos y producción discográfica.', c1: '#191B63', c2: '#2B216D' },
     { name: 'Óscar Acevedo', meta: 'Colombia', photo: 'uploads/oscaracevedo.jpeg', bio: 'Pianista, compositor, arreglista y docente nacido en Bucaramanga. Es considerado una de las figuras importantes de la segunda generación del jazz colombiano. Estudió en Berklee College of Music y posteriormente regresó a Colombia, donde desarrolló una extensa carrera como intérprete, compositor y formador. Ha trabajado con jazz, música colombiana, fusión y bandas sonoras.', c1: '#3a2d80', c2: '#221a5e' },
@@ -1272,6 +1291,7 @@ const ARTIST_DEFS = {
     { name: 'Flora Martínez', meta: 'Colombia · Canadá', photo: 'uploads/floramartinez.jpeg', bio: 'Actriz y cantante nacida en Montreal, hija de madre canadiense y padre colombiano. Es ampliamente conocida por su trayectoria en cine y televisión, especialmente por protagonizar Rosario Tijeras. Además de la actuación, ha desarrollado una carrera musical y ha publicado trabajos discográficos relacionados con la música latinoamericana y el jazz.', c1: '#241d5c', c2: '#39306e' },
   ],
   en: [
+    { name: 'Long Play Band', meta: 'Colombia', photo: 'uploads/longplayband.jpg', bio: 'From Montería, Córdoba, Long Play Band has become one of the most versatile and representative groups of the Colombian Caribbean. With over a decade of experience, their sound combines traditional Caribbean music with tropical, urban and contemporary rhythms such as porro, cumbia, salsa, merengue, champeta and bachata.', c1: '#2B216D', c2: '#191B63' },
     { name: 'Victoria Sur', meta: 'Colombia', photo: 'uploads/victoriasurynicolasospina.jpeg', bio: 'Singer and songwriter born in Armenia, Quindío. She began her music career at age 10 with the duo Sombra y Luz, winning the Mono Núñez Festival in 1994. As a soloist she blends Andean and Latin American music with jazz, rock and other genres. She has released several albums and was nominated for a Latin Grammy for Nanas consentidoras.', c1: '#2B216D', c2: '#191B63' },
     { name: 'Nicolás Ospina', meta: 'Colombia', photo: 'uploads/nicolasospina.jpeg', bio: 'Colombian pianist, composer, arranger, producer, singer and teacher. He is known for his versatility within jazz and Latin American music. He has worked in different countries and international venues, combining jazz, Colombian rhythms and contemporary music. He has also developed creative projects for theater, concerts and record production.', c1: '#191B63', c2: '#2B216D' },
     { name: 'Óscar Acevedo', meta: 'Colombia', photo: 'uploads/oscaracevedo.jpeg', bio: 'Pianist, composer, arranger and teacher born in Bucaramanga. He is considered one of the key figures of the second generation of Colombian jazz. He studied at Berklee College of Music and later returned to Colombia, where he built an extensive career as performer, composer and educator. He has worked across jazz, Colombian music, fusion and soundtracks.', c1: '#3a2d80', c2: '#221a5e' },
