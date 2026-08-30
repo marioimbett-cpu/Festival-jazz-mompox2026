@@ -617,7 +617,9 @@
             <span style="align-self:flex-start; padding:4px 14px; border-radius:20px; background:rgba(244,197,66,.12); border:1px solid rgba(244,197,66,.32); font-family:'Poppins',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#F4C542;">{{ n.badge }}</span>
             <div style="font-family:'Dancing Script',cursive; font-size:44px; font-weight:700; line-height:1.1; color:#FFD447; text-shadow:0 2px 12px rgba(0,0,0,.4);" class="news-title">{{ n.title }}</div>
             <p style="margin:0; font-family:'Poppins',sans-serif; font-size:14px; line-height:1.7; color:#D9D5F5; text-wrap:pretty;">{{ n.text }}</p>
-            <span style="font-family:'Poppins',sans-serif; font-size:12.5px; letter-spacing:.05em; color:rgba(255,255,255,.55);">{{ n.meta }}</span>
+            <sc-if value="{{ n.hasMore }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ n.toggleMore }}" style="align-self:flex-start; background:none; border:none; padding:0; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; letter-spacing:.03em; color:#F4C542; cursor:pointer; transition:color .3s ease;" style-hover="color:#FFD447;">{{ n.moreLabel }}</button>
+            </sc-if>
           </div>
         </div>
       </sc-for>
@@ -1283,12 +1285,32 @@ const ARTIST_DEFS = {
 
 const NEWS_DEFS = [
   {
+    image: 'uploads/noticia-ana-del-castillo.jpg',
+    badge: { es: 'Nueva artista confirmada', en: 'New artist confirmed' },
+    title: 'Ana del Castillo',
+    text: {
+      es: '¡Sábado de grandes noticias! Ana del Castillo estará en el #Festijazz de Mompox. Con su fuerza, su sabor, su personalidad arrolladora y esa voz que se ha ganado el corazón del país, una de las más grandes artistas contemporáneas de nuestro país pondrá a vibrar a Mompox y demostrará que nuestra música colombiana no tiene fronteras.',
+      en: 'Big news this Saturday! Ana del Castillo is coming to Mompox’s #Festijazz. With her strength, her flavour, her overwhelming personality and that voice that has won the country’s heart, one of Colombia’s greatest contemporary artists will make Mompox come alive and show that our Colombian music has no borders.',
+    },
+    meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
+  },
+  {
     image: 'uploads/noticia-pipe-bueno.png',
     badge: { es: 'Nuevo artista confirmado', en: 'New artist confirmed' },
     title: 'Pipe Bueno',
     text: {
       es: 'Y esta vez, con un nombre que no necesita presentación: @pipebueno, uno de los grandes talentos de la música colombiana, también llega a esta celebración que hará vibrar a Mompox',
       en: 'And this time, a name that needs no introduction: @pipebueno, one of the great talents of Colombian music, also joins this celebration that will make Mompox come alive',
+    },
+    meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
+  },
+  {
+    image: 'uploads/noticia-toto-crop.jpg',
+    badge: { es: 'Homenaje', en: 'Tribute' },
+    title: 'Tambores de Totó',
+    text: {
+      es: 'Este año, el #Festijazz de Mompox rinde homenaje a una mujer que convirtió el Caribe en canción, tradición y memoria: Totó La Momposina. A través de Tambores de Totó, celebraremos su legado y esa magia que permanece intacta. Porque aunque Totó nos dejó físicamente, vivirá por siempre en cada corazón bolivarense, en cada tambor, en cada voz y en cada rincón donde su música siga sonando.',
+      en: 'This year, Mompox’s #Festijazz pays tribute to a woman who turned the Caribbean into song, tradition and memory: Totó La Momposina. Through Tambores de Totó, we will celebrate her legacy and that magic that remains intact. Because although Totó has left us physically, she will live forever in every heart of Bolívar, in every drum, in every voice and in every corner where her music keeps playing.',
     },
     meta: { es: 'Del 3 al 5 de septiembre de 2026', en: 'September 3–5, 2026' },
   },
@@ -1595,7 +1617,10 @@ class Component extends DCLogic {
       image: n.image,
       badge: n.badge[lang],
       title: n.title,
-      text: n.text[lang],
+      text: this.state['newsOpen' + i] ? n.text[lang] : '',
+      hasMore: true,
+      moreLabel: this.state['newsOpen' + i] ? (lang === 'en' ? 'Read less ↑' : 'Leer menos ↑') : (lang === 'en' ? 'Read more →' : 'Leer más →'),
+      toggleMore: () => this.setState({ ['newsOpen' + i]: !this.state['newsOpen' + i] }),
       meta: n.meta[lang],
       open: () => this.setState({ newsPosterIndex: i }),
     }));
