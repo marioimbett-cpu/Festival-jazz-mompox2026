@@ -66,6 +66,8 @@
   </script>
   <style>
     ::selection { background:#F4C542; color:#191B63; }
+    .news-track { scrollbar-width:none; }
+    .news-track::-webkit-scrollbar { display:none; }
     .gallery-card:hover .gallery-img { transform:scale(1.08); filter:brightness(1.12); }
     .gallery-card:hover .gallery-overlay { background:rgba(15,14,45,.38); }
     .gallery-card:hover .gallery-icon { opacity:1; transform:scale(1); }
@@ -186,7 +188,8 @@
       .hero-video-wrap { margin-top:24px !important; }
       .two-col { grid-template-columns:1fr !important; }
       .artist-grid { grid-template-columns:repeat(2,1fr) !important; }
-      .news-grid { grid-template-columns:1fr !important; }
+      .news-track > div { flex-basis:78vw !important; }
+      .news-arrow { width:40px !important; height:40px !important; font-size:19px !important; }
       .info-grid { grid-template-columns:1fr !important; }
       .icon-grid { grid-template-columns:repeat(2,1fr) !important; }
       .masonry { columns:2 !important; }
@@ -623,9 +626,12 @@
       <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.newsHeading }}</h2>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 360px)); justify-content:center; gap:28px; max-width:1280px; margin:0 auto;" class="news-grid">
+    <div style="position:relative; max-width:1280px; margin:0 auto; display:flex; align-items:center; gap:14px;">
+      <button onClick="{{ newsPrev }}" aria-label="Anterior" class="news-arrow" style="flex:none; width:48px; height:48px; border-radius:50%; border:1.5px solid rgba(244,197,66,.5); background:rgba(244,197,66,.08); color:#F4C542; font-size:22px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .3s ease, border-color .3s ease, transform .3s ease;" style-hover="background:rgba(244,197,66,.2); border-color:#F4C542; transform:scale(1.08);">‹</button>
+
+      <div onScroll="{{ newsOnScroll }}" style="flex:1; display:flex; gap:28px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding:6px 2px 10px; -webkit-overflow-scrolling:touch;" class="news-track">
       <sc-for list="{{ news }}" as="n" hint-placeholder-count="1">
-        <div style="background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
+        <div style="flex:0 0 340px; scroll-snap-align:start; background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
           <div style="aspect-ratio:4/5; overflow:hidden;">
             <img onClick="{{ n.open }}" src="{{ n.image }}" alt="{{ n.title }}" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block; cursor:zoom-in; transition:transform .5s ease;" style-hover="transform:scale(1.04);"/>
           </div>
@@ -638,6 +644,15 @@
             </sc-if>
           </div>
         </div>
+      </sc-for>
+      </div>
+
+      <button onClick="{{ newsNext }}" aria-label="Siguiente" class="news-arrow" style="flex:none; width:48px; height:48px; border-radius:50%; border:1.5px solid rgba(244,197,66,.5); background:rgba(244,197,66,.08); color:#F4C542; font-size:22px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .3s ease, border-color .3s ease, transform .3s ease;" style-hover="background:rgba(244,197,66,.2); border-color:#F4C542; transform:scale(1.08);">›</button>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:10px; margin-top:26px;">
+      <sc-for list="{{ newsDots }}" as="d" hint-placeholder-count="3">
+        <button onClick="{{ d.select }}" aria-label="Ir a la noticia {{ d.n }}" style="width:{{ d.w }}; height:9px; border-radius:5px; border:none; padding:0; background:{{ d.bg }}; cursor:pointer; transition:width .3s ease, background .3s ease;"></button>
       </sc-for>
     </div>
   </section>
@@ -1526,65 +1541,68 @@ class Component extends DCLogic {
         { name: 'AV Villas', src: 'uploads/avvillas-negro.png' },
       ]},
       { key: 'aliadoOficial', title: { es: 'Aliado oficial', en: 'Official ally' }, featured: false, items: [
-        { name: 'FLA — Fábrica de Licores de Antioquia', src: 'uploads/aguardiente.png', tight: true },
-        { name: 'Hidra Tao', src: 'uploads/hidratao.png' },
+        { name: 'CAF — Banco de Desarrollo de América Latina y el Caribe', src: 'uploads/caforiginalcaribeh-esp-67dafcdf.svg' },
+        { name: 'Oficina Cultural Embajada de Italia', src: 'uploads/logos-1787414476117-on77.png', tight: true },
+        { name: 'Istituto Italiano di Cultura di Bogotá', src: 'uploads/logos-1787414481733-hnud.jpg' },
         { name: 'Cámara de Comercio de Cartagena', src: 'uploads/Logo_1.png', url: 'https://cccartagena.org.co/' },
-        { name: 'Comfenalco', src: 'uploads/comfenalco.png' },
         { name: 'Grupo Puerto de Cartagena', src: 'uploads/logos-1787414476060-eipm.png' },
         { name: 'Fundación Puerto de Cartagena', src: 'uploads/fundacionpuerto-crop.png' },
         { name: 'Satena', src: 'uploads/satena.png' },
+        { name: 'Comfenalco', src: 'uploads/comfenalco.png' },
+        { name: 'Cormagdalena', src: 'uploads/cormagdalena-negro.png' },
+        { name: 'Supergiros · BetPlay · Astro', src: 'uploads/supergiros-nuevo.png', tight: true },
+        { name: 'FLA — Fábrica de Licores de Antioquia', src: 'uploads/aguardiente.png', tight: true },
         { name: 'Pasquín — ACODRES', src: 'uploads/logos-1787414476062-t5ko.png' },
         { name: 'Acodrés — Capítulo Cartagena · Bolívar', src: 'uploads/acodres.png' },
         { name: 'Expreso Brasilia', src: 'uploads/logos-1787414482851-ka1g.png' },
         { name: 'Unitransco S.A.', src: 'uploads/unitransco-nuevo.png', tight: true, span: 2 },
-        { name: 'Cormagdalena', src: 'uploads/cormagdalena-negro.png' },
-        { name: 'Istituto Italiano di Cultura di Bogotá', src: 'uploads/logos-1787414481733-hnud.jpg' },
-        { name: 'Oficina Cultural Embajada de Italia', src: 'uploads/logos-1787414476117-on77.png', tight: true },
+        { name: 'Hidra Tao', src: 'uploads/hidratao.png' },
       ]},
       { key: 'aliadosInstitucionales', title: { es: 'Aliados institucionales', en: 'Institutional allies' }, featured: false, items: [
         { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/LOGO CULTURAS VIOLETA.png', url: 'https://www.mincultura.gov.co/' },
-        { name: 'UNIBAC — Institución Universitaria Bellas Artes y Ciencias de Bolívar', src: 'uploads/unibac.jpeg', tight: true },
         { name: 'CNA — Centro Nacional de las Artes Delia Zapata Olivella', src: 'uploads/delia.png', span: 2, tight: true },
+        { name: 'UNIBAC — Institución Universitaria Bellas Artes y Ciencias de Bolívar', src: 'uploads/unibac.jpeg', tight: true },
         { name: 'Programa Anticontrabando — Federación Nacional de Departamentos', src: 'uploads/anticontrabando-fnd.png', span: 2, tight: true },
       ]},
       { key: 'aliadosAcademicos', title: { es: 'Aliados académicos', en: 'Academic allies' }, featured: false, items: [
-        { name: 'Clúster Experiencias Culturales — Cartagena de Indias & Bolívar', src: 'uploads/cluster-crop.png', span: 2, tight: true },
         { name: 'CAF — Banco de Desarrollo de América Latina y el Caribe', src: 'uploads/caforiginalcaribeh-esp-67dafcdf.svg' },
         { name: 'Fundación Salvi', src: 'uploads/fundacionsalvi.jpeg' },
         { name: 'EMMAT — Berklee Global Partners', src: 'uploads/emmatberklee.png' },
         { name: 'Universidad del Magdalena', src: 'uploads/logos-1787414476034-ao1v.jpeg', url: 'https://www.unimagdalena.edu.co/' },
+        { name: 'UNIBAC — Institución Universitaria Bellas Artes y Ciencias de Bolívar', src: 'uploads/unibac.jpeg', tight: true },
+        { name: 'Cámara de Comercio de Cartagena', src: 'uploads/Logo_1.png', url: 'https://cccartagena.org.co/' },
+        { name: 'Clúster Experiencias Culturales — Cartagena de Indias & Bolívar', src: 'uploads/cluster-crop.png', span: 2, tight: true },
       ]},
       { key: 'apoyoDe', title: { es: 'Con el apoyo de', en: 'With the support of' }, featured: false, items: [
-        { name: 'Davivienda', src: 'uploads/davivienda-8902e4af.png' },
-        { name: 'ANDI', src: 'uploads/Logo a color y en alta.jpg', url: 'https://www.andi.com.co/' },
-        { name: 'E.S.E Hospital Universitario del Caribe', src: 'uploads/hospitaluniversitario.PNG', invert: true },
-        { name: 'Surtigas', src: 'uploads/surtigas-crop.png', tight: true },
-        { name: 'Artesanías de Colombia', src: 'uploads/artesaniasdecolombia.png' },
-        { name: 'Aguas de Bolívar', src: 'uploads/aguasdebolivar.png' },
-        { name: 'Termocandelaria', src: 'uploads/termocandelaria-crop.png', tight: true },
-        { name: 'Embajada de Francia en Colombia', src: 'uploads/Logo Ambassade de France en Colombie.png' },
-        { name: 'Alianza Francesa Colombia', src: 'uploads/alianzafrancesacolombia.png', tight: true },
-        { name: 'Alianza Francesa', src: 'uploads/alianzafrancesa-af.png', tight: true },
-        { name: 'Institut Français Colombia', src: 'uploads/institutofrances-crop.png', tight: true },
-        { name: 'Alianza Francesa Cartagena de las Indias', src: 'uploads/alianzafrancesacartagena-crop.png', tight: true },
-        { name: 'Cotelco — Capítulo Cartagena y Bolívar', src: 'uploads/cotelco-crop.png', tight: true },
         { name: 'Banco de la República', src: 'uploads/bancorepublica-crop.png', tight: true },
-        { name: 'Postobón', src: 'uploads/postobon-azul.png', tight: true },
-        { name: 'Vueltabajero', src: 'uploads/logos-1787414477091-zfd9.png' },
-        { name: 'Supergiros', src: 'uploads/supergiros-nuevo.png', tight: true },
-        { name: 'Iderbol', src: 'uploads/iderbol.png' },
-        { name: 'Marca Bolívar', src: 'uploads/marcabolivar-crop.png', big: true, tight: true, span: 2 },
-        { name: 'Cámara de Comercio de Magangué', src: 'uploads/camaramagangue.PNG' },
-        { name: 'Universidad de La Guajira', src: 'uploads/universidadguajira.png' },
+        { name: 'Embajada de Francia en Colombia', src: 'uploads/Logo Ambassade de France en Colombie.png' },
+        { name: 'Institut Français Colombia', src: 'uploads/institutofrances-crop.png', tight: true },
+        { name: 'Alianza Francesa', src: 'uploads/alianzafrancesa-af.png', tight: true },
+        { name: 'Alianza Francesa Colombia', src: 'uploads/alianzafrancesacolombia.png', tight: true },
+        { name: 'Alianza Francesa Cartagena de las Indias', src: 'uploads/alianzafrancesacartagena-crop.png', tight: true },
+        { name: 'Davivienda', src: 'uploads/davivienda-8902e4af.png' },
+        { name: 'Artesanías de Colombia', src: 'uploads/artesaniasdecolombia.png' },
+        { name: 'Surtigas', src: 'uploads/surtigas-crop.png', tight: true },
+        { name: 'ANDI', src: 'uploads/Logo a color y en alta.jpg', url: 'https://www.andi.com.co/' },
         { name: 'Secretaría de Desarrollo Económico de Bolívar', src: 'uploads/secretariadesarrollo-negro.png', span: 2, tight: true },
+        { name: 'Marca Bolívar', src: 'uploads/marcabolivar-crop.png', big: true, tight: true, span: 2 },
+        { name: 'E.S.E Hospital Universitario del Caribe', src: 'uploads/hospitaluniversitario.PNG', invert: true },
+        { name: 'Aguas de Bolívar', src: 'uploads/aguasdebolivar.png' },
+        { name: 'Iderbol', src: 'uploads/iderbol.png' },
+        { name: 'Universidad de La Guajira', src: 'uploads/universidadguajira.png' },
+        { name: 'Vueltabajero', src: 'uploads/logos-1787414477091-zfd9.png' },
+        { name: 'Cámara de Comercio de Magangué', src: 'uploads/camaramagangue.PNG' },
+        { name: 'Cotelco — Capítulo Cartagena y Bolívar', src: 'uploads/cotelco-crop.png', tight: true },
+        { name: 'Postobón', src: 'uploads/postobon-azul.png', tight: true },
+        { name: 'Termocandelaria', src: 'uploads/termocandelaria-crop.png', tight: true },
         { name: 'Tiendas ara', src: 'uploads/ara-crop.png', tight: true },
       ]},
       { key: 'mediosAliados', title: { es: 'Medios aliados', en: 'Media partners' }, featured: false, items: [
-        { name: 'Telecaribe', src: 'uploads/telecaribe.png' },
-        { name: 'Caracol Televisión', src: 'uploads/caracoltv.png' },
-        { name: 'Canal RCN', src: 'uploads/rcn-negro.png', tight: true },
         { name: 'Caracol Radio', src: 'uploads/caracolradio-negro.png', tight: true },
+        { name: 'Caracol Televisión', src: 'uploads/caracoltv.png' },
         { name: 'El Universal', src: 'uploads/eluniversal.png', tight: true },
+        { name: 'Telecaribe', src: 'uploads/telecaribe.png' },
+        { name: 'Canal RCN', src: 'uploads/rcn-negro.png', tight: true },
         { name: 'El Bolivarense', src: 'uploads/elbolivarense.png', tight: true },
       ]},
     ];
@@ -1674,6 +1692,14 @@ class Component extends DCLogic {
       toggleMore: () => this.setState({ ['newsOpen' + i]: !this.state['newsOpen' + i] }),
       meta: n.meta[lang],
       open: () => this.setState({ newsPosterIndex: i }),
+    }));
+    const newsEl = () => document.querySelector('.news-track');
+    const newsStep = () => { const el = newsEl(); const card = el && el.firstElementChild; return card ? card.offsetWidth + 28 : 368; };
+    const newsDots = NEWS_DEFS.map((_, i) => ({
+      n: i + 1,
+      w: (this.state.newsIndex || 0) === i ? '26px' : '9px',
+      bg: (this.state.newsIndex || 0) === i ? '#F4C542' : 'rgba(244,197,66,.3)',
+      select: () => { const el = newsEl(); if (el) el.scrollTo({ left: i * newsStep(), behavior: 'smooth' }); },
     }));
     const infoCards = INFO_CARD_DEFS[lang];
 
@@ -1891,6 +1917,14 @@ class Component extends DCLogic {
       activeDay,
       artists,
       news,
+      newsDots,
+      newsPrev: () => { const el = newsEl(); if (el) el.scrollBy({ left: -newsStep(), behavior: 'smooth' }); },
+      newsNext: () => { const el = newsEl(); if (el) el.scrollBy({ left: newsStep(), behavior: 'smooth' }); },
+      newsOnScroll: () => {
+        const el = newsEl(); if (!el) return;
+        const idx = Math.round(el.scrollLeft / newsStep());
+        if (idx !== (this.state.newsIndex || 0)) this.setState({ newsIndex: idx });
+      },
       showNews: this.props.showNews ?? true,
       newsPosterOpen: newsPosterIdx !== null && newsPosterIdx !== undefined,
       newsPoster: (newsPosterIdx !== null && newsPosterIdx !== undefined) ? news[newsPosterIdx] : { image: '', title: '' },
