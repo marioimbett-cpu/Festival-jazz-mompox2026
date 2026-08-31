@@ -134,8 +134,9 @@
       .news-name { font-size:44px !important; }
       .acad-panel { padding:26px 16px !important; margin-top:22px !important; }
       .acad-row { grid-template-columns:1fr !important; gap:6px !important; padding:16px 16px !important; }
-      .acad-form { padding:22px 20px !important; gap:18px !important; }
-      .acad-form-cta { width:100%; justify-content:center; }
+      .acad-form { padding:22px 18px !important; gap:18px !important; }
+      .acad-form > span:first-child { flex:1 1 100% !important; min-width:0 !important; }
+      .acad-form-cta { flex:1 1 100% !important; width:100% !important; box-sizing:border-box; justify-content:center; padding:14px 18px !important; }
       .acad-btn { width:100%; justify-content:center; padding:13px 18px !important; font-size:13px !important; }
       .day-row { gap:10px !important; }
     }
@@ -630,11 +631,11 @@
     <div style="position:relative; max-width:1280px; margin:0 auto; display:flex; align-items:center; gap:14px;">
       <button onClick="{{ newsPrev }}" aria-label="Anterior" class="news-arrow" style="flex:none; width:48px; height:48px; border-radius:50%; border:1.5px solid rgba(244,197,66,.5); background:rgba(244,197,66,.08); color:#F4C542; font-size:22px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .3s ease, border-color .3s ease, transform .3s ease;" style-hover="background:rgba(244,197,66,.2); border-color:#F4C542; transform:scale(1.08);">‹</button>
 
-      <div onScroll="{{ newsOnScroll }}" onMouseEnter="{{ newsPause }}" onMouseLeave="{{ newsResume }}" onTouchStart="{{ newsPause }}" style="flex:1; display:flex; gap:28px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding:6px 2px 10px; -webkit-overflow-scrolling:touch;" class="news-track">
+      <div onScroll="{{ newsOnScroll }}" onMouseEnter="{{ newsPause }}" onMouseLeave="{{ newsResume }}" onTouchStart="{{ newsPause }}" style="flex:1; display:flex; gap:28px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; scroll-padding-left:2px; padding:6px 2px 10px; -webkit-overflow-scrolling:touch;" class="news-track">
       <sc-for list="{{ news }}" as="n" hint-placeholder-count="1">
         <div style="flex:0 0 340px; scroll-snap-align:start; background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
-          <div style="aspect-ratio:4/5; overflow:hidden;">
-            <img onClick="{{ n.open }}" src="{{ n.image }}" alt="{{ n.title }}" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block; cursor:zoom-in; transition:transform .5s ease;" style-hover="transform:scale(1.04);"/>
+          <div style="aspect-ratio:4/5; overflow:hidden; background:#191B63;">
+            <img onClick="{{ n.open }}" src="{{ n.image }}" alt="{{ n.title }}" loading="lazy" style="width:100%; height:100%; object-fit:contain; object-position:center; display:block; cursor:zoom-in; transition:transform .5s ease;" style-hover="transform:scale(1.04);"/>
           </div>
           <div style="padding:24px; display:flex; flex-direction:column; gap:12px;">
             <span style="align-self:flex-start; padding:4px 14px; border-radius:20px; background:rgba(244,197,66,.12); border:1px solid rgba(244,197,66,.32); font-family:'Poppins',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#F4C542;">{{ n.badge }}</span>
@@ -1011,7 +1012,7 @@ const TRANSLATIONS = {
     heroBtnProgram: 'Conoce la programación', heroBtnArtists: 'Ver artistas',
     countdownTitle: 'Faltan para el gran encuentro',
     introTag: 'El Festival', introHeading: 'Jazz entre callejones coloniales',
-    introP1: 'Desde hace más de una década, Mompox —Patrimonio de la Humanidad UNESCO— abre sus plazas, iglesias y orillas del río Magdalena para recibir a músicos nacionales e internacionales en un festival gratuito que celebra la improvisación, la memoria caribeña y el mestizaje sonoro.',
+    introP1: 'Desde hace más de una década, Mompox —Patrimonio de la Humanidad UNESCO— abre sus plazas e iglesias para recibir a músicos nacionales e internacionales en un festival gratuito que celebra la improvisación, la memoria caribeña y el mestizaje sonoro.',
     introP2: 'Cada septiembre, los faroles se encienden, los abanicos se agitan y el jazz se mezcla con porro, gaita y son para crear una experiencia que solo Mompox puede ofrecer.',
     introDiscover: 'Descubrir Mompox',
     agendaTag: 'Agenda', agendaHeading: 'Programación',
