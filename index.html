@@ -188,8 +188,9 @@
       .hero-video-wrap { margin-top:24px !important; }
       .two-col { grid-template-columns:1fr !important; }
       .artist-grid { grid-template-columns:repeat(2,1fr) !important; }
-      .news-track > div { flex-basis:78vw !important; }
-      .news-arrow { width:40px !important; height:40px !important; font-size:19px !important; }
+      .news-track { gap:16px !important; }
+      .news-track > div { flex-basis:calc(100vw - 148px) !important; }
+      .news-arrow { width:38px !important; height:38px !important; font-size:18px !important; }
       .info-grid { grid-template-columns:1fr !important; }
       .icon-grid { grid-template-columns:repeat(2,1fr) !important; }
       .masonry { columns:2 !important; }
@@ -629,7 +630,7 @@
     <div style="position:relative; max-width:1280px; margin:0 auto; display:flex; align-items:center; gap:14px;">
       <button onClick="{{ newsPrev }}" aria-label="Anterior" class="news-arrow" style="flex:none; width:48px; height:48px; border-radius:50%; border:1.5px solid rgba(244,197,66,.5); background:rgba(244,197,66,.08); color:#F4C542; font-size:22px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .3s ease, border-color .3s ease, transform .3s ease;" style-hover="background:rgba(244,197,66,.2); border-color:#F4C542; transform:scale(1.08);">‹</button>
 
-      <div onScroll="{{ newsOnScroll }}" style="flex:1; display:flex; gap:28px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding:6px 2px 10px; -webkit-overflow-scrolling:touch;" class="news-track">
+      <div onScroll="{{ newsOnScroll }}" onMouseEnter="{{ newsPause }}" onMouseLeave="{{ newsResume }}" onTouchStart="{{ newsPause }}" style="flex:1; display:flex; gap:28px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding:6px 2px 10px; -webkit-overflow-scrolling:touch;" class="news-track">
       <sc-for list="{{ news }}" as="n" hint-placeholder-count="1">
         <div style="flex:0 0 340px; scroll-snap-align:start; background:rgba(255,255,255,.03); border:1px solid rgba(244,197,66,.15); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.4);">
           <div style="aspect-ratio:4/5; overflow:hidden;">
@@ -1466,6 +1467,7 @@ class Component extends DCLogic {
   setLangEn = () => { this.setLang('en'); this.setState({ showLangPrompt: false }); };
 
   componentDidMount() {
+    this._startNewsAutoplay();
     this._onScroll = () => {
       const scrolled = window.scrollY > 60;
       if (scrolled !== this.state.scrolled) this.setState({ scrolled });
@@ -1523,6 +1525,7 @@ class Component extends DCLogic {
   }
 
   componentWillUnmount() {
+    clearInterval(this._newsTimer);
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('keydown', this._onKeyDown);
     cancelAnimationFrame(this._splashRaf);
@@ -1552,11 +1555,11 @@ class Component extends DCLogic {
         { name: 'Cormagdalena', src: 'uploads/cormagdalena-negro.png' },
         { name: 'Supergiros · BetPlay · Astro', src: 'uploads/supergiros-nuevo.png', tight: true },
         { name: 'FLA — Fábrica de Licores de Antioquia', src: 'uploads/aguardiente.png', tight: true },
+        { name: 'Hidra Tao', src: 'uploads/hidratao.png' },
         { name: 'Pasquín — ACODRES', src: 'uploads/logos-1787414476062-t5ko.png' },
         { name: 'Acodrés — Capítulo Cartagena · Bolívar', src: 'uploads/acodres.png' },
         { name: 'Expreso Brasilia', src: 'uploads/logos-1787414482851-ka1g.png' },
         { name: 'Unitransco S.A.', src: 'uploads/unitransco-nuevo.png', tight: true, span: 2 },
-        { name: 'Hidra Tao', src: 'uploads/hidratao.png' },
       ]},
       { key: 'aliadosInstitucionales', title: { es: 'Aliados institucionales', en: 'Institutional allies' }, featured: false, items: [
         { name: 'Ministerio de las Culturas, las Artes y los Saberes', src: 'uploads/LOGO CULTURAS VIOLETA.png', url: 'https://www.mincultura.gov.co/' },
@@ -1606,6 +1609,18 @@ class Component extends DCLogic {
         { name: 'El Bolivarense', src: 'uploads/elbolivarense.png', tight: true },
       ]},
     ];
+  }
+
+  _startNewsAutoplay() {
+    clearInterval(this._newsTimer);
+    this._newsTimer = setInterval(() => {
+      const el = document.querySelector('.news-track');
+      if (!el || this._newsPaused) return;
+      const card = el.firstElementChild;
+      const step = card ? card.offsetWidth + (window.innerWidth <= 640 ? 16 : 28) : 368;
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 8;
+      el.scrollTo({ left: atEnd ? 0 : el.scrollLeft + step, behavior: 'smooth' });
+    }, 4500);
   }
 
   toggleMenu = () => this.setState(s => ({ mobileMenuOpen: !s.mobileMenuOpen }));
@@ -1918,6 +1933,8 @@ class Component extends DCLogic {
       artists,
       news,
       newsDots,
+      newsPause: () => { this._newsPaused = true; },
+      newsResume: () => { this._newsPaused = false; },
       newsPrev: () => { const el = newsEl(); if (el) el.scrollBy({ left: -newsStep(), behavior: 'smooth' }); },
       newsNext: () => { const el = newsEl(); if (el) el.scrollBy({ left: newsStep(), behavior: 'smooth' }); },
       newsOnScroll: () => {
