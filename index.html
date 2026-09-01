@@ -132,6 +132,7 @@
     }
     @media (max-width:640px) {
       .news-name { font-size:44px !important; }
+      .prog-poster { max-width:100% !important; margin-top:18px !important; }
       .acad-panel { padding:26px 16px !important; margin-top:22px !important; }
       .acad-row { grid-template-columns:1fr !important; gap:6px !important; padding:16px 16px !important; }
       .acad-form { padding:22px 18px !important; gap:18px !important; }
@@ -496,7 +497,7 @@
     <sc-if value="{{ showDayEvents }}" hint-placeholder-val="{{ true }}">
     <div style="max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
       <sc-for list="{{ activeDay.events }}" as="ev" hint-placeholder-count="3">
-        <div style="background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.2); border-radius:18px; padding:26px 30px; display:grid; grid-template-columns:150px 1fr; gap:24px; align-items:center; transition:background .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease; cursor:pointer;" class="prog-card" style-hover="background:rgba(244,197,66,.16); border-color:#F4C542; box-shadow:0 0 48px 8px rgba(244,197,66,.55); transform:translateY(-3px);" style-active="background:rgba(244,197,66,.24); border-color:#FFD447; box-shadow:0 0 60px 12px rgba(244,197,66,.75);">
+        <div style="background:{{ ev.cardBg }}; border:1px solid {{ ev.cardBorder }}; border-radius:22px; padding:{{ ev.cardPad }}; display:grid; grid-template-columns:150px 1fr; gap:24px; align-items:{{ ev.cardAlign }}; transition:background .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease; cursor:pointer;" class="prog-card" style-hover="background:rgba(244,197,66,.16); border-color:#F4C542; box-shadow:0 0 48px 8px rgba(244,197,66,.55); transform:translateY(-3px);" style-active="background:rgba(244,197,66,.24); border-color:#FFD447; box-shadow:0 0 60px 12px rgba(244,197,66,.75);">
           <div>
             <div style="font-family:'Dancing Script',cursive; font-size:22px; color:#F4C542; font-weight:700;">{{ ev.time }}</div>
           </div>
@@ -505,12 +506,22 @@
             <sc-if value="{{ ev.hasPlace }}" hint-placeholder-val="{{ false }}">
               <div style="font-size:14px; color:#D9D5F5; line-height:1.6;">{{ ev.place }}</div>
             </sc-if>
+            <sc-if value="{{ ev.hasPoster }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ ev.openPoster }}" style="margin:22px auto 0; max-width:460px; border-radius:18px; overflow:hidden; border:1px solid rgba(244,197,66,.34); box-shadow:0 20px 48px rgba(0,0,0,.45); cursor:zoom-in; transition:transform .4s cubic-bezier(.22,.8,.36,1), box-shadow .4s ease, border-color .4s ease;" style-hover="transform:translateY(-4px); border-color:rgba(244,197,66,.75); box-shadow:0 26px 64px rgba(0,0,0,.55), 0 0 36px 2px rgba(244,197,66,.24);" class="prog-poster">
+                <img src="{{ ev.poster }}" alt="{{ ev.title }}" loading="lazy" style="width:100%; height:auto; display:block;"/>
+              </div>
+            </sc-if>
+            <sc-if value="{{ ev.hasTagline }}" hint-placeholder-val="{{ false }}">
+              <div style="font-family:'Poppins',sans-serif; font-size:15px; font-weight:500; line-height:1.6; color:#F4C542; margin-top:10px; text-wrap:pretty;">{{ ev.tagline }}</div>
+            </sc-if>
             <sc-if value="{{ ev.hasLineup }}" hint-placeholder-val="{{ false }}">
-              <div style="display:flex; flex-direction:column; gap:7px; margin-top:12px;">
-                <sc-for list="{{ ev.lineup }}" as="ln" hint-placeholder-count="4">
-                  <div style="display:flex; align-items:baseline; gap:10px;">
-                    <span style="flex:none; color:#F4C542; font-size:10px;">✦</span>
-                    <span style="font-family:'Poppins',sans-serif; font-size:14.5px; line-height:1.55; color:#FFFFFF; text-wrap:pretty;">{{ ln.n }}</span>
+              <div style="display:flex; flex-direction:column; gap:14px; margin-top:22px; padding-left:18px; border-left:2px solid rgba(244,197,66,.3);">
+                <sc-for list="{{ ev.lineup }}" as="ln" hint-placeholder-count="5">
+                  <div style="display:flex; flex-direction:column; gap:3px;">
+                    <span style="font-family:'Poppins',sans-serif; font-size:16px; font-weight:600; line-height:1.45; color:#FFFFFF; text-wrap:pretty;">{{ ln.n }}</span>
+                    <sc-if value="{{ ln.hasSub }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-family:'Poppins',sans-serif; font-size:13px; line-height:1.5; color:#F4C542;">{{ ln.s }}</span>
+                    </sc-if>
                   </div>
                 </sc-for>
               </div>
@@ -733,6 +744,13 @@
     <div onClick="{{ closeNewsPoster }}" style="position:fixed; inset:0; z-index:300; background:rgba(10,9,30,.94); display:flex; align-items:center; justify-content:center; padding:32px; animation:revealUp .3s ease both;">
       <img src="{{ newsPoster.image }}" alt="{{ newsPoster.title }}" style="max-width:92vw; max-height:88vh; width:auto; height:auto; object-fit:contain; border-radius:14px; box-shadow:0 30px 80px rgba(0,0,0,.6);"/>
       <button onClick="{{ closeNewsPoster }}" style="position:absolute; top:22px; right:24px; background:none; border:none; color:#F4C542; font-size:32px; cursor:pointer;">✕</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ posterOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closePoster }}" style="position:fixed; inset:0; z-index:300; background:rgba(10,9,30,.94); display:flex; align-items:center; justify-content:center; padding:32px; animation:revealUp .3s ease both;">
+      <img src="{{ posterSrc }}" alt="Cartel" style="max-width:92vw; max-height:88vh; width:auto; height:auto; object-fit:contain; border-radius:14px; box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(244,197,66,.3);"/>
+      <button onClick="{{ closePoster }}" style="position:absolute; top:24px; right:24px; background:none; border:none; color:#F4C542; font-size:32px; cursor:pointer;">✕</button>
     </div>
   </sc-if>
 
@@ -1150,7 +1168,7 @@ const DAY_DEFS = {
       { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 p.m. - 7:00 p.m.', title: 'Desfile cultural y folclórico Río de Gente — Homenaje a Gilberto Márquez', place: 'Desde la Bomba Gilmar hacia la Plaza Santa Bárbara' },
       { time: '6:30 pm - 7:30 pm', title: 'Concierto didáctico Jazz al descubierto — Maestros EMMAT · Berklee Global Partner', place: 'Salón Principal Claustro San Agustín' },
-      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', lineup: ['Homenaje Río de Gente y premiación', 'Grupos de jazz de Brasil / Davi Fonseca', 'Grupos de jazz / Victoria Sur y Nicolás Ospina', 'Long Play Band (orquesta con arreglos de jazz — Córdoba)', 'Beto Zabaleta', 'Dálmata', 'Luister la Voz'] },
+      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', tagline: 'Una noche de jazz y sonidos para todos', lineup: [{ n: 'Homenaje Río de Gente a Gilberto Márquez y premiación' }, { n: 'Davi Fonseca', s: 'Jazz de Brasil' }, { n: 'Victoria Sur y Nicolás Ospina' }, { n: 'Long Play Band' }, { n: 'Beto Zabaleta' }, { n: 'Dálmata' }, { n: 'Luister' }] },
     ]},
     { label: 'Vie 4 Sep', events: [
       { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
@@ -1165,7 +1183,7 @@ const DAY_DEFS = {
       { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: 'Plaza Santa Bárbara' },
       { time: '6:00 p.m.', title: 'Animeros — Corporación Cultural Atabaques', place: 'Plaza Santa Bárbara' },
       { time: '6:30 pm - 7:30 pm', title: 'Concierto didáctico Jazz al descubierto — Maestros EMMAT · Berklee Global Partner', place: 'Salón Principal Claustro San Agustín' },
-      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', lineup: ['Coronación Señorita Bolívar', 'Óscar Acevedo', 'Jazz — Embajada de Italia / Cosimo Boni', 'UNIBAC Jazz and Jam', 'Criss y Ronny', 'Gilberto Santa Rosa', 'Pipe Bueno'] },
+      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', tagline: 'El jazz se encuentra con grandes voces', lineup: [{ n: 'Coronación de la Señorita Bolívar' }, { n: 'Óscar Acevedo' }, { n: 'Cosimo Boni', s: 'Jazz de Italia' }, { n: 'UNIBAC Jazz & Jam' }, { n: 'Criss y Ronny' }, { n: 'Gilberto Santa Rosa' }, { n: 'Pipe Bueno' }] },
     ]},
     { label: 'Sáb 5 Sep', events: [
       { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
@@ -1179,7 +1197,7 @@ const DAY_DEFS = {
       { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: 'Calle Cuarta — Sede Universidad de Cartagena' },
       { time: '6:00 p.m.', title: 'Marca Bolívar — Pasarela Elar, Canto de Palma', place: 'Plaza de La Concepción' },
       { time: '6:30 pm - 7:30 pm', title: 'Concierto de Clausura Campamento de Jazz — abierto al público', place: 'Claustro San Agustín' },
-      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', lineup: ['Jazz — Embajada de Francia / Sélène Saint-Aimé', 'Tambores de Totó — Homenaje a Totó la Momposina', 'Flora Martínez (Jazz)', 'Greeicy', 'Ana del Castillo'] },
+      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', tagline: 'Mujeres que hacen vibrar a Mompox', lineup: [{ n: 'Sélène Saint-Aimé', s: 'Jazz de Francia' }, { n: 'Los Tambores de Totó', s: 'El Legado' }, { n: 'Homenaje a Totó la Momposina' }, { n: 'Flora Martínez' }, { n: 'Greeicy' }, { n: 'Ana del Castillo' }] },
     ]},
   ],
   en: [
@@ -1200,7 +1218,7 @@ const DAY_DEFS = {
       { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 pm - 7:00 pm', title: 'Río de Gente cultural and folk parade — Tribute to Gilberto Márquez', place: 'From Bomba Gilmar to Plaza Santa Bárbara' },
       { time: '6:30 pm - 7:30 pm', title: 'Jazz al Descubierto didactic concert — EMMAT · Berklee Global Partner faculty', place: 'Main Hall, Claustro San Agustín' },
-      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', lineup: ['Río de Gente tribute and awards', 'Jazz from Brazil / Davi Fonseca', 'Jazz groups / Victoria Sur and Nicolás Ospina', 'Long Play Band (orchestra with jazz arrangements — Córdoba)', 'Beto Zabaleta', 'Dálmata', 'Luister la Voz'] },
+      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', tagline: 'Una noche de jazz y sonidos para todos', lineup: [{ n: 'Homenaje Río de Gente a Gilberto Márquez y premiación' }, { n: 'Davi Fonseca', s: 'Jazz de Brasil' }, { n: 'Victoria Sur y Nicolás Ospina' }, { n: 'Long Play Band' }, { n: 'Beto Zabaleta' }, { n: 'Dálmata' }, { n: 'Luister' }] },
     ]},
     { label: 'Fri Sep 4', events: [
       { time: 'All day', title: 'Airport welcome', place: '' },
@@ -1215,7 +1233,7 @@ const DAY_DEFS = {
       { time: '4:00 pm', title: 'UNIBAC al Parque Concert', place: 'Plaza Santa Bárbara' },
       { time: '6:00 pm', title: 'Animeros — Atabaques Cultural Corporation', place: 'Plaza Santa Bárbara' },
       { time: '6:30 pm - 7:30 pm', title: 'Jazz al Descubierto didactic concert — EMMAT · Berklee Global Partner faculty', place: 'Main Hall, Claustro San Agustín' },
-      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', lineup: ['Señorita Bolívar coronation', 'Óscar Acevedo', 'Jazz — Embassy of Italy / Cosimo Boni', 'UNIBAC Jazz and Jam', 'Criss y Ronny', 'Gilberto Santa Rosa', 'Pipe Bueno'] },
+      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', tagline: 'El jazz se encuentra con grandes voces', lineup: [{ n: 'Coronación de la Señorita Bolívar' }, { n: 'Óscar Acevedo' }, { n: 'Cosimo Boni', s: 'Jazz de Italia' }, { n: 'UNIBAC Jazz & Jam' }, { n: 'Criss y Ronny' }, { n: 'Gilberto Santa Rosa' }, { n: 'Pipe Bueno' }] },
     ]},
     { label: 'Sat Sep 5', events: [
       { time: 'All day', title: 'Airport welcome', place: '' },
@@ -1229,7 +1247,7 @@ const DAY_DEFS = {
       { time: '2:00 pm', title: 'UNIBAC Mural Launch', place: 'Calle Cuarta — Universidad de Cartagena campus' },
       { time: '6:00 pm', title: 'Marca Bolívar — Elar Runway, Canto de Palma', place: 'Plaza de La Concepción' },
       { time: '6:30 pm - 7:30 pm', title: 'Jazz Camp Closing Concert — open to the public', place: 'Claustro San Agustín' },
-      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', lineup: ['Jazz — Embassy of France / Sélène Saint-Aimé', 'Tambores de Totó — Tribute to Totó la Momposina', 'Flora Martínez (Jazz)', 'Greeicy', 'Ana del Castillo'] },
+      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', tagline: 'Mujeres que hacen vibrar a Mompox', lineup: [{ n: 'Sélène Saint-Aimé', s: 'Jazz de Francia' }, { n: 'Los Tambores de Totó', s: 'El Legado' }, { n: 'Homenaje a Totó la Momposina' }, { n: 'Flora Martínez' }, { n: 'Greeicy' }, { n: 'Ana del Castillo' }] },
     ]},
   ],
 };
@@ -1703,7 +1721,12 @@ class Component extends DCLogic {
     }));
 
     const activeDayRaw = dayDefs[this.state.activeDayIndex];
-    const activeDay = { ...activeDayRaw, events: activeDayRaw.events.map(ev => ({ ...ev, hasPlace: !!ev.place, hasLineup: !!(ev.lineup && ev.lineup.length), lineup: (ev.lineup || []).map(n => ({ n })) })) };
+    const activeDay = { ...activeDayRaw, events: activeDayRaw.events.map(ev => ({ ...ev, hasPlace: !!ev.place, hasLineup: !!(ev.lineup && ev.lineup.length), hasPoster: false, hasTagline: !!ev.tagline,
+        lineup: (ev.lineup || []).map(l => (typeof l === 'string' ? { n: l, s: '', hasSub: false } : { n: l.n, s: l.s || '', hasSub: !!l.s })),
+        cardBg: ev.lineup ? 'rgba(255,255,255,.075)' : 'rgba(255,255,255,.04)',
+        cardBorder: ev.lineup ? 'rgba(244,197,66,.3)' : 'rgba(244,197,66,.2)',
+        cardPad: ev.lineup ? '32px 36px 34px' : '26px 30px',
+        cardAlign: ev.lineup ? 'start' : 'center' })) };
 
     const artistDefs = ARTIST_DEFS[lang];
     // Only the first few cards use a live fillable photo slot — keeping the
@@ -1980,6 +2003,9 @@ class Component extends DCLogic {
       newsPoster: (newsPosterIdx !== null && newsPosterIdx !== undefined) ? news[newsPosterIdx] : { image: '', title: '' },
       closeNewsPoster: () => this.setState({ newsPosterIndex: null }),
       academicOpen: !!this.state.academicOpen,
+      posterOpen: !!this.state.posterSrc,
+      posterSrc: this.state.posterSrc || '',
+      closePoster: () => this.setState({ posterSrc: null }),
       showDayEvents: !this.state.academicOpen && !this.state.circusOpen,
       circusOpen: !!this.state.circusOpen,
       toggleCircus: () => this.setState(s => ({ circusOpen: !s.circusOpen, academicOpen: false })),
