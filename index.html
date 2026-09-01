@@ -505,6 +505,16 @@
             <sc-if value="{{ ev.hasPlace }}" hint-placeholder-val="{{ false }}">
               <div style="font-size:14px; color:#D9D5F5; line-height:1.6;">{{ ev.place }}</div>
             </sc-if>
+            <sc-if value="{{ ev.hasLineup }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; flex-direction:column; gap:7px; margin-top:12px;">
+                <sc-for list="{{ ev.lineup }}" as="ln" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:baseline; gap:10px;">
+                    <span style="flex:none; color:#F4C542; font-size:10px;">✦</span>
+                    <span style="font-family:'Poppins',sans-serif; font-size:14.5px; line-height:1.55; color:#FFFFFF; text-wrap:pretty;">{{ ln.n }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
           </div>
         </div>
       </sc-for>
@@ -1140,7 +1150,7 @@ const DAY_DEFS = {
       { time: '1:00 p.m. - 6:00 p.m.', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 p.m. - 7:00 p.m.', title: 'Desfile cultural y folclórico Río de Gente — Homenaje a Gilberto Márquez', place: 'Desde la Bomba Gilmar hacia la Plaza Santa Bárbara' },
       { time: '6:30 pm - 7:30 pm', title: 'Concierto didáctico Jazz al descubierto — Maestros EMMAT · Berklee Global Partner', place: 'Salón Principal Claustro San Agustín' },
-      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
+      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', lineup: ['Homenaje Río de Gente y premiación', 'Grupos de jazz de Brasil / Davi Fonseca', 'Grupos de jazz / Victoria Sur y Nicolás Ospina', 'Long Play Band (orquesta con arreglos de jazz — Córdoba)', 'Beto Zabaleta', 'Dálmata', 'Luister la Voz'] },
     ]},
     { label: 'Vie 4 Sep', events: [
       { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
@@ -1155,7 +1165,7 @@ const DAY_DEFS = {
       { time: '4:00 p.m.', title: 'Concierto UNIBAC al Parque', place: 'Plaza Santa Bárbara' },
       { time: '6:00 p.m.', title: 'Animeros — Corporación Cultural Atabaques', place: 'Plaza Santa Bárbara' },
       { time: '6:30 pm - 7:30 pm', title: 'Concierto didáctico Jazz al descubierto — Maestros EMMAT · Berklee Global Partner', place: 'Salón Principal Claustro San Agustín' },
-      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
+      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', lineup: ['Coronación Señorita Bolívar', 'Óscar Acevedo', 'Jazz — Embajada de Italia / Cosimo Boni', 'UNIBAC Jazz and Jam', 'Criss y Ronny', 'Gilberto Santa Rosa', 'Pipe Bueno'] },
     ]},
     { label: 'Sáb 5 Sep', events: [
       { time: 'Todo el día', title: 'Bienvenida Aeropuerto', place: '' },
@@ -1169,7 +1179,7 @@ const DAY_DEFS = {
       { time: '2:00 p.m.', title: 'Lanzamiento Mural UNIBAC', place: 'Calle Cuarta — Sede Universidad de Cartagena' },
       { time: '6:00 p.m.', title: 'Marca Bolívar — Pasarela Elar, Canto de Palma', place: 'Plaza de La Concepción' },
       { time: '6:30 pm - 7:30 pm', title: 'Concierto de Clausura Campamento de Jazz — abierto al público', place: 'Claustro San Agustín' },
-      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz' },
+      { time: '7:00 p.m.', title: 'Concierto', place: 'Parque del Jazz', lineup: ['Jazz — Embajada de Francia / Sélène Saint-Aimé', 'Tambores de Totó — Homenaje a Totó la Momposina', 'Flora Martínez (Jazz)', 'Greeicy', 'Ana del Castillo'] },
     ]},
   ],
   en: [
@@ -1190,7 +1200,7 @@ const DAY_DEFS = {
       { time: '1:00 pm - 6:00 pm', title: 'Casa Marca Bolívar', place: 'Casa Alhambra — Callejón de la Municipalidad' },
       { time: '4:00 pm - 7:00 pm', title: 'Río de Gente cultural and folk parade — Tribute to Gilberto Márquez', place: 'From Bomba Gilmar to Plaza Santa Bárbara' },
       { time: '6:30 pm - 7:30 pm', title: 'Jazz al Descubierto didactic concert — EMMAT · Berklee Global Partner faculty', place: 'Main Hall, Claustro San Agustín' },
-      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
+      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', lineup: ['Río de Gente tribute and awards', 'Jazz from Brazil / Davi Fonseca', 'Jazz groups / Victoria Sur and Nicolás Ospina', 'Long Play Band (orchestra with jazz arrangements — Córdoba)', 'Beto Zabaleta', 'Dálmata', 'Luister la Voz'] },
     ]},
     { label: 'Fri Sep 4', events: [
       { time: 'All day', title: 'Airport welcome', place: '' },
@@ -1205,7 +1215,7 @@ const DAY_DEFS = {
       { time: '4:00 pm', title: 'UNIBAC al Parque Concert', place: 'Plaza Santa Bárbara' },
       { time: '6:00 pm', title: 'Animeros — Atabaques Cultural Corporation', place: 'Plaza Santa Bárbara' },
       { time: '6:30 pm - 7:30 pm', title: 'Jazz al Descubierto didactic concert — EMMAT · Berklee Global Partner faculty', place: 'Main Hall, Claustro San Agustín' },
-      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
+      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', lineup: ['Señorita Bolívar coronation', 'Óscar Acevedo', 'Jazz — Embassy of Italy / Cosimo Boni', 'UNIBAC Jazz and Jam', 'Criss y Ronny', 'Gilberto Santa Rosa', 'Pipe Bueno'] },
     ]},
     { label: 'Sat Sep 5', events: [
       { time: 'All day', title: 'Airport welcome', place: '' },
@@ -1219,7 +1229,7 @@ const DAY_DEFS = {
       { time: '2:00 pm', title: 'UNIBAC Mural Launch', place: 'Calle Cuarta — Universidad de Cartagena campus' },
       { time: '6:00 pm', title: 'Marca Bolívar — Elar Runway, Canto de Palma', place: 'Plaza de La Concepción' },
       { time: '6:30 pm - 7:30 pm', title: 'Jazz Camp Closing Concert — open to the public', place: 'Claustro San Agustín' },
-      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz' },
+      { time: '7:00 pm', title: 'Concert', place: 'Parque del Jazz', lineup: ['Jazz — Embassy of France / Sélène Saint-Aimé', 'Tambores de Totó — Tribute to Totó la Momposina', 'Flora Martínez (Jazz)', 'Greeicy', 'Ana del Castillo'] },
     ]},
   ],
 };
@@ -1693,7 +1703,7 @@ class Component extends DCLogic {
     }));
 
     const activeDayRaw = dayDefs[this.state.activeDayIndex];
-    const activeDay = { ...activeDayRaw, events: activeDayRaw.events.map(ev => ({ ...ev, hasPlace: !!ev.place })) };
+    const activeDay = { ...activeDayRaw, events: activeDayRaw.events.map(ev => ({ ...ev, hasPlace: !!ev.place, hasLineup: !!(ev.lineup && ev.lineup.length), lineup: (ev.lineup || []).map(n => ({ n })) })) };
 
     const artistDefs = ARTIST_DEFS[lang];
     // Only the first few cards use a live fillable photo slot — keeping the
