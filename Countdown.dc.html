@@ -7,10 +7,10 @@
 </head>
 <body>
 <x-dc>
-<sc-if value="{{ countdown.started }}" hint-placeholder-val="{{ false }}">
-  <div style="font-family:'Playfair Display',serif; font-size:34px; color:#FFD447; padding:20px 0;">{{ startedLabel }}</div>
+<sc-if value="{{ countdown.ended }}" hint-placeholder-val="{{ false }}">
+  <div style="font-family:'Playfair Display',serif; font-size:34px; color:#FFD447; padding:20px 0;">{{ endedLabel }}</div>
 </sc-if>
-<sc-if value="{{ countdown.notStarted }}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{ countdown.running }}" hint-placeholder-val="{{ true }}">
   <div style="position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:28px; max-width:760px; margin:14px auto 0;" class="countdown-grid">
     <div style="position:relative; overflow:hidden; background:linear-gradient(160deg, rgba(58,45,128,.55), rgba(15,14,51,.75)); border:1.5px solid rgba(244,175,55,.5); border-radius:22px; padding:32px 20px; box-shadow:0 18px 44px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.10); animation:revealUp .8s cubic-bezier(.22,.8,.36,1) both, cdGlow 3s ease-in-out infinite; transition:transform .4s ease, border-color .4s ease, box-shadow .4s ease; cursor:default; min-width:0;" class="cd-card" style-hover="transform:scale(1.05); border-color:#FFD447; box-shadow:0 18px 44px rgba(0,0,0,.45), 0 0 30px rgba(212,175,55,.35), inset 0 1px 0 rgba(255,255,255,.16);">
       <svg viewBox="0 0 200 200" style="position:absolute; inset:0; width:100%; height:100%; color:#F4C542; opacity:.14; pointer-events:none;"><use href="#filigreeMotif" x="10" y="10" width="180" height="180"></use></svg>
@@ -48,25 +48,26 @@ class Component extends DCLogic {
 
   renderVals() {
     const target = new Date(this.props.targetDate || '2026-09-03T00:00:00-05:00').getTime();
-    const diff = target - this.state.now;
-    const started = diff <= 0;
+    const endTarget = new Date(this.props.endDate || '2026-09-06T02:00:00-05:00').getTime();
+    const started = this.state.now >= target;
+    const diff = (started ? endTarget : target) - this.state.now;
     const pad = n => String(n).padStart(2, '0');
     let countdown;
-    if (started) {
-      countdown = { started: true, notStarted: false, days: '00', hours: '00', minutes: '00', seconds: '00' };
+    if (diff <= 0) {
+      countdown = { ended: true, running: false, days: '00', hours: '00', minutes: '00', seconds: '00' };
     } else {
       const days = Math.floor(diff / 86400000);
       const hours = Math.floor((diff % 86400000) / 3600000);
       const minutes = Math.floor((diff % 3600000) / 60000);
       const seconds = Math.floor((diff % 60000) / 1000);
-      countdown = { started: false, notStarted: true, days: pad(days), hours: pad(hours), minutes: pad(minutes), seconds: pad(seconds) };
+      countdown = { ended: false, running: true, days: pad(days), hours: pad(hours), minutes: pad(minutes), seconds: pad(seconds) };
     }
     const lang = this.props.lang === 'en' ? 'en' : 'es';
     const labels = lang === 'en'
       ? { days: 'Days', hours: 'Hours', minutes: 'Minutes', seconds: 'Seconds' }
       : { days: 'Días', hours: 'Horas', minutes: 'Minutos', seconds: 'Segundos' };
-    const startedLabel = lang === 'en' ? 'The Festival has begun!' : '¡El Festival ha comenzado!';
-    return { countdown, labels, startedLabel };
+    const endedLabel = lang === 'en' ? 'Thanks for joining us. See you in 2027!' : '¡Gracias por acompañarnos. Nos vemos en 2027!';
+    return { countdown, labels, endedLabel };
   }
 }
 
