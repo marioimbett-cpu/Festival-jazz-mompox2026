@@ -552,8 +552,11 @@
     <div style="position:absolute; top:0; left:0; right:0; height:100px; background:linear-gradient(180deg, #191B63 0%, transparent 100%); pointer-events:none;"></div>
     <div style="position:absolute; bottom:0; left:0; right:0; height:110px; background:linear-gradient(180deg, transparent 0%, #191B63 100%); pointer-events:none;"></div>
 
-    <h3 style="position:relative; font-family:{{ countdownFontFamily }}; font-weight:{{ countdownFontWeight }}; text-transform:uppercase; letter-spacing:{{ countdownLetterSpacing }}; font-size:{{ countdownFontSizePx }}; color:{{ countdownColor }}; line-height:{{ countdownLineHeight }}; text-shadow:{{ countdownTextShadow }}; margin:0 0 40px; text-align:center;">{{ t.countdownTitle }}</h3>
-    <dc-import name="Countdown" target-date="2026-09-03T00:00:00-05:00" lang="{{ lang }}" hint-size="100%,220px"></dc-import>
+    <h3 style="position:relative; font-family:{{ countdownFontFamily }}; font-weight:{{ countdownFontWeight }}; text-transform:uppercase; letter-spacing:{{ countdownLetterSpacing }}; font-size:{{ countdownFontSizePx }}; color:{{ countdownColor }}; line-height:{{ countdownLineHeight }}; text-shadow:{{ countdownTextShadow }}; margin:0 0 28px; text-align:center;">{{ countdownHeading }}</h3>
+    <sc-if value="{{ festivalStarted }}" hint-placeholder-val="{{ false }}">
+      <p style="position:relative; margin:-8px 0 6px; font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.72);">{{ t.countdownEndsIn }}</p>
+    </sc-if>
+    <dc-import name="Countdown" target-date="2026-09-03T00:00:00-05:00" end-date="2026-09-06T02:00:00-05:00" lang="{{ lang }}" hint-size="100%,220px"></dc-import>
   </div>
   </section>
 
@@ -1154,6 +1157,7 @@ const TRANSLATIONS = {
     heroText: 'Tres noches de jazz bajo los faroles coloniales de Mompox. Música, río, arquitectura patrimonio de la humanidad y la calidez del Caribe colombiano se encuentran en una experiencia cultural irrepetible.',
     heroBtnProgram: 'Conoce la programación', heroBtnArtists: 'Ver artistas',
     countdownTitle: 'Faltan para el gran encuentro',
+    countdownStarted: 'Inició el gran encuentro', countdownEndsIn: 'Finaliza en',
     introTag: 'El Festival', introHeading: 'Jazz entre callejones coloniales',
     introP1: 'Desde hace más de una década, Mompox —Patrimonio de la Humanidad UNESCO— abre sus plazas e iglesias para recibir a músicos nacionales e internacionales en un festival gratuito que celebra la improvisación, la memoria caribeña y el mestizaje sonoro.',
     introP2: 'Cada septiembre, los faroles se encienden, los abanicos se agitan y el jazz se mezcla con porro, gaita y son para crear una experiencia que solo Mompox puede ofrecer.',
@@ -1213,6 +1217,7 @@ const TRANSLATIONS = {
     heroText: 'Three nights of jazz under the colonial lanterns of Mompox. Music, river, World Heritage architecture and the warmth of the Colombian Caribbean come together in a cultural experience like no other.',
     heroBtnProgram: 'See the program', heroBtnArtists: 'See artists',
     countdownTitle: 'Until the big gathering',
+    countdownStarted: 'The big gathering has begun', countdownEndsIn: 'Ends in',
     introTag: 'The Festival', introHeading: 'Jazz among colonial alleyways',
     introP1: 'For over a decade, Mompox — a UNESCO World Heritage Site — has opened its squares, churches and Magdalena riverbanks to national and international musicians for a free festival celebrating improvisation, Caribbean memory, and musical fusion.',
     introP2: 'Every September, the lanterns light up, fans start waving, and jazz blends with porro, gaita and son to create an experience only Mompox can offer.',
@@ -2147,6 +2152,8 @@ class Component extends DCLogic {
         }),
       })),
       toggleAcademic: () => this.setState(s => ({ academicOpen: !s.academicOpen, circusOpen: false })),
+      festivalStarted: Date.now() >= new Date('2026-09-03T00:00:00-05:00').getTime(),
+      countdownHeading: Date.now() >= new Date('2026-09-03T00:00:00-05:00').getTime() ? t.countdownStarted : t.countdownTitle,
       infoCards,
       emergencyGroups,
       emergencyOpen: this.state.emergencyOpen,
