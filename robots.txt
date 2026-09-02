@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://icultur.gov.co/Festijazzmompox2026/sitemap.xml
