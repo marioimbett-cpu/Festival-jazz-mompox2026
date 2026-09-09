@@ -8,7 +8,7 @@
 <body>
 <x-dc>
 <sc-if value="{{ countdown.ended }}" hint-placeholder-val="{{ false }}">
-  <div style="font-family:'Playfair Display',serif; font-size:34px; color:#FFD447; padding:20px 0;">{{ endedLabel }}</div>
+  <div class="cd-ended" style="position:relative; z-index:5; font-family:'Dancing Script',cursive; font-weight:700; font-size:44px; letter-spacing:.04em; color:#FFD447; text-shadow:0 2px 10px rgba(0,0,0,.8), 0 0 12px #D4AF37, 0 0 30px rgba(212,175,55,.75); padding:56px 6% 72px; text-wrap:pretty;">{{ endedLabel }}</div>
 </sc-if>
 <sc-if value="{{ countdown.running }}" hint-placeholder-val="{{ true }}">
   <div style="position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:28px; max-width:760px; margin:14px auto 0;" class="countdown-grid">
@@ -66,7 +66,7 @@ class Component extends DCLogic {
     const labels = lang === 'en'
       ? { days: 'Days', hours: 'Hours', minutes: 'Minutes', seconds: 'Seconds' }
       : { days: 'Días', hours: 'Horas', minutes: 'Minutos', seconds: 'Segundos' };
-    const endedLabel = lang === 'en' ? 'Thanks for joining us. See you in 2027!' : '¡Gracias por acompañarnos. Nos vemos en 2027!';
+    const endedLabel = lang === 'en' ? 'Thanks for joining us. See you in 2027!' : '¡Gracias por acompañarnos, nos vemos en el 2027!';
     return { countdown, labels, endedLabel };
   }
 }
