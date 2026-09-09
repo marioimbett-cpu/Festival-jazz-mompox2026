@@ -178,6 +178,13 @@
       }
       else { setTimeout(poll, 150); }
     })();
+    (function pollThanks(){
+      var t = document.getElementById('thanks-video');
+      if (t) { t.muted = true; t.defaultMuted = true; t.loop = true; t.volume = 0;
+        t.addEventListener('ended', function(){ t.currentTime = 0; t.play(); });
+        var q = t.play(); if (q && q.catch) q.catch(function(){});
+      } else { setTimeout(pollThanks, 150); }
+    })();
   </script>
   <style>
     ::selection { background:#F4C542; color:#191B63; }
@@ -294,8 +301,32 @@
       .parking-qr-card { padding:16px !important; border-radius:20px !important; }
     }
     @media (max-width:860px) {
+      .press-row { flex-direction:column !important; }
+      .press-img { min-height:0 !important; height:auto !important; aspect-ratio:16/10; }
+      .press-body { padding:30px 22px !important; }
+      .press-body h3 { font-size:23px !important; }
+      .press-btn { width:100%; text-align:center; }
+      .press-full { padding:8px 22px 34px !important; }
+      .thanks-grid { grid-template-columns:1fr !important; gap:36px !important; }
+      .thanks-grid h2 { font-size:38px !important; }
       .parking-grid { grid-template-columns:1fr !important; gap:40px !important; text-align:center; justify-items:center; }
+      .press-row { flex-direction:column !important; }
+      .press-img { min-height:0 !important; height:auto !important; aspect-ratio:16/10; }
+      .press-body { padding:30px 22px !important; }
+      .press-body h3 { font-size:23px !important; }
+      .press-btn { width:100%; text-align:center; }
+      .press-full { padding:8px 22px 34px !important; }
+      .thanks-grid { grid-template-columns:1fr !important; gap:36px !important; }
+      .thanks-grid h2 { font-size:38px !important; }
       .parking-grid p, .parking-grid h2 { text-align:center; }
+      .press-row { flex-direction:column !important; }
+      .press-img { min-height:0 !important; height:auto !important; aspect-ratio:16/10; }
+      .press-body { padding:30px 22px !important; }
+      .press-body h3 { font-size:23px !important; }
+      .press-btn { width:100%; text-align:center; }
+      .press-full { padding:8px 22px 34px !important; }
+      .thanks-grid { grid-template-columns:1fr !important; gap:36px !important; }
+      .thanks-grid h2 { font-size:38px !important; }
       .parking-grid > div:first-child > div { text-align:left; }
     }
     @media (max-width:640px) {
@@ -473,6 +504,7 @@
       <sc-if value="{{ showNews }}" hint-placeholder-val="{{ false }}">
       <a href="#noticias" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navNews }}</a>
       </sc-if>
+      <a href="#comunicados" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:.02em;">{{ t.navPress }}</a>
       <a href="#galeria" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navGallery }}</a>
       <a href="#informacion" class="nav-link" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }}; transition:color .25s ease, text-shadow .25s ease;">{{ t.navInfo }}</a>
       <a href="como-llegar.dc.html" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:10px 22px; border-radius:30px; font-weight:600; font-size:13px; text-decoration:none; box-shadow:0 4px 16px rgba(244,197,66,.35);">{{ t.navGetThere }}</a>
@@ -496,6 +528,7 @@
         <sc-if value="{{ showNews }}" hint-placeholder-val="{{ false }}">
         <a href="#noticias" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navNews }}</a>
         </sc-if>
+        <a href="#comunicados" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }};">{{ t.navPress }}</a>
         <a href="#galeria" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navGallery }}</a>
         <a href="#informacion" onClick="{{ closeMenu }}" style="font-family:{{ navFontFamily }}; color:{{ navColor }}; text-decoration:none; font-size:{{ navFontSizePx }}; font-weight:{{ navFontWeight }}; letter-spacing:{{ navLetterSpacing }}; line-height:{{ navLineHeight }}; text-shadow:{{ navTextShadow }};">{{ t.navInfo }}</a>
         <a href="como-llegar.dc.html" onClick="{{ closeMenu }}" style="background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:12px 20px; border-radius:30px; font-weight:600; font-size:14px; text-decoration:none; text-align:center;">{{ t.navGetThere }}</a>
@@ -543,6 +576,22 @@
       </div>
     </div>
   </div>
+
+  <!-- AGRADECIMIENTO -->
+  <section data-screen-label="Agradecimiento" style="position:relative; padding:80px 5% 90px; background:#191B63; overflow:hidden;">
+    <div style="position:relative; max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr minmax(280px,380px); gap:64px; align-items:center;" class="thanks-grid">
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <p style="margin:0; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542;">{{ t.thanksTag }}</p>
+        <h2 style="margin:0; font-family:'Dancing Script',cursive; font-size:52px; font-weight:700; line-height:1.15; color:#FFD447; text-shadow:0 2px 14px rgba(0,0,0,.4); text-wrap:pretty;">{{ t.thanksHeading }}</h2>
+        <p style="margin:0; font-family:'Poppins',sans-serif; font-size:15.5px; line-height:1.8; color:#D9D5F5; text-wrap:pretty;">{{ t.thanksText }}</p>
+        <p style="margin:0; font-family:'Poppins',sans-serif; font-size:13px; line-height:1.7; color:rgba(255,255,255,.55); text-wrap:pretty;">{{ t.thanksNote }}</p>
+      </div>
+      <div style="position:relative; display:flex; justify-content:center;" class="thanks-video-wrap">
+        <div style="position:absolute; inset:-30px; border-radius:24px; background:radial-gradient(circle,rgba(244,197,66,.16) 0%,rgba(244,197,66,.08) 40%,transparent 70%);"></div>
+        <video id="thanks-video" src="uploads/PANTALLAS LATERALES FJ 2026_rev (1).mp4" autoplay muted loop playsinline preload="auto" style="position:relative; width:100%; max-width:380px; aspect-ratio:9/16; object-fit:cover; border-radius:18px; box-shadow:0 30px 70px rgba(0,0,0,.5); display:block;"></video>
+      </div>
+    </div>
+  </section>
 
   <!-- COUNTDOWN -->
   <div data-screen-label="Cuenta regresiva" style="position: relative; padding: 90px 5% 120px; text-align: center; overflow: hidden; background: linear-gradient(180deg, #191B63 0%, #12143f 50%, #191B63 100%);">
@@ -798,6 +847,47 @@
     </div>
   </section>
   </sc-if>
+  </section>
+
+  <!-- COMUNICADOS -->
+  <section id="comunicados" data-screen-label="Comunicados" style="padding:70px 5% 90px; background:#191B63;">
+    <div style="text-align:center; margin-bottom:56px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.pressTag }}</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.pressHeading }}</h2>
+    </div>
+
+    <div style="max-width:1180px; margin:0 auto; display:flex; flex-direction:column; gap:44px;">
+      <sc-for list="{{ press }}" as="p" hint-placeholder-count="2">
+        <article style="border-radius:22px; overflow:hidden; background:rgba(255,255,255,.04); border:1px solid rgba(244,197,66,.2); box-shadow:0 20px 50px rgba(0,0,0,.32);">
+          <div style="display:flex; flex-direction:{{ p.rowDir }}; flex-wrap:wrap;" class="press-row">
+            <div style="flex:1 1 300px; min-width:0; overflow:hidden;">
+              <img src="{{ p.image }}" alt="{{ p.title }}" loading="lazy" style="width:100%; height:100%; min-height:340px; object-fit:cover; display:block;" class="press-img"/>
+            </div>
+            <div style="flex:1 1 360px; min-width:0; display:flex; flex-direction:column; gap:16px; padding:44px 42px;" class="press-body">
+              <span style="font-family:'Poppins',sans-serif; font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#F4C542;">{{ p.kicker }}</span>
+              <h3 style="margin:0; font-family:'Playfair Display',serif; font-size:29px; font-weight:600; line-height:1.28; color:#FFFFFF; text-wrap:pretty;">{{ p.title }}</h3>
+              <p style="margin:0; font-family:'Poppins',sans-serif; font-size:12.5px; letter-spacing:.05em; color:rgba(255,255,255,.55);">{{ p.date }}</p>
+              <p style="margin:0; font-family:'Poppins',sans-serif; font-size:15px; line-height:1.8; color:#D9D5F5; text-wrap:pretty;">{{ p.lead }}</p>
+              <button onClick="{{ p.toggle }}" style="align-self:flex-start; margin-top:6px; border:none; background:linear-gradient(135deg,#F4C542,#FFD447); color:#191B63; padding:13px 26px; border-radius:30px; font-family:'Poppins',sans-serif; font-size:13.5px; font-weight:600; cursor:pointer; box-shadow:0 4px 16px rgba(244,197,66,.35); transition:box-shadow .3s ease, transform .3s ease;" style-hover="box-shadow:0 8px 30px rgba(244,197,66,.6); transform:translateY(-2px);" class="press-btn">{{ p.label }}</button>
+            </div>
+          </div>
+
+          <sc-if value="{{ p.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:8px 42px 46px; display:flex; flex-direction:column; gap:20px; border-top:1px solid rgba(244,197,66,.16); animation:revealUp .5s cubic-bezier(.22,.8,.36,1) both;" class="press-full">
+              <sc-for list="{{ p.body }}" as="b" hint-placeholder-count="4">
+                <p style="margin:0; max-width:74ch; font-family:'Poppins',sans-serif; font-size:14.5px; line-height:1.85; color:#D9D5F5; text-wrap:pretty;">{{ b.txt }}</p>
+              </sc-for>
+              <sc-for list="{{ p.quotes }}" as="q" hint-placeholder-count="2">
+                <blockquote style="margin:6px 0 0; padding:24px 28px; border-radius:16px; background:rgba(244,197,66,.07); border-left:3px solid #F4C542; display:flex; flex-direction:column; gap:12px;">
+                  <p style="margin:0; font-family:'Playfair Display',serif; font-style:italic; font-size:16.5px; line-height:1.75; color:#FFFFFF; text-wrap:pretty;">“{{ q.text }}”</p>
+                  <cite style="font-family:'Poppins',sans-serif; font-style:normal; font-size:12.5px; font-weight:600; letter-spacing:.06em; color:#F4C542;">{{ q.who }}</cite>
+                </blockquote>
+              </sc-for>
+            </div>
+          </sc-if>
+        </article>
+      </sc-for>
+    </div>
   </section>
 
   <!-- MOMPOX TURISMO -->
@@ -1157,7 +1247,8 @@ const TRANSLATIONS = {
     heroText: 'Tres noches de jazz bajo los faroles coloniales de Mompox. Música, río, arquitectura patrimonio de la humanidad y la calidez del Caribe colombiano se encuentran en una experiencia cultural irrepetible.',
     heroBtnProgram: 'Conoce la programación', heroBtnArtists: 'Ver artistas',
     countdownTitle: 'Faltan para el gran encuentro',
-    countdownStarted: 'Inició el gran encuentro', countdownEndsIn: 'Finaliza en',
+    thanksTag: 'Gracias', thanksHeading: 'Gracias a quienes lo hicieron posible', thanksText: 'A cada patrocinador, aliado institucional, académico y medio de comunicación que creyó en el Festival de Jazz de Mompox: su respaldo llevó la música a las plazas, iglesias y calles de Santa Cruz de Mompox, y sostuvo un encuentro gratuito y abierto para todos.', thanksNote: 'Con el apoyo de la Gobernación de Bolívar, Icultur y el Ministerio de las Culturas de Colombia.',
+    countdownStarted: 'Inició el gran encuentro', countdownEndsIn: 'Finaliza en', countdownEnded: 'Finalizó el gran encuentro',
     introTag: 'El Festival', introHeading: 'Jazz entre callejones coloniales',
     introP1: 'Desde hace más de una década, Mompox —Patrimonio de la Humanidad UNESCO— abre sus plazas e iglesias para recibir a músicos nacionales e internacionales en un festival gratuito que celebra la improvisación, la memoria caribeña y el mestizaje sonoro.',
     introP2: 'Cada septiembre, los faroles se encienden, los abanicos se agitan y el jazz se mezcla con porro, gaita y son para crear una experiencia que solo Mompox puede ofrecer.',
@@ -1171,6 +1262,7 @@ const TRANSLATIONS = {
     acadFormTag: 'Cupos limitados', acadFormTitle: 'Regístrate a la Agenda Académica', acadFormText: 'Talleres, conversatorios y masterclass con entrada libre previa inscripción.', acadFormCta: 'Inscríbete aquí',
     lineupTag: 'Line-up', artistsHeading: 'Artistas', moreInfo: 'Más información →',
     newsTag: 'Actualidad', newsHeading: 'Últimas noticias', readMore: 'Leer más →',
+    pressTag: 'Sala de prensa', pressHeading: 'Comunicados', pressOpen: 'Leer comunicado completo', pressClose: 'Cerrar comunicado', navPress: 'Comunicados',
     newsBadge: 'Nuevo artista confirmado',
     newsPipeText: 'Y esta vez, con un nombre que no necesita presentación: @pipebueno, uno de los grandes talentos de la música colombiana, también llega a esta celebración que hará vibrar a Mompox',
     newsDates: 'Del 3 al 5 de septiembre de 2026', newsSoon: 'Próximamente más artistas',
@@ -1217,7 +1309,8 @@ const TRANSLATIONS = {
     heroText: 'Three nights of jazz under the colonial lanterns of Mompox. Music, river, World Heritage architecture and the warmth of the Colombian Caribbean come together in a cultural experience like no other.',
     heroBtnProgram: 'See the program', heroBtnArtists: 'See artists',
     countdownTitle: 'Until the big gathering',
-    countdownStarted: 'The big gathering has begun', countdownEndsIn: 'Ends in',
+    thanksTag: 'Thank you', thanksHeading: 'Thank you to everyone who made it possible', thanksText: 'To every sponsor, institutional and academic ally, and media partner who believed in the Mompox Jazz Festival: your support brought music to the squares, churches and streets of Santa Cruz de Mompox, and sustained a free, open gathering for all.', thanksNote: 'Supported by the Government of Bolívar, Icultur and Colombia’s Ministry of Culture.',
+    countdownStarted: 'The big gathering has begun', countdownEndsIn: 'Ends in', countdownEnded: 'The big gathering has ended',
     introTag: 'The Festival', introHeading: 'Jazz among colonial alleyways',
     introP1: 'For over a decade, Mompox — a UNESCO World Heritage Site — has opened its squares, churches and Magdalena riverbanks to national and international musicians for a free festival celebrating improvisation, Caribbean memory, and musical fusion.',
     introP2: 'Every September, the lanterns light up, fans start waving, and jazz blends with porro, gaita and son to create an experience only Mompox can offer.',
@@ -1231,6 +1324,7 @@ const TRANSLATIONS = {
     acadFormTag: 'Limited seats', acadFormTitle: 'Register for the Academic Program', acadFormText: 'Workshops, panels and masterclasses — free admission with prior registration.', acadFormCta: 'Sign up here',
     lineupTag: 'Line-up', artistsHeading: 'Artists', moreInfo: 'More info →',
     newsTag: 'Latest', newsHeading: 'Latest news', readMore: 'Read more →',
+    pressTag: 'Press room', pressHeading: 'Press releases', pressOpen: 'Read full release', pressClose: 'Close release', navPress: 'Press',
     newsBadge: 'New artist confirmed',
     newsPipeText: 'And this time, a name that needs no introduction: @pipebueno, one of the great talents of Colombian music, also joins this celebration that will make Mompox come alive',
     newsDates: 'September 3–5, 2026', newsSoon: 'More artists coming soon',
@@ -1475,6 +1569,119 @@ const ARTIST_DEFS = {
     { name: 'Flora Martínez', meta: 'Colombia · Canada', photo: 'uploads/floramartinez.jpeg', bio: 'Actress and singer born in Montreal to a Canadian mother and a Colombian father. She is widely known for her work in film and television, especially for starring in Rosario Tijeras. Alongside acting she has built a musical career and released recordings connected to Latin American music and jazz.', c1: '#241d5c', c2: '#39306e' },
   ],
 };
+
+const PRESS_DEFS = [
+  {
+    image: 'uploads/FESTIJAZZ.jpeg',
+    date: { es: 'Agosto de 2026 · Cartagena de Indias', en: 'August 2026 · Cartagena de Indias' },
+    kicker: { es: 'Primer comunicado', en: 'First press release' },
+    title: {
+      es: 'FestiJazz Mompox 2026 reunirá música, cultura y solidaridad del 3 al 5 de septiembre',
+      en: 'FestiJazz Mompox 2026 will bring together music, culture and solidarity from September 3 to 5',
+    },
+    lead: {
+      es: 'Artistas de jazz de Francia, Italia y Colombia harán parte de esta edición, que tendrá actividades previas desde el 1 de septiembre y se sumará a las campañas de donaciones para apoyar a las comunidades afectadas por el reciente terremoto en Colombia.',
+      en: 'Jazz artists from France, Italy and Colombia will take part in this edition, which begins with pre-festival activities on September 1 and joins the donation campaigns supporting the communities affected by the recent earthquake in Colombia.',
+    },
+    body: {
+      es: [
+        'Cartagena de Indias, agosto de 2026. Mompox volverá a convertirse en uno de los grandes escenarios culturales del Caribe con una nueva edición del FestiJazz Mompox, que se realizará del 3 al 5 de septiembre, con una programación que integrará música, formación, arte, literatura, gastronomía y emprendimiento. El line up oficial, que incluirá artistas de jazz provenientes de Francia, Italia y Colombia, será anunciado en los próximos días.',
+        'La programación comenzará desde el 1 y 2 de septiembre con actividades previas. Bolívar Late llevará talleres itinerantes de danza y música a Hatillo de Loba, San Fernando y Margarita, mientras que en Mompox se realizará una proyección del FICCI de la película Paddington in Peru, en la plaza de San Francisco.',
+        'Esta edición tendrá además un importante componente solidario: FestiJazz se sumará a las campañas de donaciones para apoyar a las víctimas y comunidades afectadas por el reciente terremoto en Colombia, aprovechando la capacidad de convocatoria del festival para movilizar la solidaridad de visitantes, artistas, aliados y ciudadanos.',
+        'Durante los tres días, las calles y plazas de Mompox harán parte del festival con Street Jazz, mientras el Claustro San Agustín recibirá el Campamento de Jazz de Mompox y el Claustro de San Carlos la exposición Los colores del jazz. La agenda también tendrá la Feria Artesanal y Gastronómica y el desfile cultural y folclórico Río de Gente, que rendirá homenaje a Gilberto Márquez.',
+        'A estas actividades se sumarán Casa Marca Bolívar, en Casa Alhambra, Callejón de la Municipalidad; UNIBAC al Parque, en la Plaza Santa Bárbara; los talleres de promoción de lectura de La Carreta Literaria y el Concierto Gospel UNIBAC en la iglesia de Santa Bárbara.',
+        'La gastronomía tendrá además un espacio protagonista con el Festival del Frito, que se realizará los días 4 y 5 de septiembre en la Albarrada de los Portales de la Marquesa, ampliando la experiencia del festival a los sabores y tradiciones culinarias del territorio.',
+        'FestiJazz Mompox 2026 es organizado por la Gobernación de Bolívar y el Instituto de Cultura y Turismo de Bolívar – ICULTUR, y cuenta con el respaldo institucional del Ministerio de las Culturas, las Artes y los Saberes. Bavaria y AV Villas se suman como patrocinadores oficiales, mientras que SATENA es aliado oficial de esta edición, fortaleciendo una apuesta que articula cultura, turismo y desarrollo territorial y el Programa Anticontrabando de la Federación Nacional de Departamentos.',
+        'Con esta programación, FestiJazz propone una experiencia que conecta música, patrimonio, turismo, gastronomía y economía creativa, convirtiendo a Mompox en un gran escenario cultural durante cinco días.',
+      ],
+      en: [
+        'Cartagena de Indias, August 2026. Mompox will once again become one of the Caribbean’s great cultural stages with a new edition of FestiJazz Mompox, to be held from September 3 to 5, with a program integrating music, training, art, literature, gastronomy and entrepreneurship. The official line-up, which will include jazz artists from France, Italy and Colombia, will be announced in the coming days.',
+        'The program begins on September 1 and 2 with pre-festival activities. Bolívar Late will take travelling dance and music workshops to Hatillo de Loba, San Fernando and Margarita, while Mompox will host a FICCI screening of the film Paddington in Peru at Plaza de San Francisco.',
+        'This edition also carries an important solidarity component: FestiJazz will join the donation campaigns supporting the victims and communities affected by the recent earthquake in Colombia, using the festival’s convening power to mobilise the solidarity of visitors, artists, allies and citizens.',
+        'Over the three days, the streets and squares of Mompox become part of the festival with Street Jazz, while Claustro San Agustín hosts the Mompox Jazz Camp and Claustro de San Carlos the exhibition Los colores del jazz. The agenda also includes the Craft and Food Fair and the cultural and folk parade Río de Gente, paying tribute to Gilberto Márquez.',
+        'These activities are joined by Casa Marca Bolívar, at Casa Alhambra, Callejón de la Municipalidad; UNIBAC al Parque, at Plaza Santa Bárbara; the La Carreta Literaria reading workshops and the UNIBAC Gospel Concert at the Santa Bárbara church.',
+        'Gastronomy also takes centre stage with the Festival del Frito, held on September 4 and 5 at the Albarrada de los Portales de la Marquesa, extending the festival experience to the flavours and culinary traditions of the region.',
+        'FestiJazz Mompox 2026 is organised by the Government of Bolívar and the Institute of Culture and Tourism of Bolívar – ICULTUR, with the institutional backing of the Ministry of Cultures, Arts and Knowledge. Bavaria and AV Villas join as official sponsors, while SATENA is an official ally of this edition, together with the Anticontrabando Program of the National Federation of Departments.',
+        'With this program, FestiJazz offers an experience connecting music, heritage, tourism, gastronomy and the creative economy, turning Mompox into a great cultural stage for five days.',
+      ],
+    },
+    quotes: [
+      {
+        text: {
+          es: 'FestiJazz nos permite mostrarle al país y al mundo la riqueza cultural de Mompox y de Bolívar, pero este año queremos que también sea un escenario de solidaridad. Vamos a unirnos para apoyar a las familias afectadas por el terremoto, demostrando que la cultura también tiene la capacidad de convocarnos y tender la mano en los momentos difíciles.',
+          en: 'FestiJazz lets us show the country and the world the cultural wealth of Mompox and Bolívar, but this year we also want it to be a stage for solidarity. We will come together to support the families affected by the earthquake, showing that culture can also convene us and lend a hand in difficult times.',
+        },
+        who: { es: 'Yamil Arana Padauí · Gobernador de Bolívar', en: 'Yamil Arana Padauí · Governor of Bolívar' },
+      },
+      {
+        text: {
+          es: 'Queremos que FestiJazz se viva en todo Mompox. Tendremos música, formación, gastronomía, literatura, emprendimiento y artistas de Francia, Italia y Colombia, pero también un propósito que este año nos une especialmente: convertir la cultura en una plataforma de solidaridad con las comunidades afectadas por el terremoto.',
+          en: 'We want FestiJazz to be experienced across all of Mompox. We will have music, training, gastronomy, literature, entrepreneurship and artists from France, Italy and Colombia, but also a purpose that unites us especially this year: turning culture into a platform of solidarity with the communities affected by the earthquake.',
+        },
+        who: { es: 'Vaneza Daguer Tamayo · Directora general de ICULTUR', en: 'Vaneza Daguer Tamayo · General Director of ICULTUR' },
+      },
+    ],
+  },
+  {
+    image: 'uploads/FESTIJAAZ2.jpeg',
+    date: { es: 'Septiembre de 2026 · Santa Cruz de Mompox', en: 'September 2026 · Santa Cruz de Mompox' },
+    kicker: { es: 'Segundo comunicado', en: 'Second press release' },
+    title: {
+      es: 'El jazz del mundo se encuentra en Mompox: FestiJazz 2026 revela su line up oficial',
+      en: 'The world’s jazz meets in Mompox: FestiJazz 2026 reveals its official line-up',
+    },
+    lead: {
+      es: 'Propuestas de jazz de Brasil, Italia, Francia y Colombia serán protagonistas del 3 al 5 de septiembre en Mompox, en una edición que también reunirá diferentes sonoridades del Caribe y reconocidas figuras de la música nacional.',
+      en: 'Jazz from Brazil, Italy, France and Colombia takes the spotlight from September 3 to 5 in Mompox, in an edition that also brings together the sounds of the Caribbean and renowned figures of Colombian music.',
+    },
+    body: {
+      es: [
+        'Santa Cruz de Mompox, septiembre de 2026. El jazz vuelve a encontrarse con el patrimonio, el río y las sonoridades del Caribe en FestiJazz Mompox 2026, que reveló el line up oficial de las tres noches de conciertos que se vivirán del 3 al 5 de septiembre, desde las 7:00 p. m., en el Parque del Jazz de Mompox.',
+        'Esta edición fortalece la vocación internacional del festival con artistas y propuestas jazzísticas de Brasil, Italia y Francia, que dialogarán con músicos colombianos y con géneros como la salsa, el vallenato, la música tradicional del Caribe y los sonidos urbanos.',
+        'La primera noche, el jueves 3 de septiembre, tendrá como uno de sus protagonistas al brasileño Davi Fonseca, quien traerá al festival los sonidos del jazz de Brasil. La programación continuará con Victoria Sur y Nicolás Ospina, Long Play Band, Beto Zabaleta, Dálmata y Luister, en una jornada que comenzará con el homenaje de Río de Gente a Gilberto Márquez y su premiación.',
+        'El viernes 4 de septiembre, el jazz se encontrará con grandes voces. Cosimo Boni, representante del jazz de Italia, y el pianista colombiano Óscar Acevedo harán parte de una noche que también tendrá a UNIBAC Jazz & Jam, Criss y Ronny, Gilberto Santa Rosa y Pipe Bueno. Durante la jornada se realizará además la coronación de la Señorita Bolívar.',
+        'El sábado 5 de septiembre, la programación tendrá como concepto “Mujeres que hacen vibrar a Mompox” y contará con la participación de Sélène Saint-Aimé, quien traerá el jazz de Francia al escenario momposino.',
+        'A ella se sumarán Los Tambores de Totó – El Legado, Flora Martínez, Greeicy y Ana del Castillo, en una noche que tendrá uno de los momentos más emotivos de esta edición: un homenaje póstumo a Totó la Momposina, figura fundamental de la música tradicional colombiana y referente universal de los sonidos del Caribe.',
+        'La música también será una plataforma para la solidaridad. Este año, FestiJazz Mompox se suma a las acciones de apoyo a las víctimas y comunidades afectadas por el reciente terremoto en Colombia, en una iniciativa liderada por la primera gestora social del departamento, Angélica Salas, a través de la Gestora de Realidades de la Gobernación de Bolívar, en articulación con la Fundación Granitos de Paz.',
+        'Durante el festival se promoverán las donaciones y la participación de artistas, visitantes, aliados y ciudadanía, aprovechando la capacidad de convocatoria de FestiJazz para acompañar a las familias damnificadas en diferentes territorios del país.',
+        'Los conciertos centrales harán parte de una programación mucho más amplia que se extenderá por diferentes espacios de Mompox con actividades de formación, Street Jazz, Campamento de Jazz, exposiciones, literatura, gastronomía, emprendimiento y experiencias culturales, convirtiendo al municipio en un gran escenario durante varios días.',
+        'FestiJazz Mompox 2026 es organizado por la Gobernación de Bolívar, el Instituto de Cultura y Turismo de Bolívar – ICULTUR y la Alcaldía de Santa Cruz de Mompox, instituciones que trabajan de manera articulada para consolidar al festival como uno de los principales encuentros culturales y musicales del Caribe colombiano.',
+        'El festival cuenta además con el respaldo y acompañamiento del Ministerio de las Culturas, las Artes y los Saberes (MinCulturas), Club Colombia, Av Villas, SATENA, la Institución Universitaria Bellas Artes y Ciencias de Bolívar (UNIBAC) y el Programa Anticontrabando de la Federación Nacional de Departamentos, aliados que se suman a esta apuesta por la cultura, el turismo, la circulación artística y la proyección de Mompox.',
+        'Del 3 al 5 de septiembre, Mompox volverá a convertirse en la casa del jazz en el Caribe colombiano, con tres noches en las que el jazz será el punto de partida para encontrarnos con el mundo, con nuestras raíces y con la diversidad musical de Colombia.',
+      ],
+      en: [
+        'Santa Cruz de Mompox, September 2026. Jazz meets heritage, the river and the sounds of the Caribbean again at FestiJazz Mompox 2026, which revealed the official line-up for the three nights of concerts to be held from September 3 to 5, from 7:00 p.m., at the Parque del Jazz in Mompox.',
+        'This edition strengthens the festival’s international vocation with artists and jazz projects from Brazil, Italy and France, in dialogue with Colombian musicians and with genres such as salsa, vallenato, traditional Caribbean music and urban sounds.',
+        'The first night, Thursday September 3, features Brazilian artist Davi Fonseca, bringing the sounds of Brazilian jazz to the festival. The program continues with Victoria Sur and Nicolás Ospina, Long Play Band, Beto Zabaleta, Dálmata and Luister, on a day that opens with Río de Gente’s tribute and award to Gilberto Márquez.',
+        'On Friday September 4, jazz meets great voices. Cosimo Boni, representing Italian jazz, and Colombian pianist Óscar Acevedo take part in a night that also features UNIBAC Jazz & Jam, Criss y Ronny, Gilberto Santa Rosa and Pipe Bueno. The day also includes the coronation of Señorita Bolívar.',
+        'On Saturday September 5, the program is built around the concept “Women who make Mompox come alive”, with the participation of Sélène Saint-Aimé, bringing French jazz to the Mompox stage.',
+        'She is joined by Los Tambores de Totó – El Legado, Flora Martínez, Greeicy and Ana del Castillo, on a night holding one of the most moving moments of this edition: a posthumous tribute to Totó la Momposina, a fundamental figure of Colombian traditional music and a universal reference of Caribbean sound.',
+        'Music will also be a platform for solidarity. This year, FestiJazz Mompox joins the actions supporting the victims and communities affected by the recent earthquake in Colombia, an initiative led by the department’s first social manager, Angélica Salas, through the Gestora de Realidades of the Government of Bolívar, together with Fundación Granitos de Paz.',
+        'Donations and the participation of artists, visitors, allies and citizens will be promoted during the festival, using FestiJazz’s convening power to stand with the affected families across different parts of the country.',
+        'The main concerts are part of a much wider program spread across different spaces in Mompox with training activities, Street Jazz, the Jazz Camp, exhibitions, literature, gastronomy, entrepreneurship and cultural experiences, turning the town into a great stage for several days.',
+        'FestiJazz Mompox 2026 is organised by the Government of Bolívar, the Institute of Culture and Tourism of Bolívar – ICULTUR and the Mayor’s Office of Santa Cruz de Mompox, institutions working together to consolidate the festival as one of the leading cultural and musical gatherings of the Colombian Caribbean.',
+        'The festival also has the backing and support of the Ministry of Cultures, Arts and Knowledge (MinCulturas), Club Colombia, Av Villas, SATENA, the Institución Universitaria Bellas Artes y Ciencias de Bolívar (UNIBAC) and the Anticontrabando Program of the National Federation of Departments, allies joining this commitment to culture, tourism, artistic circulation and the projection of Mompox.',
+        'From September 3 to 5, Mompox becomes the home of jazz in the Colombian Caribbean once again, with three nights in which jazz is the starting point for meeting the world, our roots and the musical diversity of Colombia.',
+      ],
+    },
+    quotes: [
+      {
+        text: {
+          es: 'El jazz es el corazón de este festival y el lenguaje que nos permite encontrarnos con el mundo desde Mompox. Este año recibimos propuestas internacionales que llegan desde Brasil, Italia y Francia, al tiempo que ponemos en valor nuestros sonidos y nuestra memoria musical. FestiJazz demuestra que Bolívar puede proyectar su cultura al mundo desde lo que somos, desde nuestro patrimonio y desde la enorme riqueza de nuestros territorios.',
+          en: 'Jazz is the heart of this festival and the language that lets us meet the world from Mompox. This year we welcome international projects arriving from Brazil, Italy and France, while giving value to our own sounds and musical memory. FestiJazz shows that Bolívar can project its culture to the world from who we are, from our heritage and from the enormous wealth of our territories.',
+        },
+        who: { es: 'Yamil Arana Padauí · Gobernador de Bolívar', en: 'Yamil Arana Padauí · Governor of Bolívar' },
+      },
+      {
+        text: {
+          es: 'Queremos seguir fortaleciendo la esencia de FestiJazz y posicionar a Mompox como un escenario para el jazz y para el intercambio musical. Esta edición nos permite escuchar propuestas de Brasil, Italia y Francia, encontrarlas con el talento colombiano y generar diálogos con otras músicas. Esa diversidad nos permite mostrar la capacidad del jazz para encontrarse con otros sonidos, conectar públicos distintos y hacer de Mompox un escenario musical de proyección internacional.',
+          en: 'We want to keep strengthening the essence of FestiJazz and position Mompox as a stage for jazz and musical exchange. This edition lets us hear projects from Brazil, Italy and France, bring them together with Colombian talent and create dialogue with other musics. That diversity shows jazz’s capacity to meet other sounds, connect different audiences and make Mompox a musical stage with international reach.',
+        },
+        who: { es: 'Vaneza Daguer Tamayo · Directora general de ICULTUR', en: 'Vaneza Daguer Tamayo · General Director of ICULTUR' },
+      },
+    ],
+  },
+];
 
 const NEWS_DEFS = [
   {
@@ -2166,8 +2373,23 @@ class Component extends DCLogic {
         }),
       })),
       toggleAcademic: () => this.setState(s => ({ academicOpen: !s.academicOpen, circusOpen: false })),
-      festivalStarted: Date.now() >= new Date('2026-09-03T00:00:00-05:00').getTime(),
-      countdownHeading: Date.now() >= new Date('2026-09-03T00:00:00-05:00').getTime() ? t.countdownStarted : t.countdownTitle,
+      festivalStarted: Date.now() >= new Date('2026-09-03T00:00:00-05:00').getTime() && Date.now() < new Date('2026-09-06T02:00:00-05:00').getTime(),
+      countdownHeading: Date.now() >= new Date('2026-09-06T02:00:00-05:00').getTime()
+        ? t.countdownEnded
+        : (Date.now() >= new Date('2026-09-03T00:00:00-05:00').getTime() ? t.countdownStarted : t.countdownTitle),
+      press: PRESS_DEFS.map((p, i) => ({
+        image: p.image,
+        date: p.date[lang],
+        kicker: p.kicker[lang],
+        title: p.title[lang],
+        lead: p.lead[lang],
+        body: p.body[lang].map(txt => ({ txt })),
+        quotes: p.quotes.map(q => ({ text: q.text[lang], who: q.who[lang] })),
+        open: !!this.state['pressOpen' + i],
+        label: this.state['pressOpen' + i] ? t.pressClose : t.pressOpen,
+        rowDir: i % 2 === 1 ? 'row-reverse' : 'row',
+        toggle: () => this.setState({ ['pressOpen' + i]: !this.state['pressOpen' + i] }),
+      })),
       infoCards,
       emergencyGroups,
       emergencyOpen: this.state.emergencyOpen,
