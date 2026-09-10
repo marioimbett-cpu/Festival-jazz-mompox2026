@@ -179,17 +179,24 @@
       else { setTimeout(poll, 150); }
     })();
     (function pollInst(){
-      var vs = document.querySelectorAll('.inst-video');
-      if (vs.length) {
-        vs.forEach(function(v){
-          if (v.dataset.instInit) return;
-          v.dataset.instInit = '1';
-          v.muted = true; v.defaultMuted = true; v.loop = true; v.volume = 0;
-          v.addEventListener('ended', function(){ v.currentTime = 0; v.play(); });
-          var p = v.play(); if (p && p.catch) p.catch(function(){});
+      var io = window.__instIO || (window.__instIO = ('IntersectionObserver' in window) ? new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          var v = e.target;
+          if (e.isIntersecting) { if (v.preload !== 'auto') { v.preload = 'auto'; v.load(); } var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+          else if (!v.paused) { v.pause(); }
         });
-      }
-      setTimeout(pollInst, 500);
+      }, { threshold: 0.15, rootMargin: '300px 0px' }) : null);
+      document.querySelectorAll('.inst-video').forEach(function(v){
+        if (v.dataset.instInit) return;
+        v.dataset.instInit = '1';
+        v.muted = true; v.defaultMuted = true; v.loop = true; v.volume = 0;
+        v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', '');
+        v.addEventListener('ended', function(){ v.currentTime = 0; v.play(); });
+        v.addEventListener('canplay', function(){ var p = v.play(); if (p && p.catch) p.catch(function(){}); });
+        if (io) io.observe(v); else { v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+      });
+      setTimeout(pollInst, 700);
     })();
     (function pollThanks(){
       var t = document.getElementById('thanks-video');
@@ -917,7 +924,7 @@
       <sc-for list="{{ instVideos }}" as="iv" hint-placeholder-count="3">
         <figure style="margin:0; display:flex; flex-direction:column; gap:14px;">
           <div style="position:relative; border-radius:20px; overflow:hidden; border:1.5px solid rgba(244,197,66,.22); box-shadow:0 20px 46px rgba(0,0,0,.36);">
-            <video src="{{ iv.src }}" class="inst-video" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="metadata" controls="{{ true }}" style="display:block; width:100%; height:auto; background:#12123a;"></video>
+            <video src="{{ iv.src }}" class="inst-video" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="none" controls="{{ true }}" style="display:block; width:100%; height:auto; background:#12123a;"></video>
           </div>
           <figcaption style="font-family:'Poppins',sans-serif; font-size:13.5px; letter-spacing:.04em; color:#D9D5F5; text-align:center;">{{ iv.label }}</figcaption>
         </figure>
