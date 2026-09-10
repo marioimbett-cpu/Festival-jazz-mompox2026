@@ -178,6 +178,19 @@
       }
       else { setTimeout(poll, 150); }
     })();
+    (function pollInst(){
+      var vs = document.querySelectorAll('.inst-video');
+      if (vs.length) {
+        vs.forEach(function(v){
+          if (v.dataset.instInit) return;
+          v.dataset.instInit = '1';
+          v.muted = true; v.defaultMuted = true; v.loop = true; v.volume = 0;
+          v.addEventListener('ended', function(){ v.currentTime = 0; v.play(); });
+          var p = v.play(); if (p && p.catch) p.catch(function(){});
+        });
+      }
+      setTimeout(pollInst, 500);
+    })();
     (function pollThanks(){
       var t = document.getElementById('thanks-video');
       if (t) { t.muted = true; t.defaultMuted = true; t.loop = true; t.volume = 0;
@@ -302,6 +315,7 @@
       .parking-qr-card { padding:16px !important; border-radius:20px !important; }
     }
     @media (max-width:860px) {
+      .inst-video-grid { grid-template-columns:1fr !important; gap:26px !important; }
       .press-row { flex-direction:column !important; }
       .press-img { min-height:0 !important; height:auto !important; aspect-ratio:16/10; }
       .press-body { padding:30px 22px !important; }
@@ -311,6 +325,7 @@
       .thanks-grid { grid-template-columns:1fr !important; gap:36px !important; }
       .thanks-grid h2 { font-size:38px !important; }
       .parking-grid { grid-template-columns:1fr !important; gap:40px !important; text-align:center; justify-items:center; }
+      .inst-video-grid { grid-template-columns:1fr !important; gap:26px !important; }
       .press-row { flex-direction:column !important; }
       .press-img { min-height:0 !important; height:auto !important; aspect-ratio:16/10; }
       .press-body { padding:30px 22px !important; }
@@ -320,6 +335,7 @@
       .thanks-grid { grid-template-columns:1fr !important; gap:36px !important; }
       .thanks-grid h2 { font-size:38px !important; }
       .parking-grid p, .parking-grid h2 { text-align:center; }
+      .inst-video-grid { grid-template-columns:1fr !important; gap:26px !important; }
       .press-row { flex-direction:column !important; }
       .press-img { min-height:0 !important; height:auto !important; aspect-ratio:16/10; }
       .press-body { padding:30px 22px !important; }
@@ -876,7 +892,7 @@
           <sc-if value="{{ p.open }}" hint-placeholder-val="{{ false }}">
             <div style="padding:8px 42px 46px; display:flex; flex-direction:column; gap:20px; border-top:1px solid rgba(244,197,66,.16); animation:revealUp .5s cubic-bezier(.22,.8,.36,1) both;" class="press-full">
               <sc-for list="{{ p.body }}" as="b" hint-placeholder-count="4">
-                <p style="margin:0; max-width:74ch; font-family:'Poppins',sans-serif; font-size:14.5px; line-height:1.85; color:#D9D5F5; text-wrap:pretty;">{{ b.txt }}</p>
+                <p style="margin:0; font-family:'Poppins',sans-serif; font-size:14.5px; line-height:1.85; color:#D9D5F5; text-wrap:pretty;">{{ b.txt }}</p>
               </sc-for>
               <sc-for list="{{ p.quotes }}" as="q" hint-placeholder-count="2">
                 <blockquote style="margin:6px 0 0; padding:24px 28px; border-radius:16px; background:rgba(244,197,66,.07); border-left:3px solid #F4C542; display:flex; flex-direction:column; gap:12px;">
@@ -887,6 +903,24 @@
             </div>
           </sc-if>
         </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- VIDEOS INSTITUCIONALES -->
+  <section id="videos" data-screen-label="Videos institucionales" style="padding:70px 5% 90px; background:#191B63;">
+    <div style="text-align:center; margin-bottom:52px;">
+      <p style="font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#F4C542; margin:0 0 12px;">{{ t.videosTag }}</p>
+      <h2 style="font-family:{{ headingFontFamily }}; font-size:{{ headingFontSizePx }}; font-weight:{{ headingFontWeight }}; letter-spacing:{{ headingLetterSpacing }}; line-height:{{ headingLineHeight }}; margin:0; color:{{ headingColor }}; text-shadow:{{ headingTextShadow }};">{{ t.videosHeading }}</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:30px; max-width:1180px; margin:0 auto;" class="inst-video-grid">
+      <sc-for list="{{ instVideos }}" as="iv" hint-placeholder-count="3">
+        <figure style="margin:0; display:flex; flex-direction:column; gap:14px;">
+          <div style="position:relative; border-radius:20px; overflow:hidden; border:1.5px solid rgba(244,197,66,.22); box-shadow:0 20px 46px rgba(0,0,0,.36);">
+            <video src="{{ iv.src }}" class="inst-video" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="metadata" controls="{{ true }}" style="display:block; width:100%; height:auto; background:#12123a;"></video>
+          </div>
+          <figcaption style="font-family:'Poppins',sans-serif; font-size:13.5px; letter-spacing:.04em; color:#D9D5F5; text-align:center;">{{ iv.label }}</figcaption>
+        </figure>
       </sc-for>
     </div>
   </section>
@@ -1263,6 +1297,7 @@ const TRANSLATIONS = {
     acadFormTag: 'Cupos limitados', acadFormTitle: 'Regístrate a la Agenda Académica', acadFormText: 'Talleres, conversatorios y masterclass con entrada libre previa inscripción.', acadFormCta: 'Inscríbete aquí',
     lineupTag: 'Line-up', artistsHeading: 'Artistas', moreInfo: 'Más información →',
     newsTag: 'Actualidad', newsHeading: 'Últimas noticias', readMore: 'Leer más →',
+    videosTag: 'Multimedia', videosHeading: 'Videos institucionales',
     pressTag: 'Sala de prensa', pressHeading: 'Comunicados', pressOpen: 'Leer comunicado completo', pressClose: 'Cerrar comunicado', navPress: 'Comunicados',
     newsBadge: 'Nuevo artista confirmado',
     newsPipeText: 'Y esta vez, con un nombre que no necesita presentación: @pipebueno, uno de los grandes talentos de la música colombiana, también llega a esta celebración que hará vibrar a Mompox',
@@ -1325,6 +1360,7 @@ const TRANSLATIONS = {
     acadFormTag: 'Limited seats', acadFormTitle: 'Register for the Academic Program', acadFormText: 'Workshops, panels and masterclasses — free admission with prior registration.', acadFormCta: 'Sign up here',
     lineupTag: 'Line-up', artistsHeading: 'Artists', moreInfo: 'More info →',
     newsTag: 'Latest', newsHeading: 'Latest news', readMore: 'Read more →',
+    videosTag: 'Multimedia', videosHeading: 'Institutional videos',
     pressTag: 'Press room', pressHeading: 'Press releases', pressOpen: 'Read full release', pressClose: 'Close release', navPress: 'Press',
     newsBadge: 'New artist confirmed',
     newsPipeText: 'And this time, a name that needs no introduction: @pipebueno, one of the great talents of Colombian music, also joins this celebration that will make Mompox come alive',
@@ -2391,6 +2427,11 @@ class Component extends DCLogic {
         rowDir: i % 2 === 1 ? 'row-reverse' : 'row',
         toggle: () => this.setState({ ['pressOpen' + i]: !this.state['pressOpen' + i] }),
       })),
+      instVideos: [
+        { src: 'uploads/RECAP DIA UNO CON LOGOS (1).mp4', label: lang === 'en' ? 'Recap — Day one' : 'Recap · Día uno' },
+        { src: 'uploads/RECAP DIA 2 CON LOGOS (1).mp4', label: lang === 'en' ? 'Recap — Day two' : 'Recap · Día dos' },
+        { src: 'uploads/RECAP DIA 3 CON LOGOS 2.mp4', label: lang === 'en' ? 'Recap — Day three' : 'Recap · Día tres' },
+      ],
       infoCards,
       emergencyGroups,
       emergencyOpen: this.state.emergencyOpen,
