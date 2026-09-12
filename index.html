@@ -924,7 +924,9 @@
       <sc-for list="{{ instVideos }}" as="iv" hint-placeholder-count="3">
         <figure style="margin:0; display:flex; flex-direction:column; gap:14px;">
           <div style="position:relative; border-radius:20px; overflow:hidden; border:1.5px solid rgba(244,197,66,.22); box-shadow:0 20px 46px rgba(0,0,0,.36);">
-            <video src="{{ iv.src }}" class="inst-video" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="none" controls="{{ true }}" style="display:block; width:100%; height:auto; background:#12123a;"></video>
+            <div style="position:relative; width:100%; aspect-ratio:9/16; background:#12123a;">
+              <iframe src="{{ iv.embed }}" title="{{ iv.label }}" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute; inset:0; width:100%; height:100%; border:none; display:block;"></iframe>
+            </div>
           </div>
           <figcaption style="font-family:'Poppins',sans-serif; font-size:13.5px; letter-spacing:.04em; color:#D9D5F5; text-align:center;">{{ iv.label }}</figcaption>
         </figure>
@@ -2435,10 +2437,13 @@ class Component extends DCLogic {
         toggle: () => this.setState({ ['pressOpen' + i]: !this.state['pressOpen' + i] }),
       })),
       instVideos: [
-        { src: 'uploads/RECAP DIA UNO CON LOGOS (1).mp4', label: lang === 'en' ? 'Recap — Day one' : 'Recap · Día uno' },
-        { src: 'uploads/RECAP DIA 2 CON LOGOS (1).mp4', label: lang === 'en' ? 'Recap — Day two' : 'Recap · Día dos' },
-        { src: 'uploads/RECAP DIA 3 CON LOGOS 2.mp4', label: lang === 'en' ? 'Recap — Day three' : 'Recap · Día tres' },
-      ],
+        { id: 'sXpvtJWCsZc', label: lang === 'en' ? 'Recap — Day one' : 'Recap · Día uno' },
+        { id: 'Xxol-9TlcRw', label: lang === 'en' ? 'Recap — Day two' : 'Recap · Día dos' },
+        { id: 'bEmhFcZsFkk', label: lang === 'en' ? 'Recap — Day three' : 'Recap · Día tres' },
+      ].map(v => ({
+        label: v.label,
+        embed: 'https://www.youtube.com/embed/' + v.id + '?autoplay=1&mute=1&loop=1&playlist=' + v.id + '&playsinline=1&rel=0&modestbranding=1',
+      })),
       infoCards,
       emergencyGroups,
       emergencyOpen: this.state.emergencyOpen,
